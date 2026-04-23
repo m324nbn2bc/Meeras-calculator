@@ -165,6 +165,41 @@ export default function ResultScreen() {
           ))
         )}
 
+        {result.exclusions.length > 0 ? (
+          <View
+            style={[
+              styles.alertBox,
+              {
+                backgroundColor: colors.card,
+                borderColor: colors.border,
+                borderRadius: colors.radius,
+                marginTop: 8,
+              },
+            ]}
+          >
+            <Text
+              style={[styles.alertTitle, { color: colors.mutedForeground }]}
+            >
+              {t(language, "result.exclusions")}
+            </Text>
+            {result.exclusions.map((ex, i) => (
+              <Text
+                key={`${ex.heir}-${i}`}
+                style={[
+                  styles.alertText,
+                  { color: colors.foreground, marginTop: 6 },
+                ]}
+              >
+                · {t(language, `heir.${ex.heir}`)}
+                {ex.count > 1 ? ` (${ex.count})` : ""} —{" "}
+                <Text style={{ color: colors.mutedForeground }}>
+                  {t(language, ex.reasonKey)}
+                </Text>
+              </Text>
+            ))}
+          </View>
+        ) : null}
+
         {result.residue && result.residue > 0 ? (
           <View
             style={[
@@ -295,6 +330,20 @@ function ShareCard({
           </Text>
         </View>
       </View>
+
+      {share.reasonKey ? (
+        <Text
+          style={{
+            marginTop: 8,
+            fontSize: 12,
+            color: colors.mutedForeground,
+            fontFamily: "Inter_400Regular",
+            lineHeight: 16,
+          }}
+        >
+          {t(language, share.reasonKey)}
+        </Text>
+      ) : null}
 
       {share.count > 1 ? (
         <View

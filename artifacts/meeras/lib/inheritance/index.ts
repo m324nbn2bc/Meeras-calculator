@@ -17,4 +17,4 @@ export function calculate(input: CalculationInput): CalculationOutput {
 }
 
 export * from "./types";
-export { formatFraction } from "./fractions";
+export { formatFraction, toNumber } from "./fractions";
