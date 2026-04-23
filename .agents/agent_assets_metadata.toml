@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "y8xujDiTc-Wn9M3NrCVZa"
+uri = "file://artifacts/meeras/assets/images/icon.png"
+type = "image"
+title = "meeras icon"
