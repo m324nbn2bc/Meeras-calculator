@@ -15,6 +15,7 @@ import {
   HeirId,
   ShareResult,
 } from "@/lib/inheritance";
+import { CLASSICAL_CASES } from "@/lib/cases";
 import { WizardState } from "@/lib/wizard";
 
 function formatMoney(n: number, lang: LanguageCode): string {
@@ -36,7 +37,11 @@ export default function ResultScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { language, madhab: settingsMadhab } = useSettings();
-  const params = useLocalSearchParams<{ state?: string; madhab?: string }>();
+  const params = useLocalSearchParams<{
+    state?: string;
+    madhab?: string;
+    caseId?: string;
+  }>();
   const rtl = isRTL(language);
   const isWeb = Platform.OS === "web";
 
@@ -66,6 +71,10 @@ export default function ResultScreen() {
     );
   }
 
+  const classicalCase = params.caseId
+    ? CLASSICAL_CASES.find((c) => c.id === params.caseId)
+    : null;
+
   const totalShareSum = result.shares.reduce((s, x) => s + x.amount, 0);
 
   return (
@@ -91,8 +100,42 @@ export default function ResultScreen() {
       >
         {/* Header */}
         <Text style={[styles.title, { color: colors.foreground }]}>
-          {t(language, "result.title")}
+          {classicalCase
+            ? t(language, classicalCase.nameKey)
+            : t(language, "result.title")}
         </Text>
+
+        {/* Scholarly note for classical cases */}
+        {classicalCase ? (
+          <View
+            style={[
+              styles.noteBox,
+              {
+                backgroundColor: colors.primary + "12",
+                borderColor: colors.primary + "40",
+                borderRadius: colors.radius,
+              },
+            ]}
+          >
+            <View style={styles.noteHeader}>
+              <Feather
+                name="book-open"
+                size={14}
+                color={colors.primary}
+              />
+              <Text
+                style={[styles.noteLabel, { color: colors.primary }]}
+              >
+                {t(language, classicalCase.descKey)}
+              </Text>
+            </View>
+            <Text
+              style={[styles.noteBody, { color: colors.foreground }]}
+            >
+              {t(language, classicalCase.noteKey)}
+            </Text>
+          </View>
+        ) : null}
 
         {/* Estate summary card */}
         <View
@@ -475,5 +518,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 12,
     borderTopWidth: 1,
+  },
+  noteBox: {
+    borderWidth: 1,
+    padding: 14,
+    marginBottom: 14,
+  },
+  noteHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginBottom: 8,
+  },
+  noteLabel: {
+    fontSize: 13,
+    fontFamily: "Inter_600SemiBold",
+    fontWeight: "600",
+    flex: 1,
+    flexWrap: "wrap",
+  },
+  noteBody: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    lineHeight: 19,
   },
 });

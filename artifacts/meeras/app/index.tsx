@@ -90,6 +90,23 @@ export default function HomeScreen() {
           label={t(language, "home.start")}
           onPress={() => router.push("/wizard")}
         />
+        <Pressable
+          onPress={() => router.push("/cases")}
+          style={({ pressed }) => [
+            styles.secondaryBtn,
+            {
+              backgroundColor: colors.card,
+              borderColor: colors.border,
+              borderRadius: colors.radius,
+              opacity: pressed ? 0.7 : 1,
+            },
+          ]}
+        >
+          <Feather name="book-open" size={16} color={colors.primary} />
+          <Text style={[styles.secondaryBtnText, { color: colors.foreground }]}>
+            {t(language, "home.cases")}
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -159,5 +176,18 @@ const styles = StyleSheet.create({
   },
   actions: {
     gap: 12,
+  },
+  secondaryBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingVertical: 14,
+    borderWidth: 1,
+  },
+  secondaryBtnText: {
+    fontSize: 16,
+    fontFamily: "Inter_600SemiBold",
+    fontWeight: "600",
   },
 });

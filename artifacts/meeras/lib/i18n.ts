@@ -25,6 +25,7 @@ const en: Dict = {
   "home.intro":
     "Answer a few questions about the deceased and surviving heirs. Your data stays on your device.",
   "home.offlineBadge": "Works fully offline",
+  "home.cases": "Browse Classical Scenarios",
 
   "settings.title": "Settings",
   "settings.language": "Language",
@@ -216,6 +217,153 @@ const en: Dict = {
   "ex.fullSibling.byBlocker": "Excluded by son, grandson, father, or grandfather",
   "ex.consSibling.byBlocker": "Excluded by closer relative",
   "ex.asabah.byCloser": "Excluded by a closer male residuary",
+
+  // ── Case Library ──
+  "cases.title": "Classical Scenarios",
+  "cases.subtitle": "Tap a case to see the engine's calculation",
+  "cases.search": "Search cases…",
+
+  "category.famous": "Famous Classical Cases",
+  "category.basic": "Basic Scenarios",
+  "category.umariyyatain": "Umariyyatain",
+  "category.awl": "'Awl — Proportional Reduction",
+  "category.radd": "Radd — Return of Surplus",
+  "category.asabah": "Asabah (Residuaries)",
+  "category.grandmother": "Grandmother Cases",
+
+  "case.badge.famous": "Famous",
+  "case.badge.verified": "Verified ✓",
+
+  "case.mimbariyyah.name": "Mimbariyyah",
+  "case.mimbariyyah.desc": "Wife · 2 Daughters · Father · Mother",
+  "case.mimbariyyah.note":
+    "One of the most celebrated 'Awl cases. Caliph 'Alī ibn Abī Ṭālib (RA) calculated it while delivering a sermon (mimbar). Fixed shares sum to 27/24, so all are scaled down proportionally. The wife famously ends up with 1/9.",
+
+  "case.mushtarakah.name": "Mushtarakah (المشتركة)",
+  "case.mushtarakah.desc": "Husband · Mother · 2 Full Brothers · 1 Uterine Sibling",
+  "case.mushtarakah.desc2": "(Deceased female)",
+  "case.mushtarakah.note":
+    "A famous scholarly debate. In Hanafi (and the view of Ibn Mas'ūd RA), the full brothers are Asabah and inherit the residue (1/6 split among them). In the Mālikī/Shāfi'ī 'Mushtarakah' ruling, full brothers are treated as uterine siblings and share the 1/3 with them. This app shows the Hanafi result.",
+
+  "case.umariyyatainH.name": "Umariyyatain — with Husband",
+  "case.umariyyatainH.desc": "Husband · Father · Mother  (no children)",
+  "case.umariyyatainH.note":
+    "The first of the two 'Umariyyatain' cases, named after Caliph 'Umar ibn al-Khaṭṭāb (RA) who ruled that the mother receives 1/3 of the REMAINDER (after the husband's share), not 1/3 of the whole estate. Father receives the rest as Asabah.",
+
+  "case.umariyyatainW.name": "Umariyyatain — with Wife",
+  "case.umariyyatainW.desc": "Wife · Father · Mother  (no children)",
+  "case.umariyyatainW.note":
+    "The second Umariyyatain case. Wife takes 1/4, mother takes 1/3 of the remaining 3/4 (= 1/4), and father takes the rest (1/2) as Asabah. Without 'Umar's ruling, mother would get 1/3 of the total — which Zayd ibn Thābit also held — but the ruling of 'Umar is the dominant view.",
+
+  "case.akdariyyah.name": "Akdariyyah — Hanafi View",
+  "case.akdariyyah.desc": "Husband · Mother · Paternal Grandfather · Full Sister  (deceased female)",
+  "case.akdariyyah.note":
+    "The 'most complicated case' in Islamic inheritance. In Hanafi, the grandfather fully excludes the sister (she gets nothing). In Mālikī/Shāfi'ī, the grandfather and sister combine their shares and re-divide in a 2:1 ratio — leading to fractions like 2/27 for the sister. This is a clear Madhab-difference case; this app shows the Hanafi result.",
+
+  "case.sonDaughter.name": "Son and Daughter Together",
+  "case.sonDaughter.desc": "Wife · 1 Son · 1 Daughter",
+  "case.sonDaughter.note":
+    "Classic 'For the male the equivalent of the share of two females' (Qur'an 4:11). The son and daughter together inherit the residue in a 2:1 ratio after the wife's fixed share.",
+
+  "case.fatherOnly.name": "Father Alone",
+  "case.fatherOnly.desc": "Father (sole heir)",
+  "case.fatherOnly.note":
+    "When the father is the sole survivor he inherits the entire estate as pure Asabah. No fixed share is assigned — he simply takes the whole remainder.",
+
+  "case.twoDaughtersParents.name": "Two Daughters with Both Parents",
+  "case.twoDaughtersParents.desc": "2 Daughters · Father · Mother",
+  "case.twoDaughtersParents.note":
+    "Daughters get 2/3, mother 1/6, father 1/6 fixed — but father also takes Asabah (the remainder). Here the fixed shares sum to exactly 1 leaving nothing for Asabah, so father ends up with only 1/6.",
+
+  "case.motherOnly.name": "Mother Alone",
+  "case.motherOnly.desc": "Mother (sole heir)",
+  "case.motherOnly.note":
+    "Mother's Furudh is 1/3. Since there is no Asabah heir, Radd applies under Hanafi — the surplus 2/3 is returned to the mother, making her the sole inheritor of the full estate.",
+
+  "case.fourWives.name": "Four Wives and a Son",
+  "case.fourWives.desc": "4 Wives · 1 Son",
+  "case.fourWives.note":
+    "With a descendant (the son), all four wives collectively receive 1/8 of the estate, divided equally among them (1/32 each). The son inherits the remaining 7/8 as Asabah.",
+
+  "case.siblingsOnly.name": "Siblings Only (no parents or children)",
+  "case.siblingsOnly.desc": "1 Full Brother · 2 Full Sisters",
+  "case.siblingsOnly.note":
+    "With no male ascendants or descendants, full siblings inherit as Asabah in the 2:1 ratio. The brother gets 1/2 and each sister gets 1/4.",
+
+  "case.awlH2DM.name": "'Awl — Husband, 2 Daughters, Mother",
+  "case.awlH2DM.desc": "Husband · 2 Daughters · Mother  (deceased female)",
+  "case.awlH2DM.note":
+    "Fixed shares: Husband 1/4 + 2 Daughters 2/3 + Mother 1/6 = 13/12. 'Awl scales all shares down so they fit within 1. The new denominator is 13.",
+
+  "case.awlHF2S.name": "'Awl — Husband, Full Sisters, Mother",
+  "case.awlHF2S.desc": "Husband · 2 Full Sisters · Mother  (deceased female)",
+  "case.awlHF2S.note":
+    "Husband 1/2 + 2 Full Sisters 2/3 + Mother 1/6 = 8/6. 'Awl increases the denominator to 8. A widely-taught example in Faraid textbooks.",
+
+  "case.awlH2DFM.name": "Mimbariyyah (detailed)",
+  "case.awlH2DFM.desc": "Wife · 2 Daughters · Father · Mother",
+  "case.awlH2DFM.note":
+    "Same as the Mimbariyyah case. Wife 1/8 + 2 Daughters 2/3 + Father 1/6 + Mother 1/6 = 27/24. 'Awl to 27.",
+
+  "case.raddDM.name": "Radd — Daughter and Mother",
+  "case.raddDM.desc": "1 Daughter · Mother  (no Asabah)",
+  "case.raddDM.note":
+    "Daughter 1/2 + Mother 1/6 = 2/3, leaving 1/3 unclaimed with no Asabah. Under Hanafi Radd, the surplus returns proportionally to the quota heirs (excluding spouse). Daughter:Mother ratio is 3:1, so daughter ends up with 3/4 and mother 1/4.",
+
+  "case.radd2DM.name": "Radd — Two Daughters and Mother",
+  "case.radd2DM.desc": "2 Daughters · Mother  (no Asabah)",
+  "case.radd2DM.note":
+    "2 Daughters 2/3 + Mother 1/6 = 5/6, surplus 1/6 returned proportionally (4:1 ratio). Daughters end up with 4/5 collectively and mother 1/5.",
+
+  "case.raddHD.name": "Radd — Husband and Daughter",
+  "case.raddHD.desc": "Husband · Daughter  (deceased female, no Asabah)",
+  "case.raddHD.note":
+    "Husband 1/4 (with descendant) + Daughter 1/2 = 3/4. Surplus 1/4 with no Asabah. Under Hanafi, Radd applies only to non-spouse heirs — so the entire surplus goes back to the daughter alone. Husband keeps exactly 1/4.",
+
+  "case.raddUterine.name": "Radd — Husband and Uterine Siblings",
+  "case.raddUterine.desc": "Husband · 2 Uterine Siblings  (deceased female)",
+  "case.raddUterine.note":
+    "Husband 1/2 + 2 uterine siblings 1/3 = 5/6. Surplus 1/6 returned only to uterine siblings (spouse excluded from Radd). Uterine siblings end up with 1/3 + 1/6 = 1/2.",
+
+  "case.grandsonAsabah.name": "Grandson When Son is Absent",
+  "case.grandsonAsabah.desc": "Wife · Grandson · Granddaughter  (no son)",
+  "case.grandsonAsabah.note":
+    "The grandson steps into the son's role when no son survives. Wife gets 1/8 (descendants present) and the grandson and granddaughter share the residue 7/8 in a 2:1 ratio.",
+
+  "case.granddaughterComplete.name": "Granddaughter Completes 2/3",
+  "case.granddaughterComplete.desc": "1 Daughter · 1 Granddaughter · Mother  (no son)",
+  "case.granddaughterComplete.note":
+    "The single daughter takes 1/2 (her Furudh). The female descendants' cap is 2/3, so the granddaughter(s) collectively receive the remaining 1/6. Mother gets 1/6. Radd distributes the surplus proportionally.",
+
+  "case.sisterMaaGhayrihi.name": "Full Sister Becomes Asabah with Daughter",
+  "case.sisterMaaGhayrihi.desc": "1 Daughter · 1 Full Sister  (no brother)",
+  "case.sisterMaaGhayrihi.note":
+    "With a daughter but no son or brother, the full sister becomes 'Asabah ma'a Ghayrihi' — she acts like a residuary and takes the entire remainder (1/2) after the daughter's fixed share. A unique ruling that prevents the estate from going to Bayt al-Māl.",
+
+  "case.consSisterComplete.name": "Consanguine Sister Completes 2/3",
+  "case.consSisterComplete.desc": "1 Full Sister · 1 Consanguine Sister · Mother",
+  "case.consSisterComplete.note":
+    "The single full sister takes 1/2. The 'sisters cap' is 2/3, leaving 1/6 for the consanguine sister to complete it. Mother gets 1/6. Surplus returned by Radd proportionally.",
+
+  "case.extendedUncle.name": "Only Uncle Survives (Extended Asabah)",
+  "case.extendedUncle.desc": "Mother · Full Paternal Uncle",
+  "case.extendedUncle.note":
+    "Mother takes 1/3 (no descendants, no multiple siblings). The full paternal uncle is the sole Asabah — he inherits the remaining 2/3. Demonstrates the extended Asabah chain reaching Category 1D.",
+
+  "case.pgfExcludesSiblings.name": "Grandfather Excludes Siblings (Hanafi)",
+  "case.pgfExcludesSiblings.desc": "Wife · Paternal Grandfather · 2 Full Brothers · 1 Full Sister",
+  "case.pgfExcludesSiblings.note":
+    "In Hanafi, the paternal grandfather completely excludes all siblings — they inherit nothing. This differs from Mālikī, Shāfi'ī, and Ḥanbalī where the grandfather and siblings share together. Wife gets 1/4 and grandfather inherits the full residue 3/4.",
+
+  "case.twoGrannies.name": "Two Grandmothers Share 1/6",
+  "case.twoGrannies.desc": "Daughter · Maternal Grandmother · Paternal Grandmother · Full Uncle",
+  "case.twoGrannies.note":
+    "When both grandmothers are eligible (no mother, father, or paternal grandfather to block the paternal grandmother), they split the 1/6 grandmother's share equally — each receiving 1/12. The full uncle takes the Asabah residue.",
+
+  "case.pgfBlocksPGranny.name": "PGF Blocks Paternal Grandmother",
+  "case.pgfBlocksPGranny.desc": "Daughter · Maternal Grandmother · Paternal Grandmother · Paternal Grandfather",
+  "case.pgfBlocksPGranny.note":
+    "The paternal grandfather (PGF) blocks the paternal grandmother entirely. Only the maternal grandmother remains eligible, so she takes the full 1/6. PGF gets 1/6 fixed (female descendants present) plus the Asabah residue.",
 };
 
 const ur: Dict = {
