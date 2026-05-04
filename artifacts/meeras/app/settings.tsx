@@ -5,12 +5,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { OptionRow } from "@/components/OptionRow";
 import { ThemeMode, useSettings } from "@/contexts/SettingsContext";
 import { useColors } from "@/hooks/useColors";
-import { isRTL, LANGUAGES, MADHABS, t } from "@/lib/i18n";
+import { CURRENCIES, isRTL, LANGUAGES, MADHABS, t } from "@/lib/i18n";
 
 export default function SettingsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { language, theme, madhab, setLanguage, setTheme, setMadhab } =
+  const { language, theme, madhab, currency, setLanguage, setTheme, setMadhab, setCurrency } =
     useSettings();
   const rtl = isRTL(language);
   const isWeb = Platform.OS === "web";
@@ -83,6 +83,19 @@ export default function SettingsScreen() {
             disabled={!m.available}
             badge={!m.available ? t(language, "settings.unavailable") : undefined}
             onPress={() => m.available && setMadhab(m.id)}
+          />
+        ))}
+
+        <Section
+          label={t(language, "settings.currency")}
+          color={colors.mutedForeground}
+        />
+        {CURRENCIES.map((c) => (
+          <OptionRow
+            key={c.code}
+            label={c.label}
+            selected={currency === c.code}
+            onPress={() => setCurrency(c.code)}
           />
         ))}
 

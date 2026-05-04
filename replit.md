@@ -35,4 +35,8 @@ Offline Islamic inheritance (Faraid) mobile app built with Expo Router.
 - **Settings**: Language (en/ur/ar with RTL), theme (system/light/dark), and madhab persisted to AsyncStorage via `contexts/SettingsContext.tsx`. `hooks/useColors.ts` reads theme from settings (not just OS).
 - **i18n**: Full string dictionaries in `lib/i18n.ts` for English, Urdu, Arabic.
 - **Calculation features**: Furudh (fixed shares), Asabah (residuary), 'Awl (proportional reduction), Radd (surplus redistribution excluding spouse), Umariyyatan (mother takes 1/3 of remainder with spouse + father).
+- **Currency**: Selectable in settings (12 currencies: SAR, AED, USD, GBP, EUR, PKR, BDT, IDR, EGP, MYR, TRY, NGN). Stored in SettingsContext alongside language/theme/madhab. Result screen uses `Intl.NumberFormat` currency style for all monetary amounts.
+- **Share bar**: Proportional multicolour horizontal bar on the result screen (between estate card and rules section) showing each heir's relative share at a glance. Each heir card also gets a matching colour accent on its left border.
+- **Hajb screen** (`app/hajb.tsx`): Reference guide showing all Hanafi blocking rules grouped by Ascendants / Grandchildren / Siblings / Extended Asabah. Each card shows the blocked heir, "blocked by" pills, and a scholarly note. Accessible from home screen as "Blocking Rules (Hajb)" tertiary button. Data in `lib/hajb.ts`.
+- **Classical scenarios**: 25 curated cases in `lib/cases.ts`, browsable at `app/cases.tsx`. Each case opens the result screen with a scholarly note panel. Famous cases starred.
 - **No backend** — all data stays on device. The project's API server is unused by this artifact.

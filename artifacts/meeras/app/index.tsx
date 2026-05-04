@@ -107,6 +107,15 @@ export default function HomeScreen() {
             {t(language, "home.cases")}
           </Text>
         </Pressable>
+        <Pressable
+          onPress={() => router.push("/hajb")}
+          style={({ pressed }) => [styles.tertiaryBtn, { opacity: pressed ? 0.6 : 1 }]}
+        >
+          <Feather name="alert-circle" size={14} color={colors.mutedForeground} />
+          <Text style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}>
+            {t(language, "home.hajb")}
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -189,5 +198,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Inter_600SemiBold",
     fontWeight: "600",
+  },
+  tertiaryBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingVertical: 8,
+  },
+  tertiaryBtnText: {
+    fontSize: 13,
+    fontFamily: "Inter_500Medium",
   },
 });

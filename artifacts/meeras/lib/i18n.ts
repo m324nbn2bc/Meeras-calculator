@@ -14,6 +14,21 @@ export const MADHABS: { id: MadhabId; labelKey: string; available: boolean }[] =
   { id: "hanbali", labelKey: "madhab.hanbali", available: false },
 ];
 
+export const CURRENCIES: { code: string; label: string }[] = [
+  { code: "SAR", label: "SAR — Saudi Riyal" },
+  { code: "AED", label: "AED — UAE Dirham" },
+  { code: "USD", label: "USD — US Dollar" },
+  { code: "GBP", label: "GBP — British Pound" },
+  { code: "EUR", label: "EUR — Euro" },
+  { code: "PKR", label: "PKR — Pakistani Rupee" },
+  { code: "BDT", label: "BDT — Bangladeshi Taka" },
+  { code: "IDR", label: "IDR — Indonesian Rupiah" },
+  { code: "EGP", label: "EGP — Egyptian Pound" },
+  { code: "MYR", label: "MYR — Malaysian Ringgit" },
+  { code: "TRY", label: "TRY — Turkish Lira" },
+  { code: "NGN", label: "NGN — Nigerian Naira" },
+];
+
 type Dict = Record<string, string>;
 
 const en: Dict = {
@@ -364,6 +379,41 @@ const en: Dict = {
   "case.pgfBlocksPGranny.desc": "Daughter · Maternal Grandmother · Paternal Grandmother · Paternal Grandfather",
   "case.pgfBlocksPGranny.note":
     "The paternal grandfather (PGF) blocks the paternal grandmother entirely. Only the maternal grandmother remains eligible, so she takes the full 1/6. PGF gets 1/6 fixed (female descendants present) plus the Asabah residue.",
+
+  // ── Currency ──
+  "settings.currency": "Currency",
+
+  // ── Hajb Screen ──
+  "home.hajb": "Blocking Rules (Hajb)",
+  "hajb.title": "Hajb — Blocking Rules",
+  "hajb.subtitle":
+    "Reference guide showing which heirs completely exclude others, under the Hanafi school.",
+  "hajb.blocked": "Blocked",
+  "hajb.blockedBy": "Blocked by",
+  "hajb.group.ascendants": "Ascendants",
+  "hajb.group.descendants": "Grandchildren",
+  "hajb.group.siblings": "Siblings",
+  "hajb.group.asabah": "Extended Residuary Chain",
+  "hajb.note.pgf":
+    "The grandfather inherits in place of the father. When the father is alive he is a closer ascendant and completely excludes the grandfather.",
+  "hajb.note.mGranny":
+    "The mother is a closer maternal ascendant. Her presence makes the maternal grandmother entirely redundant.",
+  "hajb.note.pGranny":
+    "Three relatives block the paternal grandmother: the mother (closer female ascendant), the father (her own son with priority), and the paternal grandfather (who replaces the father in the paternal line).",
+  "hajb.note.grandson":
+    "The son is a first-degree male descendant. His presence completely blocks the grandson, who steps into the son's role only when no son survives.",
+  "hajb.note.granddaughter":
+    "Excluded by a living son. Also excluded if two or more daughters exist with no surviving grandson — they have already filled the daughters' 2/3 cap.",
+  "hajb.note.fullSiblings":
+    "All four — son, grandson, father, and paternal grandfather — block full siblings entirely. No partial share remains for them.",
+  "hajb.note.consSiblings":
+    "Blocked by all four blockers of full siblings, plus the full brother himself. The consanguine sister is additionally excluded by two or more full sisters.",
+  "hajb.note.uterineSibs":
+    "Any surviving descendant (son, daughter, grandson, granddaughter) or male ascendant (father, grandfather) fully excludes all uterine siblings.",
+  "hajb.note.asabahChain":
+    "Priority chain: Son → Grandson → Father/PGF → Full Brother → Cons. Brother → their sons → uncles → their sons. Each group excludes all lower groups. Only the closest surviving Asabah inherits.",
+  "hajb.footer":
+    "All rules shown are for the Hanafi school. Shafi'i, Maliki, and Hanbali differ primarily in the Grandfather-Siblings interaction (muqasamah rule vs. full Hanafi blocking).",
 };
 
 const ur: Dict = {
@@ -564,6 +614,40 @@ const ur: Dict = {
   "ex.fullSibling.byBlocker": "بیٹا، پوتا، والد یا دادا کی وجہ سے محروم",
   "ex.consSibling.byBlocker": "قریبی رشتہ دار کی وجہ سے محروم",
   "ex.asabah.byCloser": "قریبی مرد عصبہ کی وجہ سے محروم",
+
+  // ── Currency ──
+  "settings.currency": "کرنسی",
+
+  // ── Hajb Screen ──
+  "home.hajb": "حجب — محرومی کے اصول",
+  "hajb.title": "حجب — محرومی کے اصول",
+  "hajb.subtitle": "حنفی مسلک کے مطابق کون سے وارث کسے مکمل طور پر محروم کرتے ہیں",
+  "hajb.blocked": "محروم",
+  "hajb.blockedBy": "کی وجہ سے محروم",
+  "hajb.group.ascendants": "اجداد",
+  "hajb.group.descendants": "پوتے پوتیاں",
+  "hajb.group.siblings": "بہن بھائی",
+  "hajb.group.asabah": "بعید عصبہ کی ترتیب",
+  "hajb.note.pgf":
+    "دادا، والد کی جگہ وراثت پاتا ہے۔ والد کی موجودگی میں وہ قریب تر ہونے کی وجہ سے دادا کو مکمل طور پر محروم کر دیتا ہے۔",
+  "hajb.note.mGranny":
+    "والدہ قریب تر ہے۔ اس کی موجودگی میں نانی کا دعویٰ ختم ہو جاتا ہے۔",
+  "hajb.note.pGranny":
+    "تین رشتہ دار دادی کو محروم کرتے ہیں: والدہ (قریب تر خاتون)، والد (اپنا بیٹا جو اولیٰ ہے) اور دادا (جو والد کی جگہ لیتا ہے)۔",
+  "hajb.note.grandson":
+    "بیٹا پہلے درجے کا مرد اولاد ہے۔ اس کی موجودگی پوتے کو مکمل طور پر محروم کر دیتی ہے۔",
+  "hajb.note.granddaughter":
+    "زندہ بیٹے کی موجودگی میں محروم۔ دو یا زائد بیٹیوں اور کسی پوتے کی غیر موجودگی میں بھی محروم — بیٹیاں پہلے ہی 2/3 کا حد پورا کر چکی ہیں۔",
+  "hajb.note.fullSiblings":
+    "یہ چاروں — بیٹا، پوتا، والد اور دادا — حقیقی بہن بھائیوں کو مکمل طور پر محروم کرتے ہیں۔",
+  "hajb.note.consSiblings":
+    "حقیقی بہن بھائیوں کے تمام حاجب علاتی کو بھی محروم کرتے ہیں، مزید حقیقی بھائی بھی حاجب ہے۔ علاتی بہن کو دو یا زائد حقیقی بہنیں بھی محروم کرتی ہیں۔",
+  "hajb.note.uterineSibs":
+    "کوئی بھی اولاد (بیٹا، بیٹی، پوتا، پوتی) یا مرد اجداد (والد یا دادا) اخیافی بہن بھائیوں کو مکمل طور پر محروم کر دیتا ہے۔",
+  "hajb.note.asabahChain":
+    "ترتیب: بیٹا، پوتا، والد، دادا، حقیقی بھائی، علاتی بھائی، ان کے بیٹے، چچا، ان کے بیٹے۔ قریب تر عصبہ تمام بعید عصبوں کو محروم کرتا ہے۔",
+  "hajb.footer":
+    "یہ تمام قواعد حنفی مسلک کے مطابق ہیں۔ شافعی، مالکی اور حنبلی خصوصاً دادا اور بہن بھائیوں کے درمیان مقاسمہ کے مسئلہ میں مختلف ہیں۔",
 };
 
 const ar: Dict = {
@@ -764,6 +848,40 @@ const ar: Dict = {
   "ex.fullSibling.byBlocker": "محجوب بالابن أو ابن الابن أو الأب أو الجد",
   "ex.consSibling.byBlocker": "محجوب بأقرب منه",
   "ex.asabah.byCloser": "محجوب بعاصب أقرب",
+
+  // ── Currency ──
+  "settings.currency": "العملة",
+
+  // ── Hajb Screen ──
+  "home.hajb": "الحجب — قواعد الحرمان",
+  "hajb.title": "الحجب",
+  "hajb.subtitle": "مرجع يوضح من يحجب من في المذهب الحنفي",
+  "hajb.blocked": "محجوب",
+  "hajb.blockedBy": "محجوب بـ",
+  "hajb.group.ascendants": "الأصول",
+  "hajb.group.descendants": "الأحفاد",
+  "hajb.group.siblings": "الإخوة والأخوات",
+  "hajb.group.asabah": "سلسلة العصبات البعيدة",
+  "hajb.note.pgf":
+    "الجد يقوم مقام الأب. وجود الأب يحجب الجد حجبًا كاملًا لأن الأب أقرب درجة.",
+  "hajb.note.mGranny":
+    "الأم أقرب من الجدة لأم. وجودها يحجب الجدة لأم حجبًا كاملًا.",
+  "hajb.note.pGranny":
+    "تحجبها ثلاثة: الأم (أقرب إناثًا)، الأب (ابنها وأولى منها)، والجد لأب (يقوم مقام الأب).",
+  "hajb.note.grandson":
+    "الابن فرع وارث مباشر. وجوده يحجب ابن الابن حجبًا كاملًا.",
+  "hajb.note.granddaughter":
+    "تُحجب بالابن. وكذلك إذا وُجدت بنتان فأكثر ولا ابن ابن، لأنهن استوفَيْن الثلثين.",
+  "hajb.note.fullSiblings":
+    "هؤلاء الأربعة — الابن، ابن الابن، الأب، الجد لأب — يحجبون الإخوة الأشقاء حجبًا كاملًا.",
+  "hajb.note.consSiblings":
+    "يحجبهم ما يحجب الأشقاء، ويضاف إليه الأخ الشقيق. والأخت لأب تُحجب أيضًا بأختين شقيقتين فأكثر.",
+  "hajb.note.uterineSibs":
+    "أي فرع وارث (ابن، بنت، ابن ابن، بنت ابن) أو أصل ذكر (أب، جد) يحجب الإخوة لأم حجبًا كاملًا.",
+  "hajb.note.asabahChain":
+    "ترتيب العصبات: ابن، ابن ابن، أب، جد، أخ شقيق، أخ لأب، أبناؤهم، أعمام، أبناء أعمام. الأقرب يحجب الأبعد.",
+  "hajb.footer":
+    "جميع القواعد وفق المذهب الحنفي. يختلف الشافعي والمالكي والحنبلي في مسألة الجد مع الإخوة (المقاسمة مقابل الحجب الكامل).",
 };
 
 const dictionaries: Record<LanguageCode, Dict> = { en, ur, ar };

@@ -18,13 +18,35 @@ import {
 import { CLASSICAL_CASES } from "@/lib/cases";
 import { WizardState } from "@/lib/wizard";
 
-function formatMoney(n: number, lang: LanguageCode): string {
+const SHARE_COLORS = [
+  "#2D7A4F",
+  "#F59E0B",
+  "#3B82F6",
+  "#EC4899",
+  "#8B5CF6",
+  "#10B981",
+  "#F97316",
+  "#6366F1",
+  "#14B8A6",
+  "#EF4444",
+];
+
+function formatMoney(n: number, lang: LanguageCode, currency?: string): string {
   const fixed = Math.round(n * 100) / 100;
+  const locale = lang === "ar" ? "ar-SA" : lang === "ur" ? "ur-PK" : lang;
   try {
-    return new Intl.NumberFormat(lang === "ar" ? "ar" : lang, {
-      maximumFractionDigits: 2,
-    }).format(fixed);
+    if (currency) {
+      return new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency,
+        maximumFractionDigits: 2,
+      }).format(fixed);
+    }
+    return new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(
+      fixed,
+    );
   } catch {
+    if (currency) return `${currency} ${fixed.toLocaleString()}`;
     return fixed.toLocaleString();
   }
 }
@@ -36,7 +58,7 @@ function heirLabel(lang: LanguageCode, heir: HeirId, count: number): string {
 export default function ResultScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { language, madhab: settingsMadhab } = useSettings();
+  const { language, madhab: settingsMadhab, currency } = useSettings();
   const params = useLocalSearchParams<{
     state?: string;
     madhab?: string;
@@ -118,20 +140,12 @@ export default function ResultScreen() {
             ]}
           >
             <View style={styles.noteHeader}>
-              <Feather
-                name="book-open"
-                size={14}
-                color={colors.primary}
-              />
-              <Text
-                style={[styles.noteLabel, { color: colors.primary }]}
-              >
+              <Feather name="book-open" size={14} color={colors.primary} />
+              <Text style={[styles.noteLabel, { color: colors.primary }]}>
                 {t(language, classicalCase.descKey)}
               </Text>
             </View>
-            <Text
-              style={[styles.noteBody, { color: colors.foreground }]}
-            >
+            <Text style={[styles.noteBody, { color: colors.foreground }]}>
               {t(language, classicalCase.noteKey)}
             </Text>
           </View>
@@ -155,9 +169,58 @@ export default function ResultScreen() {
           <Text
             style={[styles.estateValue, { color: colors.primaryForeground }]}
           >
-            {formatMoney(result.estate, language)}
+            {formatMoney(result.estate, language, currency)}
           </Text>
         </View>
+
+        {/* Proportional share bar */}
+        {result.shares.length > 0 && result.estate > 0 && (
+          <View style={{ marginBottom: 18 }}>
+            <View
+              style={[
+                styles.shareBarTrack,
+                { borderRadius: colors.radius, overflow: "hidden" },
+              ]}
+            >
+              {result.shares.map((share, idx) => (
+                <View
+                  key={`bar-${share.heir}-${idx}`}
+                  style={{
+                    flex: share.amount,
+                    backgroundColor:
+                      SHARE_COLORS[idx % SHARE_COLORS.length],
+                  }}
+                />
+              ))}
+            </View>
+            <View style={styles.barLegend}>
+              {result.shares.map((share, idx) => (
+                <View
+                  key={`leg-${share.heir}-${idx}`}
+                  style={styles.legendItem}
+                >
+                  <View
+                    style={[
+                      styles.legendDot,
+                      {
+                        backgroundColor:
+                          SHARE_COLORS[idx % SHARE_COLORS.length],
+                      },
+                    ]}
+                  />
+                  <Text
+                    style={[
+                      styles.legendText,
+                      { color: colors.mutedForeground },
+                    ]}
+                  >
+                    {t(language, `heir.${share.heir}`)}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
 
         {/* Rules applied */}
         {(result.awl || result.radd) && (
@@ -176,7 +239,8 @@ export default function ResultScreen() {
             </Text>
             {result.awl ? (
               <Text style={[styles.alertText, { color: colors.foreground }]}>
-                {t(language, "result.awl")} ({result.awl.from} → {result.awl.to})
+                {t(language, "result.awl")} ({result.awl.from} →{" "}
+                {result.awl.to})
               </Text>
             ) : null}
             {result.radd ? (
@@ -204,6 +268,8 @@ export default function ResultScreen() {
               key={`${share.heir}-${idx}`}
               share={share}
               language={language}
+              currency={currency}
+              color={SHARE_COLORS[idx % SHARE_COLORS.length]}
             />
           ))
         )}
@@ -254,11 +320,13 @@ export default function ResultScreen() {
               },
             ]}
           >
-            <Text style={[styles.alertTitle, { color: colors.mutedForeground }]}>
+            <Text
+              style={[styles.alertTitle, { color: colors.mutedForeground }]}
+            >
               {t(language, "result.residue")}
             </Text>
             <Text style={[styles.alertText, { color: colors.foreground }]}>
-              {formatMoney(result.residue, language)}
+              {formatMoney(result.residue, language, currency)}
             </Text>
           </View>
         ) : null}
@@ -273,9 +341,12 @@ export default function ResultScreen() {
             fontFamily: "Inter_400Regular",
           }}
         >
-          {t(language, ("madhab." + (params.madhab || settingsMadhab)) as string)} ·{" "}
-          {formatMoney(totalShareSum + (result.residue ?? 0), language)} /{" "}
-          {formatMoney(result.estate, language)}
+          {t(
+            language,
+            ("madhab." + (params.madhab || settingsMadhab)) as string,
+          )}{" "}
+          · {formatMoney(totalShareSum + (result.residue ?? 0), language, currency)}{" "}
+          / {formatMoney(result.estate, language, currency)}
         </Text>
       </ScrollView>
 
@@ -303,9 +374,13 @@ export default function ResultScreen() {
 function ShareCard({
   share,
   language,
+  currency,
+  color,
 }: {
   share: ShareResult;
   language: LanguageCode;
+  currency?: string;
+  color: string;
 }) {
   const colors = useColors();
   const kindLabel =
@@ -317,13 +392,6 @@ function ShareCard({
           ? t(language, "result.share.umariyyatan")
           : t(language, "result.share.radd");
 
-  const accent =
-    share.kind === "asabah"
-      ? colors.accent
-      : share.kind === "umariyyatan" || share.kind === "radd"
-        ? colors.primary
-        : colors.primary;
-
   return (
     <View
       style={[
@@ -332,6 +400,8 @@ function ShareCard({
           backgroundColor: colors.card,
           borderColor: colors.border,
           borderRadius: colors.radius,
+          borderLeftColor: color,
+          borderLeftWidth: 3,
         },
       ]}
     >
@@ -343,7 +413,7 @@ function ShareCard({
           <View
             style={[
               styles.kindPill,
-              { borderColor: accent, marginTop: 6 },
+              { borderColor: color + "80", marginTop: 6 },
             ]}
           >
             <Feather
@@ -357,19 +427,17 @@ function ShareCard({
                       : "check-circle"
               }
               size={11}
-              color={accent}
+              color={color}
             />
-            <Text style={[styles.kindLabel, { color: accent }]}>
-              {kindLabel}
-            </Text>
+            <Text style={[styles.kindLabel, { color }]}>{kindLabel}</Text>
           </View>
         </View>
         <View style={{ alignItems: "flex-end" }}>
           <Text style={[styles.fraction, { color: colors.foreground }]}>
             {formatFraction(share.fraction)}
           </Text>
-          <Text style={[styles.amount, { color: colors.primary }]}>
-            {formatMoney(share.amount, language)}
+          <Text style={[styles.amount, { color }]}>
+            {formatMoney(share.amount, language, currency)}
           </Text>
         </View>
       </View>
@@ -390,10 +458,7 @@ function ShareCard({
 
       {share.count > 1 ? (
         <View
-          style={[
-            styles.perPersonRow,
-            { borderTopColor: colors.border },
-          ]}
+          style={[styles.perPersonRow, { borderTopColor: colors.border }]}
         >
           <Text style={{ color: colors.mutedForeground, fontSize: 13 }}>
             {t(language, "result.each")} ({share.count})
@@ -405,7 +470,7 @@ function ShareCard({
               fontFamily: "Inter_600SemiBold",
             }}
           >
-            {formatMoney(share.perPerson, language)}
+            {formatMoney(share.perPerson, language, currency)}
           </Text>
         </View>
       ) : null}
@@ -440,6 +505,30 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontFamily: "Inter_700Bold",
     fontWeight: "700",
+  },
+  shareBarTrack: {
+    height: 12,
+    flexDirection: "row",
+    marginBottom: 10,
+  },
+  barLegend: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  legendDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  legendText: {
+    fontSize: 11,
+    fontFamily: "Inter_400Regular",
   },
   alertBox: {
     padding: 16,

@@ -50,6 +50,8 @@ function ThemedStack() {
           options={{ title: "", headerBackVisible: false }}
         />
         <Stack.Screen name="settings" options={{ title: "" }} />
+        <Stack.Screen name="cases" options={{ title: "" }} />
+        <Stack.Screen name="hajb" options={{ title: "" }} />
       </Stack>
     </>
   );
