@@ -107,15 +107,35 @@ export default function HomeScreen() {
             {t(language, "home.cases")}
           </Text>
         </Pressable>
-        <Pressable
-          onPress={() => router.push("/hajb")}
-          style={({ pressed }) => [styles.tertiaryBtn, { opacity: pressed ? 0.6 : 1 }]}
-        >
-          <Feather name="alert-circle" size={14} color={colors.mutedForeground} />
-          <Text style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}>
-            {t(language, "home.hajb")}
-          </Text>
-        </Pressable>
+        <View style={styles.tertiaryRow}>
+          <Pressable
+            onPress={() => router.push("/hajb")}
+            style={({ pressed }) => [
+              styles.tertiaryBtn,
+              styles.tertiaryBtnFlex,
+              { opacity: pressed ? 0.6 : 1 },
+            ]}
+          >
+            <Feather name="alert-circle" size={14} color={colors.mutedForeground} />
+            <Text style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}>
+              {t(language, "home.hajb")}
+            </Text>
+          </Pressable>
+          <View style={[styles.tertiaryDivider, { backgroundColor: colors.border }]} />
+          <Pressable
+            onPress={() => router.push("/history")}
+            style={({ pressed }) => [
+              styles.tertiaryBtn,
+              styles.tertiaryBtnFlex,
+              { opacity: pressed ? 0.6 : 1 },
+            ]}
+          >
+            <Feather name="bookmark" size={14} color={colors.mutedForeground} />
+            <Text style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}>
+              {t(language, "home.history")}
+            </Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -198,6 +218,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Inter_600SemiBold",
     fontWeight: "600",
+  },
+  tertiaryRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  tertiaryBtnFlex: {
+    flex: 1,
+  },
+  tertiaryDivider: {
+    width: 1,
+    height: 16,
   },
   tertiaryBtn: {
     flexDirection: "row",

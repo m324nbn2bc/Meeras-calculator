@@ -1,7 +1,17 @@
 import { Feather } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useMemo } from "react";
-import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import * as Print from "expo-print";
+import * as Sharing from "expo-sharing";
+import React, { useMemo, useState } from "react";
+import {
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { PrimaryButton } from "@/components/PrimaryButton";
@@ -17,6 +27,7 @@ import {
 } from "@/lib/inheritance";
 import { CLASSICAL_CASES } from "@/lib/cases";
 import { WizardState } from "@/lib/wizard";
+import { saveCalculation } from "@/lib/history";
 
 const SHARE_COLORS = [
   "#2D7A4F",
@@ -55,6 +66,96 @@ function heirLabel(lang: LanguageCode, heir: HeirId, count: number): string {
   return t(lang, `heir.${heir}`) + (count > 1 ? ` (${count})` : "");
 }
 
+function buildPdfHtml(
+  result: CalculationOutput,
+  language: LanguageCode,
+  currency: string,
+  madhab: string,
+  label: string,
+): string {
+  const dir = isRTL(language) ? "rtl" : "ltr";
+  const dateStr = new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
+
+  const rows = result.shares
+    .map(
+      (s, i) => `
+    <tr>
+      <td style="padding:10px 12px;border-bottom:1px solid #eee;">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${SHARE_COLORS[i % SHARE_COLORS.length]};margin-inline-end:8px;"></span>
+        ${t(language, `heir.${s.heir}`)}${s.count > 1 ? ` (${s.count})` : ""}
+      </td>
+      <td style="padding:10px 12px;border-bottom:1px solid #eee;font-weight:600;">${formatFraction(s.fraction)}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid #eee;color:#2D7A4F;font-weight:700;">${formatMoney(s.amount, language, currency)}</td>
+      ${s.count > 1 ? `<td style="padding:10px 12px;border-bottom:1px solid #eee;color:#666;">${formatMoney(s.perPerson, language, currency)} ${t(language, "result.each")}</td>` : "<td></td>"}
+    </tr>`,
+    )
+    .join("");
+
+  const exclusionRows =
+    result.exclusions.length > 0
+      ? `<h3 style="margin-top:28px;color:#666;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;">${t(language, "result.exclusions")}</h3>
+       <ul style="color:#444;font-size:14px;line-height:1.8;">${result.exclusions.map((ex) => `<li>${t(language, `heir.${ex.heir}`)}${ex.count > 1 ? ` (${ex.count})` : ""} — ${t(language, ex.reasonKey)}</li>`).join("")}</ul>`
+      : "";
+
+  const rulesHtml =
+    result.awl || result.radd
+      ? `<div style="background:#fff8e7;border:1px solid #f59e0b;border-radius:6px;padding:14px 18px;margin-bottom:20px;">
+          <p style="margin:0;font-size:13px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:0.4px;">${t(language, "result.rules")}</p>
+          ${result.awl ? `<p style="margin:6px 0 0;font-size:14px;color:#333;">${t(language, "result.awl")} (${result.awl.from} → ${result.awl.to})</p>` : ""}
+          ${result.radd ? `<p style="margin:6px 0 0;font-size:14px;color:#333;">${t(language, "result.radd")}</p>` : ""}
+        </div>`
+      : "";
+
+  return `<!DOCTYPE html>
+<html dir="${dir}" lang="${language}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meeras Calculator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, Arial, sans-serif; color: #1a1a1a; padding: 40px; direction: ${dir}; }
+  h1 { font-size: 26px; color: #2D7A4F; margin-bottom: 4px; }
+  .tagline { color: #666; font-size: 14px; margin-bottom: 24px; }
+  .estate-card { background: #2D7A4F; color: #fff; border-radius: 10px; padding: 24px; margin-bottom: 24px; }
+  .estate-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; opacity: 0.8; margin-bottom: 6px; }
+  .estate-value { font-size: 32px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
+  th { background: #f5f5f5; padding: 10px 12px; text-align: start; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: #666; }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 11px; }
+</style>
+</head>
+<body>
+<h1>Meeras Calculator</h1>
+<p class="tagline">Islamic Inheritance Distribution · ${madhab}</p>
+<div class="estate-card">
+  <p class="estate-label">${t(language, "result.estate")}</p>
+  <p class="estate-value">${formatMoney(result.estate, language, currency)}</p>
+</div>
+${rulesHtml}
+<p style="font-size:13px;font-weight:600;color:#444;margin-bottom:8px;">${label}</p>
+<table>
+  <tr>
+    <th>${t(language, "result.heir")}</th>
+    <th>${t(language, "result.share")}</th>
+    <th>${t(language, "result.amount")}</th>
+    <th></th>
+  </tr>
+  ${rows}
+</table>
+${exclusionRows}
+<div class="footer">
+  <p>Meeras Calculator · ${dateStr}</p>
+  <p style="margin-top:4px;">All calculations are on-device. Consult a qualified scholar for complex cases.</p>
+</div>
+</body>
+</html>`;
+}
+
 export default function ResultScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -66,6 +167,9 @@ export default function ResultScreen() {
   }>();
   const rtl = isRTL(language);
   const isWeb = Platform.OS === "web";
+
+  const [saved, setSaved] = useState(false);
+  const [sharing, setSharing] = useState(false);
 
   const result: CalculationOutput | null = useMemo(() => {
     if (!params.state) return null;
@@ -83,6 +187,14 @@ export default function ResultScreen() {
     }
   }, [params.state, params.madhab, settingsMadhab]);
 
+  const label = useMemo(() => {
+    if (!result) return "";
+    return result.shares
+      .map((s) => heirLabel(language, s.heir, s.count))
+      .join(" · ")
+      .slice(0, 80);
+  }, [result, language]);
+
   if (!result) {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -98,6 +210,52 @@ export default function ResultScreen() {
     : null;
 
   const totalShareSum = result.shares.reduce((s, x) => s + x.amount, 0);
+  const effectiveMadhab = (params.madhab as MadhabId) || settingsMadhab;
+  const madhabLabel = t(language, `madhab.${effectiveMadhab}`);
+
+  const handleSave = async () => {
+    if (saved || !params.state) return;
+    try {
+      await saveCalculation({
+        label: label || t(language, "result.title"),
+        madhab: effectiveMadhab,
+        currency,
+        state: params.state,
+        estate: result.estate,
+      });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch {
+      Alert.alert("Error", "Could not save calculation.");
+    }
+  };
+
+  const handleShare = async () => {
+    if (sharing) return;
+    setSharing(true);
+    try {
+      const html = buildPdfHtml(result, language, currency, madhabLabel, label);
+      if (isWeb) {
+        await Print.printAsync({ html });
+      } else {
+        const { uri } = await Print.printToFileAsync({ html });
+        const canShare = await Sharing.isAvailableAsync();
+        if (canShare) {
+          await Sharing.shareAsync(uri, {
+            mimeType: "application/pdf",
+            dialogTitle: t(language, "result.export"),
+            UTI: "com.adobe.pdf",
+          });
+        } else {
+          await Print.printAsync({ html });
+        }
+      }
+    } catch {
+      // user cancelled or print failed — silent
+    } finally {
+      setSharing(false);
+    }
+  };
 
   return (
     <View
@@ -115,19 +273,17 @@ export default function ResultScreen() {
           {
             paddingTop: isWeb ? Math.max(insets.top, 67) + 8 : 16,
             paddingBottom:
-              (isWeb ? Math.max(insets.bottom, 34) : insets.bottom) + 120,
+              (isWeb ? Math.max(insets.bottom, 34) : insets.bottom) + 160,
           },
         ]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
         <Text style={[styles.title, { color: colors.foreground }]}>
           {classicalCase
             ? t(language, classicalCase.nameKey)
             : t(language, "result.title")}
         </Text>
 
-        {/* Scholarly note for classical cases */}
         {classicalCase ? (
           <View
             style={[
@@ -151,7 +307,6 @@ export default function ResultScreen() {
           </View>
         ) : null}
 
-        {/* Estate summary card */}
         <View
           style={[
             styles.estateCard,
@@ -173,7 +328,6 @@ export default function ResultScreen() {
           </Text>
         </View>
 
-        {/* Proportional share bar */}
         {result.shares.length > 0 && result.estate > 0 && (
           <View style={{ marginBottom: 18 }}>
             <View
@@ -187,8 +341,7 @@ export default function ResultScreen() {
                   key={`bar-${share.heir}-${idx}`}
                   style={{
                     flex: share.amount,
-                    backgroundColor:
-                      SHARE_COLORS[idx % SHARE_COLORS.length],
+                    backgroundColor: SHARE_COLORS[idx % SHARE_COLORS.length],
                   }}
                 />
               ))}
@@ -203,8 +356,7 @@ export default function ResultScreen() {
                     style={[
                       styles.legendDot,
                       {
-                        backgroundColor:
-                          SHARE_COLORS[idx % SHARE_COLORS.length],
+                        backgroundColor: SHARE_COLORS[idx % SHARE_COLORS.length],
                       },
                     ]}
                   />
@@ -222,7 +374,6 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* Rules applied */}
         {(result.awl || result.radd) && (
           <View
             style={[
@@ -251,7 +402,6 @@ export default function ResultScreen() {
           </View>
         )}
 
-        {/* Shares list */}
         {result.shares.length === 0 ? (
           <Text
             style={{
@@ -331,7 +481,6 @@ export default function ResultScreen() {
           </View>
         ) : null}
 
-        {/* Verification footer */}
         <Text
           style={{
             marginTop: 24,
@@ -341,16 +490,16 @@ export default function ResultScreen() {
             fontFamily: "Inter_400Regular",
           }}
         >
-          {t(
+          {madhabLabel} ·{" "}
+          {formatMoney(
+            totalShareSum + (result.residue ?? 0),
             language,
-            ("madhab." + (params.madhab || settingsMadhab)) as string,
+            currency,
           )}{" "}
-          · {formatMoney(totalShareSum + (result.residue ?? 0), language, currency)}{" "}
           / {formatMoney(result.estate, language, currency)}
         </Text>
       </ScrollView>
 
-      {/* Sticky footer button */}
       <View
         style={[
           styles.footer,
@@ -362,6 +511,63 @@ export default function ResultScreen() {
           },
         ]}
       >
+        <View style={styles.actionRow}>
+          <Pressable
+            onPress={handleSave}
+            style={({ pressed }) => [
+              styles.actionBtn,
+              {
+                backgroundColor: saved
+                  ? colors.primary + "18"
+                  : colors.secondary,
+                borderColor: saved ? colors.primary : colors.border,
+                borderRadius: colors.radius,
+                opacity: pressed ? 0.7 : 1,
+              },
+            ]}
+          >
+            <Feather
+              name={saved ? "check" : "bookmark"}
+              size={16}
+              color={saved ? colors.primary : colors.foreground}
+            />
+            <Text
+              style={[
+                styles.actionBtnText,
+                { color: saved ? colors.primary : colors.foreground },
+              ]}
+            >
+              {saved
+                ? t(language, "result.saved")
+                : t(language, "result.save")}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={handleShare}
+            style={({ pressed }) => [
+              styles.actionBtn,
+              {
+                backgroundColor: colors.secondary,
+                borderColor: colors.border,
+                borderRadius: colors.radius,
+                opacity: pressed || sharing ? 0.7 : 1,
+              },
+            ]}
+          >
+            <Feather
+              name={sharing ? "loader" : "share-2"}
+              size={16}
+              color={colors.foreground}
+            />
+            <Text style={[styles.actionBtnText, { color: colors.foreground }]}>
+              {sharing
+                ? t(language, "result.exporting")
+                : t(language, "result.export")}
+            </Text>
+          </Pressable>
+        </View>
+
         <PrimaryButton
           label={t(language, "common.startOver")}
           onPress={() => router.replace("/")}
@@ -457,9 +663,7 @@ function ShareCard({
       ) : null}
 
       {share.count > 1 ? (
-        <View
-          style={[styles.perPersonRow, { borderTopColor: colors.border }]}
-        >
+        <View style={[styles.perPersonRow, { borderTopColor: colors.border }]}>
           <Text style={{ color: colors.mutedForeground, fontSize: 13 }}>
             {t(language, "result.each")} ({share.count})
           </Text>
@@ -480,9 +684,7 @@ function ShareCard({
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  scroll: {
-    paddingHorizontal: 20,
-  },
+  scroll: { paddingHorizontal: 20 },
   title: {
     fontSize: 32,
     fontFamily: "Inter_700Bold",
@@ -607,6 +809,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 12,
     borderTopWidth: 1,
+    gap: 10,
+  },
+  actionRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  actionBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 7,
+    paddingVertical: 11,
+    borderWidth: 1,
+  },
+  actionBtnText: {
+    fontSize: 13,
+    fontFamily: "Inter_600SemiBold",
+    fontWeight: "600",
   },
   noteBox: {
     borderWidth: 1,

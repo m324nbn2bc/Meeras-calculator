@@ -380,6 +380,18 @@ const en: Dict = {
   "case.pgfBlocksPGranny.note":
     "The paternal grandfather (PGF) blocks the paternal grandmother entirely. Only the maternal grandmother remains eligible, so she takes the full 1/6. PGF gets 1/6 fixed (female descendants present) plus the Asabah residue.",
 
+  // ── Save / Share / History ──
+  "result.save": "Save",
+  "result.saved": "Saved!",
+  "result.export": "Share / Export PDF",
+  "result.exporting": "Preparing PDF…",
+  "home.history": "Saved Calculations",
+  "history.title": "Saved Calculations",
+  "history.empty": "No saved calculations yet.",
+  "history.emptyHint": "Tap \"Save\" on any result screen to keep it here.",
+  "history.estate": "Estate",
+  "history.delete": "Delete",
+
   // ── Currency ──
   "settings.currency": "Currency",
 
@@ -615,6 +627,18 @@ const ur: Dict = {
   "ex.consSibling.byBlocker": "قریبی رشتہ دار کی وجہ سے محروم",
   "ex.asabah.byCloser": "قریبی مرد عصبہ کی وجہ سے محروم",
 
+  // ── Save / Share / History ──
+  "result.save": "محفوظ کریں",
+  "result.saved": "محفوظ!",
+  "result.export": "PDF شیئر کریں",
+  "result.exporting": "PDF تیار ہو رہا ہے…",
+  "home.history": "محفوظ حسابات",
+  "history.title": "محفوظ حسابات",
+  "history.empty": "ابھی تک کوئی محفوظ حساب نہیں۔",
+  "history.emptyHint": "کسی بھی نتیجہ اسکرین پر 'محفوظ کریں' ٹیپ کریں۔",
+  "history.estate": "ترکہ",
+  "history.delete": "حذف",
+
   // ── Currency ──
   "settings.currency": "کرنسی",
 
@@ -848,6 +872,18 @@ const ar: Dict = {
   "ex.fullSibling.byBlocker": "محجوب بالابن أو ابن الابن أو الأب أو الجد",
   "ex.consSibling.byBlocker": "محجوب بأقرب منه",
   "ex.asabah.byCloser": "محجوب بعاصب أقرب",
+
+  // ── Save / Share / History ──
+  "result.save": "حفظ",
+  "result.saved": "تم الحفظ!",
+  "result.export": "مشاركة / تصدير PDF",
+  "result.exporting": "جارٍ تجهيز الـ PDF…",
+  "home.history": "الحسابات المحفوظة",
+  "history.title": "الحسابات المحفوظة",
+  "history.empty": "لا توجد حسابات محفوظة بعد.",
+  "history.emptyHint": "اضغط على 'حفظ' في شاشة النتائج لحفظها هنا.",
+  "history.estate": "التركة",
+  "history.delete": "حذف",
 
   // ── Currency ──
   "settings.currency": "العملة",
