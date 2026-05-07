@@ -4,12 +4,17 @@ export type AnswerValue = number | boolean | DeceasedGender;
 
 export interface WizardState {
   estate: number;
+  grossEstate?: number;
+  funeralExpenses?: number;
+  debtsOwed?: number;
+  receivables?: number;
+  wasiyyah?: number;
   deceasedGender: DeceasedGender;
   hasSpouse: boolean;
   heirs: HeirCounts;
 }
 
-export type StepKind = "estate" | "gender" | "yesno" | "count";
+export type StepKind = "estate" | "deductions" | "gender" | "yesno" | "count";
 
 export interface Step {
   id: string;
@@ -25,6 +30,20 @@ export interface Step {
   read: (s: WizardState) => AnswerValue;
 }
 
+export function computeNetEstate(s: WizardState): number {
+  const gross = s.grossEstate ?? s.estate;
+  const afterDebts = Math.max(
+    0,
+    gross +
+      (s.receivables ?? 0) -
+      (s.funeralExpenses ?? 0) -
+      (s.debtsOwed ?? 0),
+  );
+  const maxWasiyyah = afterDebts / 3;
+  const appliedWasiyyah = Math.min(s.wasiyyah ?? 0, maxWasiyyah);
+  return Math.max(0, afterDebts - appliedWasiyyah);
+}
+
 const setHeir = (s: WizardState, h: HeirId, n: number): WizardState => ({
   ...s,
   heirs: { ...s.heirs, [h]: n },
@@ -34,21 +53,29 @@ const has = (s: WizardState, h: HeirId) => (s.heirs[h] ?? 0) > 0;
 
 export const initialState: WizardState = {
   estate: 0,
+  grossEstate: 0,
+  funeralExpenses: 0,
+  debtsOwed: 0,
+  receivables: 0,
+  wasiyyah: 0,
   deceasedGender: "male",
   hasSpouse: false,
   heirs: {},
 };
 
-// Helpers for skip logic
 const noSon = (s: WizardState) => !has(s, "son");
 const noGrandson = (s: WizardState) => !has(s, "grandson");
 const noMaleDesc = (s: WizardState) => noSon(s) && noGrandson(s);
 const noDesc = (s: WizardState) =>
-  noSon(s) && noGrandson(s) && !has(s, "daughter") && !has(s, "granddaughter");
+  noSon(s) &&
+  noGrandson(s) &&
+  !has(s, "daughter") &&
+  !has(s, "granddaughter");
 const noFather = (s: WizardState) => !has(s, "father");
 const noPGF = (s: WizardState) => !has(s, "paternalGrandfather");
 const noMaleAsc = (s: WizardState) => noFather(s) && noPGF(s);
-const noBlockerForSiblings = (s: WizardState) => noMaleDesc(s) && noMaleAsc(s);
+const noBlockerForSiblings = (s: WizardState) =>
+  noMaleDesc(s) && noMaleAsc(s);
 
 export const steps: Step[] = [
   {
@@ -57,7 +84,19 @@ export const steps: Step[] = [
     titleKey: "q.estate.title",
     helpKey: "q.estate.help",
     visible: () => true,
-    apply: (s, v) => ({ ...s, estate: Number(v) || 0 }),
+    apply: (s, v) => {
+      const gross = Number(v) || 0;
+      return { ...s, grossEstate: gross, estate: gross };
+    },
+    read: (s) => s.grossEstate ?? s.estate,
+  },
+  {
+    id: "deductions",
+    kind: "deductions",
+    titleKey: "q.deductions.title",
+    helpKey: "q.deductions.help",
+    visible: (s) => (s.grossEstate ?? s.estate) > 0,
+    apply: (s, _v) => ({ ...s, estate: computeNetEstate(s) }),
     read: (s) => s.estate,
   },
   {
@@ -107,7 +146,6 @@ export const steps: Step[] = [
     apply: (s, v) => setHeir(s, "wife", Number(v)),
     read: (s) => s.heirs.wife ?? 1,
   },
-  // ── Ascendants ──
   {
     id: "father",
     kind: "yesno",
@@ -153,7 +191,6 @@ export const steps: Step[] = [
     apply: (s, v) => setHeir(s, "paternalGrandmother", v ? 1 : 0),
     read: (s) => has(s, "paternalGrandmother"),
   },
-  // ── Descendants ──
   {
     id: "sons",
     kind: "count",
@@ -202,7 +239,6 @@ export const steps: Step[] = [
     apply: (s, v) => setHeir(s, "granddaughter", Number(v)),
     read: (s) => s.heirs.granddaughter ?? 0,
   },
-  // ── Siblings ──
   {
     id: "fullBrothers",
     kind: "count",
@@ -235,9 +271,7 @@ export const steps: Step[] = [
     heirId: "paternalHalfBrother",
     min: 0,
     max: 20,
-    visible: (s) =>
-      noBlockerForSiblings(s) &&
-      !has(s, "fullBrother"),
+    visible: (s) => noBlockerForSiblings(s) && !has(s, "fullBrother"),
     apply: (s, v) => setHeir(s, "paternalHalfBrother", Number(v)),
     read: (s) => s.heirs.paternalHalfBrother ?? 0,
   },
@@ -268,7 +302,6 @@ export const steps: Step[] = [
     apply: (s, v) => setHeir(s, "maternalHalfSibling", Number(v)),
     read: (s) => s.heirs.maternalHalfSibling ?? 0,
   },
-  // ── Extended Asabah ──
   {
     id: "fullNephews",
     kind: "count",
@@ -281,7 +314,6 @@ export const steps: Step[] = [
       noBlockerForSiblings(s) &&
       !has(s, "fullBrother") &&
       !has(s, "paternalHalfBrother") &&
-      // Only relevant if no male asabah from sisters-with-daughters context
       (s.heirs.fullSister ?? 0) === 0,
     apply: (s, v) => setHeir(s, "fullBrothersSon", Number(v)),
     read: (s) => s.heirs.fullBrothersSon ?? 0,

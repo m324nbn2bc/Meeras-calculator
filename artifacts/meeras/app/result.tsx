@@ -156,6 +156,89 @@ ${exclusionRows}
 </html>`;
 }
 
+function DeductionCard({
+  state,
+  language,
+  currency,
+  colors,
+}: {
+  state: WizardState;
+  language: LanguageCode;
+  currency: string;
+  colors: ReturnType<typeof import("@/hooks/useColors").useColors>;
+}) {
+  const gross = state.grossEstate ?? state.estate;
+  const funeral = state.funeralExpenses ?? 0;
+  const debts = state.debtsOwed ?? 0;
+  const receivables = state.receivables ?? 0;
+  const wasiyyahRaw = state.wasiyyah ?? 0;
+  const afterDebts = Math.max(0, gross + receivables - funeral - debts);
+  const maxWasiyyah = afterDebts / 3;
+  const appliedWasiyyah = Math.min(wasiyyahRaw, maxWasiyyah);
+  const net = Math.max(0, afterDebts - appliedWasiyyah);
+
+  const Row = ({
+    label,
+    value,
+    sign,
+    muted,
+  }: {
+    label: string;
+    value: number;
+    sign: string;
+    muted?: boolean;
+  }) =>
+    value > 0 ? (
+      <View style={styles.dedRow}>
+        <Text style={[styles.dedRowLabel, { color: muted ? colors.mutedForeground : colors.foreground }]}>
+          {sign} {label}
+        </Text>
+        <Text style={[styles.dedRowValue, { color: muted ? colors.mutedForeground : colors.foreground }]}>
+          {formatMoney(value, language, currency)}
+        </Text>
+      </View>
+    ) : null;
+
+  return (
+    <View
+      style={[
+        styles.dedCard,
+        {
+          backgroundColor: colors.card,
+          borderColor: colors.border,
+          borderRadius: colors.radius,
+        },
+      ]}
+    >
+      <View style={[styles.dedHeader, { borderBottomColor: colors.border }]}>
+        <Feather name="scissors" size={13} color={colors.mutedForeground} />
+        <Text style={[styles.dedHeaderText, { color: colors.mutedForeground }]}>
+          {t(language, "deductions.gross")}: {formatMoney(gross, language, currency)}
+        </Text>
+      </View>
+      <Row label={t(language, "deductions.funeral")} value={funeral} sign="−" muted />
+      <Row label={t(language, "deductions.debts")} value={debts} sign="−" muted />
+      <Row label={t(language, "deductions.receivables")} value={receivables} sign="+" muted />
+      {appliedWasiyyah > 0 && (
+        <Row
+          label={`${t(language, "deductions.wasiyyah")}${wasiyyahRaw > maxWasiyyah ? " (capped)" : ""}`}
+          value={appliedWasiyyah}
+          sign="−"
+          muted
+        />
+      )}
+      <View style={[styles.dedNetRow, { borderTopColor: colors.border }]}>
+        <Text style={[styles.dedNetLabel, { color: colors.foreground }]}>
+          {t(language, "deductions.net")}
+        </Text>
+        <Text style={[styles.dedNetValue, { color: colors.primary }]}>
+          {formatMoney(net, language, currency)}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
 export default function ResultScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -208,6 +291,26 @@ export default function ResultScreen() {
   const classicalCase = params.caseId
     ? CLASSICAL_CASES.find((c) => c.id === params.caseId)
     : null;
+
+  const wizardState = useMemo(() => {
+    try {
+      return params.state ? (JSON.parse(params.state) as WizardState) : null;
+    } catch {
+      return null;
+    }
+  }, [params.state]);
+
+  const hasDeductions = useMemo(() => {
+    if (!wizardState) return false;
+    const gross = wizardState.grossEstate ?? wizardState.estate;
+    return (
+      gross > 0 &&
+      ((wizardState.funeralExpenses ?? 0) > 0 ||
+        (wizardState.debtsOwed ?? 0) > 0 ||
+        (wizardState.receivables ?? 0) > 0 ||
+        (wizardState.wasiyyah ?? 0) > 0)
+    );
+  }, [wizardState]);
 
   const totalShareSum = result.shares.reduce((s, x) => s + x.amount, 0);
   const effectiveMadhab = (params.madhab as MadhabId) || settingsMadhab;
@@ -305,6 +408,15 @@ export default function ResultScreen() {
               {t(language, classicalCase.noteKey)}
             </Text>
           </View>
+        ) : null}
+
+        {hasDeductions && wizardState ? (
+          <DeductionCard
+            state={wizardState}
+            language={language}
+            currency={currency}
+            colors={colors}
+          />
         ) : null}
 
         <View
@@ -833,6 +945,57 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 14,
     marginBottom: 14,
+  },
+  dedCard: {
+    borderWidth: 1,
+    marginBottom: 14,
+    overflow: "hidden",
+  },
+  dedHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+  },
+  dedHeaderText: {
+    fontSize: 12,
+    fontFamily: "Inter_500Medium",
+  },
+  dedRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+  },
+  dedRowLabel: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+  },
+  dedRowValue: {
+    fontSize: 13,
+    fontFamily: "Inter_500Medium",
+  },
+  dedNetRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+    borderTopWidth: 1,
+    marginTop: 4,
+  },
+  dedNetLabel: {
+    fontSize: 14,
+    fontFamily: "Inter_600SemiBold",
+    fontWeight: "600",
+  },
+  dedNetValue: {
+    fontSize: 15,
+    fontFamily: "Inter_700Bold",
+    fontWeight: "700",
   },
   noteHeader: {
     flexDirection: "row",

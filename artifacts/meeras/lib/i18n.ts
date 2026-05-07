@@ -76,8 +76,31 @@ const en: Dict = {
 
   "q.estate.title": "What is the total estate?",
   "q.estate.help":
-    "Enter the net estate after funeral expenses, debts, and bequests (up to 1/3) have been settled.",
+    "Enter the gross estate — total assets owned. You can deduct funeral expenses, debts, and wasiyyah in the next step. This field is optional.",
   "q.estate.placeholder": "e.g. 1000000",
+  "q.estate.skip": "Skip — calculate shares only",
+
+  // ── Deductions ──
+  "q.deductions.title": "Estate deductions",
+  "q.deductions.help":
+    "Settle these obligations in order before distributing the inheritance. All fields are optional.",
+  "q.funeral.label": "Funeral & burial expenses",
+  "q.funeral.help": "تجہیز و تکفین — deducted first",
+  "q.debts.label": "Debts owed by the deceased",
+  "q.debts.help": "قرض جو میت پر ہے — deducted from the estate",
+  "q.receivables.label": "Debts owed to the deceased",
+  "q.receivables.help":
+    "میت کا کسی دوسرے پر قرض — added back to the estate",
+  "q.wasiyyah.label": "Wasiyyah (bequest)",
+  "q.wasiyyah.help": "Optional bequest — capped at 1/3 of estate after debts",
+  "q.wasiyyah.capped": "Capped to 1/3",
+  "deductions.gross": "Gross estate",
+  "deductions.funeral": "Funeral expenses",
+  "deductions.debts": "Debts owed",
+  "deductions.receivables": "Receivables",
+  "deductions.wasiyyah": "Wasiyyah",
+  "deductions.net": "Net estate for distribution",
+  "deductions.netNote": "This amount will be divided among the heirs",
 
   "q.gender.title": "Was the deceased male or female?",
   "q.gender.help": "This determines whether a husband or wife may inherit.",
@@ -472,8 +495,30 @@ const ur: Dict = {
 
   "q.estate.title": "کل ترکہ کتنا ہے؟",
   "q.estate.help":
-    "تجہیز و تکفین، قرضوں اور وصیت (ایک تہائی تک) کے بعد بچنے والی رقم درج کریں۔",
+    "میت کی کل ملکیت درج کریں۔ تجہیز، قرضے اور وصیت اگلے مرحلے میں منہا کریں۔ یہ خانہ اختیاری ہے۔",
   "q.estate.placeholder": "مثلاً 1000000",
+  "q.estate.skip": "چھوڑیں — صرف حصے دیکھیں",
+
+  // ── Deductions ──
+  "q.deductions.title": "ترکہ سے کٹوتیاں",
+  "q.deductions.help":
+    "وراثت کی تقسیم سے پہلے یہ ذمہ داریاں ترتیب سے ادا کی جاتی ہیں۔ سب اختیاری ہیں۔",
+  "q.funeral.label": "تجہیز و تکفین",
+  "q.funeral.help": "کفن دفن کے اخراجات — سب سے پہلے منہا",
+  "q.debts.label": "قرض جو میت پر ہے",
+  "q.debts.help": "دوسروں کا قرض جو میت نے ادا کرنا تھا",
+  "q.receivables.label": "میت کا کسی پر قرض",
+  "q.receivables.help": "جو رقم دوسرے لوگ میت کو دیں گے — ترکہ میں شامل",
+  "q.wasiyyah.label": "وصیت",
+  "q.wasiyyah.help": "قرضوں کے بعد باقی ترکہ کا زیادہ سے زیادہ ایک تہائی",
+  "q.wasiyyah.capped": "1/3 تک محدود",
+  "deductions.gross": "کل ترکہ",
+  "deductions.funeral": "تجہیز و تکفین",
+  "deductions.debts": "واجب الادا قرض",
+  "deductions.receivables": "وصولی",
+  "deductions.wasiyyah": "وصیت",
+  "deductions.net": "قابل تقسیم ترکہ",
+  "deductions.netNote": "یہ رقم ورثاء میں تقسیم کی جائے گی",
 
   "q.gender.title": "میت مرد تھا یا عورت؟",
   "q.gender.help": "اس سے طے ہوگا کہ شوہر یا بیوی وارث بنیں گے۔",
@@ -718,8 +763,30 @@ const ar: Dict = {
 
   "q.estate.title": "ما إجمالي التركة؟",
   "q.estate.help":
-    "أدخل صافي التركة بعد تكاليف الجنازة والديون والوصايا (حتى الثلث).",
+    "أدخل إجمالي ما تركه المتوفى. يمكنك خصم مصاريف التجهيز والديون والوصية في الخطوة التالية. هذا الحقل اختياري.",
   "q.estate.placeholder": "مثال: 1000000",
+  "q.estate.skip": "تخطَّ — عرض الحصص فقط",
+
+  // ── Deductions ──
+  "q.deductions.title": "التنزيلات من التركة",
+  "q.deductions.help":
+    "تُسوَّى هذه الالتزامات بالترتيب قبل توزيع الميراث. جميعها اختيارية.",
+  "q.funeral.label": "مصاريف التجهيز والتكفين",
+  "q.funeral.help": "تُخصم أولًا من التركة",
+  "q.debts.label": "الديون على الميت",
+  "q.debts.help": "ما أوجبه الميت لغيره — يُخصم من التركة",
+  "q.receivables.label": "الديون للميت",
+  "q.receivables.help": "ما يجب على غيره للميت — يُضاف إلى التركة",
+  "q.wasiyyah.label": "الوصية",
+  "q.wasiyyah.help": "لا تجاوز ثلث التركة بعد الديون",
+  "q.wasiyyah.capped": "محدودة بالثلث",
+  "deductions.gross": "إجمالي التركة",
+  "deductions.funeral": "مصاريف التجهيز",
+  "deductions.debts": "الديون الواجبة",
+  "deductions.receivables": "الديون للميت",
+  "deductions.wasiyyah": "الوصية",
+  "deductions.net": "صافي التركة للتوزيع",
+  "deductions.netNote": "هذا المبلغ يُوزَّع على الورثة",
 
   "q.gender.title": "هل المتوفى ذكر أم أنثى؟",
   "q.gender.help": "هذا يحدد أهلية الزوج أو الزوجة للميراث.",
