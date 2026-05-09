@@ -55,6 +55,18 @@ export default function HistoryScreen() {
 
   const handleDelete = useCallback(
     (id: string, label: string) => {
+      const doDelete = async () => {
+        await deleteCalculation(id);
+        setCalcs((prev) => prev.filter((c) => c.id !== id));
+      };
+
+      if (Platform.OS === "web") {
+        if (window.confirm(`${t(language, "history.delete")}?\n\n${label}`)) {
+          doDelete();
+        }
+        return;
+      }
+
       Alert.alert(
         t(language, "history.delete"),
         label,
@@ -63,10 +75,7 @@ export default function HistoryScreen() {
           {
             text: t(language, "history.delete"),
             style: "destructive",
-            onPress: async () => {
-              await deleteCalculation(id);
-              setCalcs((prev) => prev.filter((c) => c.id !== id));
-            },
+            onPress: doDelete,
           },
         ],
       );

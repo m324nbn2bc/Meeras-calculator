@@ -174,9 +174,16 @@ export default function WizardScreen() {
 
   const goNextWithCurrentState = () => {
     if (!step) return;
+    // For count steps, ensure the displayed default value is committed to state
+    // before advancing. Without this, a step with read()=1 (default) but nothing
+    // stored yet would pass the engine an undefined/0.
+    let committed = state;
+    if (step.kind === "count") {
+      committed = step.apply(state, Number(step.read(state)));
+    }
     const updatedState = step.id === "deductions"
-      ? { ...state, estate: computeNetEstate(state) }
-      : state;
+      ? { ...committed, estate: computeNetEstate(committed) }
+      : committed;
     const newFlow = visibleSteps(updatedState);
     const newIndex = newFlow.findIndex((s) => s.id === step.id);
     if (newIndex < newFlow.length - 1) {

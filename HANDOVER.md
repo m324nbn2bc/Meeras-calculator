@@ -70,6 +70,15 @@ interface WizardState {
 
 ---
 
+## Bug fixes applied — DO NOT re-introduce
+
+| Bug | Root cause | Fix |
+|---|---|---|
+| History delete button not working on web | `Alert.alert` on React Native Web doesn't reliably fire `onPress` callbacks | `handleDelete` now calls `window.confirm()` on `Platform.OS === "web"`, `Alert.alert` on native |
+| Counter shows default 1 but wizard sends 0 wives | `step.read()` returns `s.heirs.wife ?? 1` (display default) but state has `heirs.wife = undefined` until user taps +/−. `goNextWithCurrentState` passed raw state to engine. | `goNextWithCurrentState` now runs `step.apply(state, Number(step.read(state)))` for all `count` steps before advancing, committing the displayed default into state |
+
+---
+
 ## Features implemented — DO NOT re-implement
 
 1. ✅ Full Hanafi engine (furudh, asabah, 'awl, radd, umariyyatan, hajb blocking)
@@ -92,56 +101,83 @@ interface WizardState {
 
 ---
 
+## Web research summary — competing apps & gaps (May 2026)
+
+Researched 12 queries across App Store/Play Store reviews, scholarly Faraid references, and Islamic finance app landscapes.
+
+**Top competing apps:** Faraid by Emrah Demirci (iOS/Android), iFaraid Calculator, Al-Mwareeth, Faraid.net, Hitung Waris Islam.
+
+**Key gaps found across all competitors:**
+- Almost none handle Mafqud (missing heir) — huge real-world demand
+- Very few handle Al-Haml (unborn child) at all
+- No app offers a true multi-madhab comparison table
+- Zakat is often a separate app entirely; users want it bundled
+- PDF sharing is poorly implemented — users share WhatsApp images instead
+- Non-Muslim heir exclusion is rarely explicitly surfaced in the UI
+
+---
+
 ## Remaining features to build (priority order based on research)
 
-### Feature A — Shafi'i / Maliki / Hanbali madhab engines *(highest priority)*
-- Key Shafi'i/Hanbali/Maliki difference: **grandfather-with-siblings** (muqasamah vs. Hanafi full blocking)
-- Akdariyyah case (Shafi'i: consanguine sister inherits despite grandfather)
-- Shafi'i: uterine siblings not excluded by grandfather (unlike Hanafi)
-- Add at least 5 cross-madhab tests per new engine
-- Remove "Coming soon" gates in settings once implemented
+### Feature A — Shafi'i / Maliki / Hanbali madhab engines *(highest priority — #1 user complaint on all competing apps)*
+- **The key difference**: Grandfather-with-siblings case. Hanafi: grandfather **fully blocks** all siblings. Shafi'i/Maliki/Hanbali: use **muqasamah** — grandfather and siblings share together; grandfather takes whichever is better: equal share with siblings OR 1/3 of total estate.
+- **Akdariyyah case** (unique to Maliki/Shafi'i): a consanguine sister inherits alongside grandfather even though normally grandfather would exclude her. Grandfather takes half, wife gets 1/4, mother gets 1/6, consanguine sister gets remainder via 'asabah with grandfather.
+- **Uterine siblings**: Hanafi excludes them when grandfather present; Shafi'i/Maliki/Hanbali do not.
+- Implementation: add `lib/inheritance/madhabs/shafii.ts`, `maliki.ts`, `hanbali.ts`. Each extends or overrides Hanafi rules for the grandfather dispute. Remove "Coming soon" gates in `app/settings.tsx` once done.
+- Add ≥ 5 cross-madhab unit tests per new engine in `lib/inheritance/__tests__.ts`.
 
-### Feature B — Al-Haml (Unborn/Posthumous Child) special case
-- If deceased wife is pregnant at time of father's death, reserve a potential heir share
-- Calculate two scenarios: if child is born male, if born female — show both
-- All madhabs agree on the basic rule; minor differences in holding period
+### Feature B — Al-Haml (Unborn/Posthumous Child)
+- **Rule (all madhabs agree)**: if a widow is pregnant at time of death, the estate cannot be fully distributed until the child is born. Reserve the maximum possible share (assume twin boys — the worst case for other heirs). After birth, recalculate and redistribute.
+- **Wizard change**: add a yes/no step after the spouse question — "Is any widow pregnant?" (only shown if deceased is male and has wife). If yes, show two distributions: "If child is born male" and "If child is born female".
+- **Minor madhab differences**: Hanafi holds the estate in reserve for 2 years (maximum gestation). Maliki uses 4 years. Shafi'i/Hanbali use 4 years. All agree on the twin-male reserve rule.
 
-### Feature C — Mafqud (Missing/Presumed Dead Heir) handling
-- Add a wizard option: "Is any heir missing/presumed dead?"
-- Calculate two scenarios: treating as alive vs. as dead — distribute the more conservative amount
-- Very commonly requested feature in existing apps
+### Feature C — Mafqud (Missing/Presumed Dead Heir)
+- **Rule**: missing person is *assumed alive for their own estate* and *assumed dead for others' estates*. Dual-presumption logic.
+- **Wizard change**: add a "Is any heir missing or presumed dead?" yes/no step near the end of heirs entry. If yes, show which heir(s) are missing. Calculate two distributions side by side: (1) treating missing heir as alive — other heirs receive the lesser amount; (2) treating as dead — other heirs receive more. Hold the disputed portion in a "reserve" pool.
+- **Holding period**: Hanafi = 90 years from birth (when he would have reached unnatural old age). Maliki = 4 years after disappearance. Shafi'i = judge decides. Hanbali = 4 years.
 
 ### Feature D — About screen *(DONE ✅)*
 
 ### Feature E — Onboarding flow (first launch)
-- 3–4 swipeable intro screens shown once (AsyncStorage flag `meeras.onboarded`)
-- Screens: "What is Faraid?", "How the wizard works", "Scholarly disclaimer", "Multiple madhabs"
+- 3–4 swipeable intro screens shown once. Store flag `meeras.onboarded` in AsyncStorage.
+- Screen 1: "What is Faraid?" with Quranic verse (An-Nisa 4:11). Screen 2: "How to use — 3 steps" (Enter estate → Answer questions → See shares). Screen 3: "Scholarly disclaimer" (prominent, cannot be skipped). Screen 4: "Choose your madhab" (pre-selects from device locale).
+- Check flag in `app/_layout.tsx`; if not set, redirect to `/onboarding` before showing home.
 
-### Feature F — Multiple-scenario comparison
-- Run the same heirs with 2–4 madhabs simultaneously
-- Side-by-side table showing each heir's share under Hanafi vs. Shafi'i vs. Maliki vs. Hanbali
-- Useful for families that span different jurisprudential traditions
+### Feature F — Multi-madhab comparison mode
+- After completing the wizard, user can tap "Compare madhabs" on the result screen.
+- Runs the same `heirs` through all 4 engines (requires Feature A to be done first).
+- Shows a table: rows = heirs, columns = Hanafi / Shafi'i / Maliki / Hanbali, cells = share amount + fraction.
+- Highlight cells that differ between madhabs.
 
 ### Feature G — Non-Muslim heir exclusion wizard question
-- Add a step: "Are any heirs non-Muslim?"
-- Clearly show them as excluded with reason: "Difference of religion (اختلاف الدين)"
-- Optional: show the rule that a non-Muslim can receive up to 1/3 via wasiyyah
+- Add a step near the end: "Are any heirs non-Muslim?" If yes, ask which ones.
+- Show excluded heirs on the result screen with reason label: "Excluded — difference of religion (اختلاف الدين)".
+- Scholarly note: Prophet's hadith — "A Muslim does not inherit from a non-Muslim and a non-Muslim does not inherit from a Muslim" (Bukhari/Muslim). Non-Muslim can still receive up to 1/3 via wasiyyah (bequest) — add a note to that effect.
 
 ### Feature H — Zakat calculator companion module
-- Separate section from inheritance: "Calculate Zakat"
-- Nisab based on current gold (85g) or silver (595g) — let user pick
-- Zakatable assets: cash, gold/silver, trade goods, agricultural produce, livestock
-- Khums (Shia) as optional toggle
-- Could share the same settings (language/theme) as the Faraid module
+- **Formula**: Zakatable wealth × 2.5% if wealth ≥ nisab AND held for full hawl (lunar year = 354 days).
+- **Nisab**: 85g gold OR 595g silver — use whichever is lower in current market. Let user enter current gold/silver price per gram, or use a hardcoded approximate.
+- **Zakatable assets**: cash/bank balances, gold/silver jewelry held as investment, trade goods at market value, agricultural produce (10% or 5% depending on irrigation), livestock (separate schedules).
+- **Implementation**: new screen `app/zakat.tsx`, accessible from home screen. Separate from Faraid — no wizard, just input fields for each asset category with running total. Share the same `SettingsContext` for language/theme.
 
 ### Feature I — PDF enhancements
-- Add a QR code to the PDF footer linking to the app store page
-- Optional: digitally watermark the PDF with date + madhab
-- Share as image (PNG) instead of PDF for simpler sharing on WhatsApp
+- Share as image (screenshot of result screen) for easier WhatsApp sharing — use `react-native-view-shot` + `expo-sharing`.
+- Add QR code to PDF footer linking to Play Store / App Store once published.
+- Watermark: add date of calculation and madhab name to the PDF header.
 
 ### Feature J — App icon + splash screen
-- Replace default Expo icon with a custom crescent-and-scales SVG
-- Configure `app.json` icon and splash fields
+- Replace default Expo icon with a custom SVG: scales of justice + crescent moon motif in the accent blue.
+- Update `app.json` `icon` field (1024×1024 PNG) and `splash.image` field.
+- Dark mode icon: white version of the same icon on dark background.
+
+### Feature K — Divorced wife / multiple marriages edge cases
+- A divorced wife in her `iddah` (waiting period) at time of husband's death **does inherit** under Hanafi (to prevent disinheritance via strategic divorce during terminal illness).
+- A wife divorced with final irrevocable talaq (`talaq ba'in`) **does not inherit**.
+- Add an "irrevocable divorce" flag to the spouse step to handle this correctly.
+
+### Feature L — Bayt al-Mal (state treasury) display
+- Currently when there are no eligible heirs the result shows "RESIDUE (NO ELIGIBLE ASABAH)".
+- This residue should go to **Bayt al-Mal** (the Islamic public treasury) — label it clearly with a scholarly note explaining this rule.
 
 ---
 
