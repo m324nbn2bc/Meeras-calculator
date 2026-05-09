@@ -54,18 +54,18 @@ export default function HistoryScreen() {
   }, [load]);
 
   const handleDelete = useCallback(
-    (item: SavedCalc) => {
+    (id: string, label: string) => {
       Alert.alert(
         t(language, "history.delete"),
-        item.label,
+        label,
         [
           { text: t(language, "common.close"), style: "cancel" },
           {
             text: t(language, "history.delete"),
             style: "destructive",
             onPress: async () => {
-              await deleteCalculation(item.id);
-              setCalcs((prev) => prev.filter((c) => c.id !== item.id));
+              await deleteCalculation(id);
+              setCalcs((prev) => prev.filter((c) => c.id !== id));
             },
           },
         ],
@@ -82,19 +82,23 @@ export default function HistoryScreen() {
   }, []);
 
   const renderItem = ({ item }: { item: SavedCalc }) => (
-    <Pressable
-      onPress={() => handleOpen(item)}
-      style={({ pressed }) => [
+    <View
+      style={[
         styles.card,
         {
           backgroundColor: colors.card,
           borderColor: colors.border,
           borderRadius: colors.radius,
-          opacity: pressed ? 0.75 : 1,
         },
       ]}
     >
-      <View style={styles.cardBody}>
+      <Pressable
+        onPress={() => handleOpen(item)}
+        style={({ pressed }) => [
+          styles.cardMain,
+          { opacity: pressed ? 0.75 : 1 },
+        ]}
+      >
         <Text
           style={[styles.cardLabel, { color: colors.foreground }]}
           numberOfLines={2}
@@ -103,14 +107,14 @@ export default function HistoryScreen() {
         </Text>
         <View style={styles.metaRow}>
           {item.estate > 0 && (
-            <Text style={[styles.metaText, { color: colors.foreground }]}>
-              {formatAmount(item.estate, language)}
-            </Text>
-          )}
-          {item.estate > 0 && (
-            <Text style={[styles.metaDot, { color: colors.mutedForeground }]}>
-              ·
-            </Text>
+            <>
+              <Text style={[styles.metaText, { color: colors.foreground }]}>
+                {formatAmount(item.estate, language)}
+              </Text>
+              <Text style={[styles.metaDot, { color: colors.mutedForeground }]}>
+                ·
+              </Text>
+            </>
           )}
           <Text style={[styles.metaText, { color: colors.mutedForeground }]}>
             {t(language, `madhab.${item.madhab}`)}
@@ -119,18 +123,22 @@ export default function HistoryScreen() {
         <Text style={[styles.dateText, { color: colors.mutedForeground }]}>
           {formatSavedDate(item.savedAt, language)}
         </Text>
-      </View>
+      </Pressable>
+
       <Pressable
-        onPress={() => handleDelete(item)}
-        hitSlop={12}
+        onPress={() => handleDelete(item.id, item.label)}
+        hitSlop={16}
         style={({ pressed }) => [
           styles.deleteBtn,
-          { opacity: pressed ? 0.5 : 1 },
+          {
+            opacity: pressed ? 0.4 : 1,
+            backgroundColor: pressed ? colors.destructive + "15" : "transparent",
+          },
         ]}
       >
         <Feather name="trash-2" size={16} color={colors.mutedForeground} />
       </Pressable>
-    </Pressable>
+    </View>
   );
 
   return (
@@ -169,16 +177,11 @@ export default function HistoryScreen() {
                 color={colors.mutedForeground}
                 style={{ opacity: 0.4 }}
               />
-              <Text
-                style={[styles.emptyTitle, { color: colors.foreground }]}
-              >
+              <Text style={[styles.emptyTitle, { color: colors.foreground }]}>
                 {t(language, "history.empty")}
               </Text>
               <Text
-                style={[
-                  styles.emptyHint,
-                  { color: colors.mutedForeground },
-                ]}
+                style={[styles.emptyHint, { color: colors.mutedForeground }]}
               >
                 {t(language, "history.emptyHint")}
               </Text>
@@ -206,10 +209,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    padding: 16,
-    gap: 12,
+    paddingLeft: 16,
+    paddingRight: 8,
+    paddingVertical: 14,
+    gap: 8,
   },
-  cardBody: { flex: 1, gap: 5 },
+  cardMain: {
+    flex: 1,
+    gap: 5,
+  },
   cardLabel: {
     fontSize: 15,
     fontFamily: "Inter_600SemiBold",
@@ -226,16 +234,19 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Inter_500Medium",
   },
-  metaDot: {
-    fontSize: 13,
-  },
+  metaDot: { fontSize: 13 },
   dateText: {
     fontSize: 11,
     fontFamily: "Inter_400Regular",
     marginTop: 2,
   },
   deleteBtn: {
-    padding: 4,
+    width: 36,
+    height: 36,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+    flexShrink: 0,
   },
   emptyState: {
     marginTop: 80,

@@ -34,7 +34,7 @@ function ThemedStack() {
             color: colors.foreground,
             fontFamily: "Inter_600SemiBold",
           },
-          headerTintColor: colors.primary,
+          headerTintColor: colors.foreground,
           headerShadowVisible: false,
           contentStyle: { backgroundColor: colors.background },
           headerBackTitle: "",
@@ -53,6 +53,7 @@ function ThemedStack() {
         <Stack.Screen name="cases" options={{ title: "" }} />
         <Stack.Screen name="hajb" options={{ title: "" }} />
         <Stack.Screen name="history" options={{ title: "" }} />
+        <Stack.Screen name="about" options={{ title: "" }} />
       </Stack>
     </>
   );

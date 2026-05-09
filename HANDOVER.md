@@ -32,64 +32,40 @@ cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts
 | `lib/inheritance/madhabs/hanafi.ts` | Full Hanafi implementation |
 | `lib/inheritance/__tests__.ts` | 12 engine unit tests |
 | `lib/wizard.ts` | WizardState type, Step definitions, `visibleSteps()`, `computeNetEstate()` |
-| `lib/i18n.ts` | EN/UR/AR string dictionaries + `t(lang, key)`, `isRTL(lang)`, `LANGUAGES`, `MADHABS` (no CURRENCIES) |
+| `lib/i18n.ts` | EN/UR/AR string dictionaries + `t(lang, key)`, `isRTL(lang)`, `LANGUAGES`, `MADHABS` |
 | `lib/hajb.ts` | Hanafi blocking-rules data (9 cards, 4 groups) |
 | `lib/cases.ts` | 25 classical Faraid scenario definitions |
-| `lib/history.ts` | AsyncStorage save/load/delete (`meeras.history.v1`, max 50 entries) |
-| `contexts/SettingsContext.tsx` | `language`, `theme`, `madhab` — persisted to `meeras.settings.v1` (currency removed) |
-| `constants/colors.ts` | Minimal monochrome palette — light: `#111111`/`#F8F8F8`, dark: `#F0F0F0`/`#0A0A0A` |
-| `hooks/useColors.ts` | Theme-aware colour tokens |
+| `lib/history.ts` | AsyncStorage save/load/delete/findByStateAndMadhab (`meeras.history.v1`, max 50 entries) |
+| `contexts/SettingsContext.tsx` | `language`, `theme`, `madhab` — persisted to `meeras.settings.v1` (no currency) |
+| `constants/colors.ts` | Subtle blue-slate palette — light: `#1A1F2E`/`#F7F8FA`, dark: `#E8EDF5`/`#0D1117` |
+| `hooks/useColors.ts` | Theme-aware colour tokens (now includes `accent: #2563EB` / `#60A5FA`) |
 | `components/` | `Counter`, `OptionRow`, `PrimaryButton`, `KeyboardAwareScrollViewCompat`, `ErrorFallback` |
-| `app/_layout.tsx` | Stack navigator — registers all screens |
-| `app/index.tsx` | Home screen — header with icon+name+menu dropdown, hero text, action buttons |
+| `app/_layout.tsx` | Stack navigator — registers all screens including `about` |
+| `app/index.tsx` | Home screen — header with icon+name+menu dropdown (Settings → /settings, About → /about) |
 | `app/wizard.tsx` | Step-by-step wizard (estate → deductions → gender → heirs) |
-| `app/result.tsx` | Result screen — deduction card, estate card, share bar, heir cards, Save + Share/PDF |
+| `app/result.tsx` | Result screen — auto-save on load, colorful share bar, "In History" button, Share/PDF |
 | `app/cases.tsx` | Classical scenario browser with search |
 | `app/hajb.tsx` | Blocking Rules (Hajb) reference screen |
-| `app/history.tsx` | Saved Calculations list screen |
-| `app/settings.tsx` | Language / Theme / Madhab / About (currency section removed) |
+| `app/history.tsx` | Saved Calculations list — fixed deletion (un-nested Pressables) |
+| `app/settings.tsx` | Language / Theme / Madhab settings (no currency) |
+| `app/about.tsx` | **NEW** — Dedicated About screen with Faraid explanation, disclaimer, how-to, madhab status |
 
 ---
 
-## WizardState shape (as of latest build)
+## WizardState shape
 
 ```typescript
 interface WizardState {
   estate: number;          // net estate for engine (computed after deductions)
   grossEstate?: number;    // raw input from user
   funeralExpenses?: number;
-  debtsOwed?: number;      // قرض جو میت پر ہے
-  receivables?: number;    // میت کا کسی دوسرے پر قرض (added to estate)
-  wasiyyah?: number;       // وصیت — capped to 1/3 of afterDebts
+  debtsOwed?: number;
+  receivables?: number;
+  wasiyyah?: number;       // capped to 1/3 of afterDebts
   deceasedGender: "male" | "female";
   hasSpouse: boolean;
   heirs: HeirCounts;
 }
-```
-
-**Net estate formula (`computeNetEstate`):**
-```
-afterDebts = max(0, grossEstate + receivables − funeralExpenses − debtsOwed)
-maxWasiyyah = afterDebts / 3
-estate (net) = max(0, afterDebts − min(wasiyyah, maxWasiyyah))
-```
-
-**Old saved calculations** missing these optional fields default to 0 safely (backward-compatible).
-
----
-
-## Wizard flow
-
-```
-Estate input (optional — can skip)
-  ↓ if grossEstate > 0
-Deductions screen (funeral, debtsOwed, receivables, wasiyyah)
-  ↓ always
-Gender → Spouse → (wives count) → Father → PGF → Mother → Grandmothers
-  → Sons → Daughters → Grandsons → Granddaughters
-  → Full/Cons/Uterine siblings → Nephews → Uncles → Cousins
-  ↓
-Result screen
 ```
 
 ---
@@ -97,46 +73,75 @@ Result screen
 ## Features implemented — DO NOT re-implement
 
 1. ✅ Full Hanafi engine (furudh, asabah, 'awl, radd, umariyyatan, hajb blocking)
-2. ✅ Wizard — one question per screen, skip-logic predicates in `lib/wizard.ts`
-3. ✅ Language switching EN / UR / AR with full RTL layout (`isRTL(lang)`)
+2. ✅ Wizard — one question per screen, skip-logic predicates
+3. ✅ Language switching EN / UR / AR with full RTL layout
 4. ✅ Theme — system / light / dark via `useColors()`
-5. ✅ PDF / Share export — `expo-print` + `expo-sharing`, styled HTML (no currency symbols, plain numbers)
+5. ✅ PDF / Share export — `expo-print` + `expo-sharing`, clean HTML with disclaimer footer. Web uses `Blob` URL in new tab for print.
 6. ✅ Hajb blocking-rules reference screen
-7. ✅ 25 classical scenarios browser with search + scholarly notes
-8. ✅ Saved calculations history — AsyncStorage, save/delete/reopen on result screen
-9. ✅ Proportional share-bar + colour-coded heir cards on result screen (neutral grey palette)
-10. ✅ Madhab selector — Shafi'i / Maliki / Hanbali stubs marked "Coming soon" in settings
-11. ✅ **Estate deductions** — dedicated step after estate entry (funeral expenses, debts owed by/to deceased, wasiyyah ≤ 1/3). Deduction breakdown card on result screen.
-12. ✅ **Currency removed** — amounts shown as plain numbers via `Intl.NumberFormat` (no currency style). All currency state, UI, and i18n strings removed from `SettingsContext`, `settings.tsx`, `i18n.ts`, `result.tsx`, `wizard.tsx`, `history.tsx`.
-13. ✅ **Minimal design** — colour palette changed to monochrome (`#111111` primary on light, `#F0F0F0` primary on dark). No dominant green. `colors.radius` reduced to 10.
-14. ✅ **Home screen redesign** — proper header bar with app icon + name + hamburger menu button. Dropdown menu opens Settings and About options. Removed "Works fully offline" badge. Buttons perfectly aligned with consistent width.
+7. ✅ 25 classical scenarios browser
+8. ✅ Saved calculations history — AsyncStorage, delete/reopen
+9. ✅ **Colorful share-bar** — 10 vivid distinct colors (blue, green, amber, red, purple, cyan, orange, pink, lime, indigo)
+10. ✅ Madhab selector — Shafi'i / Maliki / Hanbali stubs "Coming soon"
+11. ✅ Estate deductions — funeral, debts, receivables, wasiyyah ≤ 1/3
+12. ✅ No currency — amounts are unitless numbers via `Intl.NumberFormat`
+13. ✅ **Minimal color design** — subtle blue-slate palette, `accent: #2563EB` used sparingly
+14. ✅ **Home screen** — icon + name header with hamburger dropdown (Settings + About)
+15. ✅ **Feature D — About screen** (`/about`) — Faraid explanation, disclaimer, how-to steps, school status, offline notice
+16. ✅ **History deletion fix** — delete button is a sibling `Pressable`, not nested inside card `Pressable` (fixes web event propagation)
+17. ✅ **Auto-save** — results saved automatically on result screen load (non-classical cases); `findByStateAndMadhab` prevents duplicates; "In History" button (tappable, navigates to /history)
 
 ---
 
-## Remaining features to build (priority order)
+## Remaining features to build (priority order based on research)
 
-### Feature A — Shafi'i / Maliki / Hanbali madhab engines
-- Add real engines under `lib/inheritance/madhabs/shafii.ts`, `maliki.ts`, `hanbali.ts`
-- Key differences vs Hanafi: grandfather-with-siblings (muqasamah), Akdariyyah case, uterine siblings presence of grandfather
-- Wire into `lib/inheritance/index.ts` engines map
-- Remove "Coming soon" gates in `app/settings.tsx` once implemented
-- Add at least 5 cross-madhab test cases to `lib/inheritance/__tests__.ts`
+### Feature A — Shafi'i / Maliki / Hanbali madhab engines *(highest priority)*
+- Key Shafi'i/Hanbali/Maliki difference: **grandfather-with-siblings** (muqasamah vs. Hanafi full blocking)
+- Akdariyyah case (Shafi'i: consanguine sister inherits despite grandfather)
+- Shafi'i: uterine siblings not excluded by grandfather (unlike Hanafi)
+- Add at least 5 cross-madhab tests per new engine
+- Remove "Coming soon" gates in settings once implemented
 
-### Feature B — Onboarding / tutorial flow
-- 3–4 swipeable intro screens shown only on first launch (AsyncStorage flag `meeras.onboarded`)
-- Screens: "What is Faraid?", "How the wizard works", "Scholarly disclaimer"
-- Skip button + "Get started" CTA
-- Register as `app/onboarding.tsx`, check flag in `app/_layout.tsx`
+### Feature B — Al-Haml (Unborn/Posthumous Child) special case
+- If deceased wife is pregnant at time of father's death, reserve a potential heir share
+- Calculate two scenarios: if child is born male, if born female — show both
+- All madhabs agree on the basic rule; minor differences in holding period
 
-### Feature C — App icon + splash screen
-- Replace default Expo icon with a custom crescent-and-scales SVG icon
-- Configure `app.json` `icon` and `splash` fields
-- Generate all required sizes for iOS / Android
+### Feature C — Mafqud (Missing/Presumed Dead Heir) handling
+- Add a wizard option: "Is any heir missing/presumed dead?"
+- Calculate two scenarios: treating as alive vs. as dead — distribute the more conservative amount
+- Very commonly requested feature in existing apps
 
-### Feature D — About screen
-- Currently tapping "About" in the home dropdown navigates to Settings (scrolled to the about section)
-- Create a dedicated `app/about.tsx` screen with app version, scholarly disclaimer, links
-- Register in `app/_layout.tsx` and update the dropdown in `app/index.tsx` to `router.push("/about")`
+### Feature D — About screen *(DONE ✅)*
+
+### Feature E — Onboarding flow (first launch)
+- 3–4 swipeable intro screens shown once (AsyncStorage flag `meeras.onboarded`)
+- Screens: "What is Faraid?", "How the wizard works", "Scholarly disclaimer", "Multiple madhabs"
+
+### Feature F — Multiple-scenario comparison
+- Run the same heirs with 2–4 madhabs simultaneously
+- Side-by-side table showing each heir's share under Hanafi vs. Shafi'i vs. Maliki vs. Hanbali
+- Useful for families that span different jurisprudential traditions
+
+### Feature G — Non-Muslim heir exclusion wizard question
+- Add a step: "Are any heirs non-Muslim?"
+- Clearly show them as excluded with reason: "Difference of religion (اختلاف الدين)"
+- Optional: show the rule that a non-Muslim can receive up to 1/3 via wasiyyah
+
+### Feature H — Zakat calculator companion module
+- Separate section from inheritance: "Calculate Zakat"
+- Nisab based on current gold (85g) or silver (595g) — let user pick
+- Zakatable assets: cash, gold/silver, trade goods, agricultural produce, livestock
+- Khums (Shia) as optional toggle
+- Could share the same settings (language/theme) as the Faraid module
+
+### Feature I — PDF enhancements
+- Add a QR code to the PDF footer linking to the app store page
+- Optional: digitally watermark the PDF with date + madhab
+- Share as image (PNG) instead of PDF for simpler sharing on WhatsApp
+
+### Feature J — App icon + splash screen
+- Replace default Expo icon with a custom crescent-and-scales SVG
+- Configure `app.json` icon and splash fields
 
 ---
 
@@ -144,11 +149,11 @@ Result screen
 
 - **Typecheck must pass**: `cd artifacts/meeras && pnpm exec tsc --noEmit`
 - **Engine tests must stay 12/12**: `cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts`
-- All new i18n strings go in **all three dicts** (EN + UR + AR) in `lib/i18n.ts`; fallback is EN
-- New screens must be registered in `app/_layout.tsx` as `<Stack.Screen>`
-- Use `useColors()` for all colours — never hardcode theme colours
-- Use `isRTL(language)` for layout direction on container views
-- Do NOT use `pnpm dev` at workspace root — restart the workflow via the restart tool instead
-- Server code convention (API server, not this app): never `console.log`, use `req.log` / `logger`
-- Keep new fields in `WizardState` optional so old saved calculations stay backward-compatible
-- No currency anywhere — amounts are unitless numbers formatted with `Intl.NumberFormat` (no `style: "currency"`)
+- All new i18n strings go in **all three dicts** (EN + UR + AR) in `lib/i18n.ts`
+- New screens registered in `app/_layout.tsx` as `<Stack.Screen>`
+- Use `useColors()` for all colours; `colors.accent` for brand blue; never hardcode theme colours
+- Use `isRTL(language)` for layout direction
+- Do NOT use `pnpm dev` at workspace root — restart the workflow via the restart tool
+- Auto-save only for user calculations (`params.state` set, no `params.caseId`)
+- New WizardState fields must be optional for backward compatibility with saved calculations
+- No currency anywhere — amounts are unitless numbers via `Intl.NumberFormat`

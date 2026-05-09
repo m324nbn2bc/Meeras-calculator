@@ -393,14 +393,34 @@ const en: Dict = {
   // ── Save / Share / History ──
   "result.save": "Save",
   "result.saved": "Saved!",
+  "result.inHistory": "In History",
+  "result.saving": "Saving…",
   "result.export": "Share / Export PDF",
   "result.exporting": "Preparing PDF…",
   "home.history": "Saved Calculations",
   "history.title": "Saved Calculations",
   "history.empty": "No saved calculations yet.",
-  "history.emptyHint": "Tap \"Save\" on any result screen to keep it here.",
+  "history.emptyHint": "Calculations are automatically saved. Run a new calculation to see it here.",
   "history.estate": "Estate",
   "history.delete": "Delete",
+
+  // ── About Screen ──
+  "about.version": "Version 1.0",
+  "about.whatTitle": "What is Faraid?",
+  "about.whatBody":
+    "Faraid (فرائض) is the Islamic system of distributing a deceased person's estate among their rightful heirs, based on Quranic verses and authenticated Hadith. Each heir receives a precisely defined fixed or residuary share determined by their relationship to the deceased.",
+  "about.disclaimerTitle": "Important Disclaimer",
+  "about.disclaimerBody":
+    "This app provides educational calculations based on established Faraid principles of the Hanafi school. Results are for reference and learning only.\n\nFor any actual inheritance distribution, always consult a qualified Islamic scholar (Mufti) — especially in complex or disputed family situations. This app does not issue Fatwas.",
+  "about.howTitle": "How to Use",
+  "about.howSteps":
+    "Start a new calculation from the home screen\nEnter the total estate amount (optional — you can calculate shares only)\nDeduct funeral expenses, debts, and wasiyyah if applicable\nAnswer questions about the deceased (gender) and surviving heirs\nView the complete distribution with each heir's exact share",
+  "about.schoolsTitle": "Supported Schools",
+  "about.offlineTitle": "Fully Offline",
+  "about.offlineBody":
+    "All calculations happen entirely on your device. No data is ever sent to any server, and no internet connection is required.",
+  "about.footer":
+    "Meeras Calculator — For educational use only. Always consult a qualified Islamic scholar for actual inheritance rulings.",
 
   // ── Hajb Screen ──
   "home.hajb": "Blocking Rules (Hajb)",
@@ -660,14 +680,34 @@ const ur: Dict = {
   // ── Save / Share / History ──
   "result.save": "محفوظ کریں",
   "result.saved": "محفوظ!",
+  "result.inHistory": "تاریخ میں موجود",
+  "result.saving": "محفوظ ہو رہا ہے…",
   "result.export": "PDF شیئر کریں",
   "result.exporting": "PDF تیار ہو رہا ہے…",
   "home.history": "محفوظ حسابات",
   "history.title": "محفوظ حسابات",
   "history.empty": "ابھی تک کوئی محفوظ حساب نہیں۔",
-  "history.emptyHint": "کسی بھی نتیجہ اسکرین پر 'محفوظ کریں' ٹیپ کریں۔",
+  "history.emptyHint": "حسابات خودکار محفوظ ہوتے ہیں۔ نیا حساب کریں تو یہاں نظر آئے گا۔",
   "history.estate": "ترکہ",
   "history.delete": "حذف",
+
+  // ── About Screen ──
+  "about.version": "ورژن 1.0",
+  "about.whatTitle": "فرائض کیا ہے؟",
+  "about.whatBody":
+    "فرائض اسلامی نظامِ وراثت ہے جس میں میت کا ترکہ قرآنی آیات اور احادیث کی روشنی میں اس کے حقدار ورثاء میں تقسیم کیا جاتا ہے۔ ہر وارث کا حصہ اس کے رشتے کے مطابق متعین ہوتا ہے۔",
+  "about.disclaimerTitle": "اہم اعلان",
+  "about.disclaimerBody":
+    "یہ ایپ حنفی مسلک کے مطابق فرائض کے اصولوں پر تعلیمی حسابات فراہم کرتی ہے۔ نتائج صرف معلوماتی اور تعلیمی مقاصد کے لیے ہیں۔\n\nحقیقی وراثت کی تقسیم کے لیے کسی اہل مفتی سے رجوع کریں — خاص طور پر پیچیدہ یا متنازعہ خاندانی معاملات میں۔ یہ ایپ فتوی جاری نہیں کرتی۔",
+  "about.howTitle": "استعمال کا طریقہ",
+  "about.howSteps":
+    "ہوم اسکرین سے نیا حساب شروع کریں\nکل ترکہ درج کریں (اختیاری — صرف حصے بھی دیکھ سکتے ہیں)\nتجہیز، قرضے اور وصیت منہا کریں اگر لاگو ہو\nمیت کی جنس اور زندہ ورثاء کے بارے میں سوالات کے جواب دیں\nمکمل تقسیم اور ہر وارث کا درست حصہ دیکھیں",
+  "about.schoolsTitle": "تعاون یافتہ مسالک",
+  "about.offlineTitle": "مکمل آف لائن",
+  "about.offlineBody":
+    "تمام حسابات آپ کے فون پر ہی انجام پاتے ہیں۔ کوئی ڈیٹا کسی سرور کو نہیں بھیجا جاتا اور انٹرنیٹ کی ضرورت نہیں۔",
+  "about.footer":
+    "میراث کیلکولیٹر — صرف تعلیمی استعمال کے لیے۔ حقیقی وراثت کے لیے ہمیشہ اہل علم سے رجوع کریں۔",
 
   // ── Hajb Screen ──
   "home.hajb": "حجب — محرومی کے اصول",
@@ -926,14 +966,34 @@ const ar: Dict = {
   // ── Save / Share / History ──
   "result.save": "حفظ",
   "result.saved": "تم الحفظ!",
+  "result.inHistory": "في السجل",
+  "result.saving": "جارٍ الحفظ…",
   "result.export": "مشاركة / تصدير PDF",
   "result.exporting": "جارٍ تجهيز الـ PDF…",
   "home.history": "الحسابات المحفوظة",
   "history.title": "الحسابات المحفوظة",
   "history.empty": "لا توجد حسابات محفوظة بعد.",
-  "history.emptyHint": "اضغط على 'حفظ' في شاشة النتائج لحفظها هنا.",
+  "history.emptyHint": "تُحفظ الحسابات تلقائيًا. أجرِ حسابًا جديدًا وستظهر هنا.",
   "history.estate": "التركة",
   "history.delete": "حذف",
+
+  // ── About Screen ──
+  "about.version": "الإصدار 1.0",
+  "about.whatTitle": "ما هي الفرائض؟",
+  "about.whatBody":
+    "الفرائض هو نظام الميراث الإسلامي لتوزيع تركة المتوفى على ورثته الشرعيين وفق الآيات القرآنية والأحاديث النبوية الصحيحة. لكل وارث نصيب محدد بدقة وفق درجة قرابته من المتوفى.",
+  "about.disclaimerTitle": "تنبيه مهم",
+  "about.disclaimerBody":
+    "يوفر هذا التطبيق حسابات تعليمية مبنية على مبادئ الفرائض في المذهب الحنفي. النتائج للمعلومات والتعلم فقط.\n\nلأي توزيع فعلي للميراث، يجب الرجوع إلى عالم شريعة مؤهل (مفتٍ) — لا سيما في الحالات المعقدة أو المتنازع عليها. هذا التطبيق لا يُصدر فتاوى.",
+  "about.howTitle": "كيفية الاستخدام",
+  "about.howSteps":
+    "ابدأ حسابًا جديدًا من الشاشة الرئيسية\nأدخل إجمالي التركة (اختياري — يمكن حساب الحصص فقط)\naخصم مصاريف التجهيز والديون والوصية إن وجدت\nأجب عن أسئلة حول المتوفى (الجنس) والورثة الأحياء\nاعرض التوزيع الكامل مع الحصة الدقيقة لكل وارث",
+  "about.schoolsTitle": "المذاهب المدعومة",
+  "about.offlineTitle": "يعمل دون إنترنت",
+  "about.offlineBody":
+    "جميع الحسابات تتم على جهازك مباشرة. لا تُرسَل أي بيانات إلى أي خادم، ولا حاجة لاتصال بالإنترنت.",
+  "about.footer":
+    "حاسبة الميراث — للاستخدام التعليمي فقط. ارجع دائمًا إلى عالم شريعة مؤهل لأحكام الميراث الفعلية.",
 
   // ── Hajb Screen ──
   "home.hajb": "الحجب — قواعد الحرمان",

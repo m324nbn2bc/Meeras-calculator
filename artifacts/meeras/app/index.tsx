@@ -46,7 +46,8 @@ export default function HomeScreen() {
         {
           backgroundColor: colors.background,
           paddingTop: isWeb ? Math.max(insets.top, 0) : insets.top,
-          paddingBottom: (isWeb ? Math.max(insets.bottom, 34) : insets.bottom) + 24,
+          paddingBottom:
+            (isWeb ? Math.max(insets.bottom, 34) : insets.bottom) + 24,
           direction: rtl ? "rtl" : "ltr",
         },
       ]}
@@ -55,20 +56,18 @@ export default function HomeScreen() {
       <View
         style={[
           styles.header,
-          {
-            borderBottomColor: colors.border,
-            paddingTop: 12,
-          },
+          { borderBottomColor: colors.border, paddingTop: 12 },
         ]}
       >
         <View style={styles.headerBrand}>
           <View
-            style={[
-              styles.headerIcon,
-              { backgroundColor: colors.primary },
-            ]}
+            style={[styles.headerIcon, { backgroundColor: colors.primary }]}
           >
-            <Feather name="pie-chart" size={16} color={colors.primaryForeground} />
+            <Feather
+              name="pie-chart"
+              size={16}
+              color={colors.primaryForeground}
+            />
           </View>
           <Text style={[styles.headerTitle, { color: colors.foreground }]}>
             {t(language, "app.name")}
@@ -108,7 +107,7 @@ export default function HomeScreen() {
                   right: menuPos.right,
                   backgroundColor: colors.card,
                   borderColor: colors.border,
-                  shadowColor: colors.foreground,
+                  shadowColor: "#000",
                 },
               ]}
             >
@@ -119,27 +118,50 @@ export default function HomeScreen() {
                 }}
                 style={({ pressed }) => [
                   styles.dropdownItem,
-                  { backgroundColor: pressed ? colors.secondary : "transparent" },
+                  {
+                    backgroundColor: pressed
+                      ? colors.secondary
+                      : "transparent",
+                  },
                 ]}
               >
                 <Feather name="settings" size={15} color={colors.foreground} />
-                <Text style={[styles.dropdownItemText, { color: colors.foreground }]}>
+                <Text
+                  style={[
+                    styles.dropdownItemText,
+                    { color: colors.foreground },
+                  ]}
+                >
                   {t(language, "home.settings")}
                 </Text>
               </Pressable>
-              <View style={[styles.dropdownDivider, { backgroundColor: colors.border }]} />
+              <View
+                style={[
+                  styles.dropdownDivider,
+                  { backgroundColor: colors.border },
+                ]}
+              />
               <Pressable
                 onPress={() => {
                   setMenuOpen(false);
-                  router.push("/settings");
+                  router.push("/about");
                 }}
                 style={({ pressed }) => [
                   styles.dropdownItem,
-                  { backgroundColor: pressed ? colors.secondary : "transparent" },
+                  {
+                    backgroundColor: pressed
+                      ? colors.secondary
+                      : "transparent",
+                  },
                 ]}
               >
                 <Feather name="info" size={15} color={colors.foreground} />
-                <Text style={[styles.dropdownItemText, { color: colors.foreground }]}>
+                <Text
+                  style={[
+                    styles.dropdownItemText,
+                    { color: colors.foreground },
+                  ]}
+                >
                   {t(language, "home.about")}
                 </Text>
               </Pressable>
@@ -156,7 +178,10 @@ export default function HomeScreen() {
         <Text
           style={[
             styles.intro,
-            { color: colors.mutedForeground, textAlign: rtl ? "right" : "center" },
+            {
+              color: colors.mutedForeground,
+              textAlign: rtl ? "right" : "center",
+            },
           ]}
         >
           {t(language, "home.intro")}
@@ -183,12 +208,19 @@ export default function HomeScreen() {
           ]}
         >
           <Feather name="book-open" size={16} color={colors.foreground} />
-          <Text style={[styles.secondaryBtnText, { color: colors.foreground }]}>
+          <Text
+            style={[styles.secondaryBtnText, { color: colors.foreground }]}
+          >
             {t(language, "home.cases")}
           </Text>
         </Pressable>
 
-        <View style={[styles.tertiaryRow, { borderColor: colors.border }]}>
+        <View
+          style={[
+            styles.tertiaryRow,
+            { borderColor: colors.border, borderRadius: colors.radius },
+          ]}
+        >
           <Pressable
             onPress={() => router.push("/hajb")}
             style={({ pressed }) => [
@@ -201,8 +233,14 @@ export default function HomeScreen() {
               },
             ]}
           >
-            <Feather name="alert-circle" size={14} color={colors.mutedForeground} />
-            <Text style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}>
+            <Feather
+              name="alert-circle"
+              size={14}
+              color={colors.mutedForeground}
+            />
+            <Text
+              style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}
+            >
               {t(language, "home.hajb")}
             </Text>
           </Pressable>
@@ -213,8 +251,14 @@ export default function HomeScreen() {
               { flex: 1, opacity: pressed ? 0.6 : 1 },
             ]}
           >
-            <Feather name="bookmark" size={14} color={colors.mutedForeground} />
-            <Text style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}>
+            <Feather
+              name="bookmark"
+              size={14}
+              color={colors.mutedForeground}
+            />
+            <Text
+              style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}
+            >
               {t(language, "home.history")}
             </Text>
           </Pressable>
@@ -235,7 +279,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 12,
     borderBottomWidth: 1,
-    marginBottom: 0,
   },
   headerBrand: {
     flexDirection: "row",
@@ -269,7 +312,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     minWidth: 180,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 8,
     overflow: "hidden",
@@ -285,9 +328,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "Inter_500Medium",
   },
-  dropdownDivider: {
-    height: 1,
-  },
+  dropdownDivider: { height: 1 },
   hero: {
     flex: 1,
     alignItems: "center",
@@ -308,9 +349,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     maxWidth: 340,
   },
-  actions: {
-    gap: 10,
-  },
+  actions: { gap: 10 },
   secondaryBtn: {
     flexDirection: "row",
     alignItems: "center",
@@ -327,7 +366,6 @@ const styles = StyleSheet.create({
   tertiaryRow: {
     flexDirection: "row",
     borderWidth: 1,
-    borderRadius: 10,
     overflow: "hidden",
   },
   tertiaryBtn: {

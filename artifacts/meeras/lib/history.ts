@@ -46,6 +46,14 @@ export async function deleteCalculation(id: string): Promise<void> {
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 }
 
+export async function findByStateAndMadhab(
+  state: string,
+  madhab: MadhabId,
+): Promise<SavedCalc | undefined> {
+  const list = await listCalculations();
+  return list.find((c) => c.state === state && c.madhab === madhab);
+}
+
 export function formatSavedDate(savedAt: number, lang: LanguageCode): string {
   const locale =
     lang === "ar" ? "ar-SA" : lang === "ur" ? "ur-PK" : "en-GB";
