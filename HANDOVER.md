@@ -32,21 +32,22 @@ cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts
 | `lib/inheritance/madhabs/hanafi.ts` | Full Hanafi implementation |
 | `lib/inheritance/__tests__.ts` | 12 engine unit tests |
 | `lib/wizard.ts` | WizardState type, Step definitions, `visibleSteps()`, `computeNetEstate()` |
-| `lib/i18n.ts` | EN/UR/AR string dictionaries + `t(lang, key)`, `isRTL(lang)`, `CURRENCIES`, `LANGUAGES`, `MADHABS` |
+| `lib/i18n.ts` | EN/UR/AR string dictionaries + `t(lang, key)`, `isRTL(lang)`, `LANGUAGES`, `MADHABS` (no CURRENCIES) |
 | `lib/hajb.ts` | Hanafi blocking-rules data (9 cards, 4 groups) |
 | `lib/cases.ts` | 25 classical Faraid scenario definitions |
 | `lib/history.ts` | AsyncStorage save/load/delete (`meeras.history.v1`, max 50 entries) |
-| `contexts/SettingsContext.tsx` | `language`, `theme`, `madhab`, `currency` — persisted to `meeras.settings.v1` |
+| `contexts/SettingsContext.tsx` | `language`, `theme`, `madhab` — persisted to `meeras.settings.v1` (currency removed) |
+| `constants/colors.ts` | Minimal monochrome palette — light: `#111111`/`#F8F8F8`, dark: `#F0F0F0`/`#0A0A0A` |
 | `hooks/useColors.ts` | Theme-aware colour tokens |
 | `components/` | `Counter`, `OptionRow`, `PrimaryButton`, `KeyboardAwareScrollViewCompat`, `ErrorFallback` |
 | `app/_layout.tsx` | Stack navigator — registers all screens |
-| `app/index.tsx` | Home screen — Start, Classical Scenarios, Hajb, Saved Calculations |
+| `app/index.tsx` | Home screen — header with icon+name+menu dropdown, hero text, action buttons |
 | `app/wizard.tsx` | Step-by-step wizard (estate → deductions → gender → heirs) |
 | `app/result.tsx` | Result screen — deduction card, estate card, share bar, heir cards, Save + Share/PDF |
 | `app/cases.tsx` | Classical scenario browser with search |
 | `app/hajb.tsx` | Blocking Rules (Hajb) reference screen |
 | `app/history.tsx` | Saved Calculations list screen |
-| `app/settings.tsx` | Language / Theme / Madhab / Currency / About |
+| `app/settings.tsx` | Language / Theme / Madhab / About (currency section removed) |
 
 ---
 
@@ -99,14 +100,16 @@ Result screen
 2. ✅ Wizard — one question per screen, skip-logic predicates in `lib/wizard.ts`
 3. ✅ Language switching EN / UR / AR with full RTL layout (`isRTL(lang)`)
 4. ✅ Theme — system / light / dark via `useColors()`
-5. ✅ PDF / Share export — `expo-print` + `expo-sharing`, styled bilingual HTML
-6. ✅ Currency — 12 currencies (`SAR AED USD GBP EUR PKR BDT IDR EGP MYR TRY NGN`), `Intl.NumberFormat`
-7. ✅ Hajb blocking-rules reference screen
-8. ✅ 25 classical scenarios browser with search + scholarly notes
-9. ✅ Saved calculations history — AsyncStorage, save/delete/reopen on result screen
-10. ✅ Proportional share-bar + colour-coded heir cards on result screen
-11. ✅ Madhab selector — Shafi'i / Maliki / Hanbali stubs marked "Coming soon" in settings
-12. ✅ **Estate deductions** — dedicated step after estate entry (funeral expenses, debts owed by/to deceased, wasiyyah ≤ 1/3). Estate input is optional (skip link present). Deduction breakdown card on result screen shows gross → deductions → net.
+5. ✅ PDF / Share export — `expo-print` + `expo-sharing`, styled HTML (no currency symbols, plain numbers)
+6. ✅ Hajb blocking-rules reference screen
+7. ✅ 25 classical scenarios browser with search + scholarly notes
+8. ✅ Saved calculations history — AsyncStorage, save/delete/reopen on result screen
+9. ✅ Proportional share-bar + colour-coded heir cards on result screen (neutral grey palette)
+10. ✅ Madhab selector — Shafi'i / Maliki / Hanbali stubs marked "Coming soon" in settings
+11. ✅ **Estate deductions** — dedicated step after estate entry (funeral expenses, debts owed by/to deceased, wasiyyah ≤ 1/3). Deduction breakdown card on result screen.
+12. ✅ **Currency removed** — amounts shown as plain numbers via `Intl.NumberFormat` (no currency style). All currency state, UI, and i18n strings removed from `SettingsContext`, `settings.tsx`, `i18n.ts`, `result.tsx`, `wizard.tsx`, `history.tsx`.
+13. ✅ **Minimal design** — colour palette changed to monochrome (`#111111` primary on light, `#F0F0F0` primary on dark). No dominant green. `colors.radius` reduced to 10.
+14. ✅ **Home screen redesign** — proper header bar with app icon + name + hamburger menu button. Dropdown menu opens Settings and About options. Removed "Works fully offline" badge. Buttons perfectly aligned with consistent width.
 
 ---
 
@@ -126,9 +129,14 @@ Result screen
 - Register as `app/onboarding.tsx`, check flag in `app/_layout.tsx`
 
 ### Feature C — App icon + splash screen
-- Replace default Expo icon with a custom crescent-and-scales SVG icon in `#2D7A4F` green
+- Replace default Expo icon with a custom crescent-and-scales SVG icon
 - Configure `app.json` `icon` and `splash` fields
 - Generate all required sizes for iOS / Android
+
+### Feature D — About screen
+- Currently tapping "About" in the home dropdown navigates to Settings (scrolled to the about section)
+- Create a dedicated `app/about.tsx` screen with app version, scholarly disclaimer, links
+- Register in `app/_layout.tsx` and update the dropdown in `app/index.tsx` to `router.push("/about")`
 
 ---
 
@@ -143,3 +151,4 @@ Result screen
 - Do NOT use `pnpm dev` at workspace root — restart the workflow via the restart tool instead
 - Server code convention (API server, not this app): never `console.log`, use `req.log` / `logger`
 - Keep new fields in `WizardState` optional so old saved calculations stay backward-compatible
+- No currency anywhere — amounts are unitless numbers formatted with `Intl.NumberFormat` (no `style: "currency"`)

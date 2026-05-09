@@ -14,20 +14,6 @@ export const MADHABS: { id: MadhabId; labelKey: string; available: boolean }[] =
   { id: "hanbali", labelKey: "madhab.hanbali", available: false },
 ];
 
-export const CURRENCIES: { code: string; label: string }[] = [
-  { code: "SAR", label: "SAR — Saudi Riyal" },
-  { code: "AED", label: "AED — UAE Dirham" },
-  { code: "USD", label: "USD — US Dollar" },
-  { code: "GBP", label: "GBP — British Pound" },
-  { code: "EUR", label: "EUR — Euro" },
-  { code: "PKR", label: "PKR — Pakistani Rupee" },
-  { code: "BDT", label: "BDT — Bangladeshi Taka" },
-  { code: "IDR", label: "IDR — Indonesian Rupiah" },
-  { code: "EGP", label: "EGP — Egyptian Pound" },
-  { code: "MYR", label: "MYR — Malaysian Ringgit" },
-  { code: "TRY", label: "TRY — Turkish Lira" },
-  { code: "NGN", label: "NGN — Nigerian Naira" },
-];
 
 type Dict = Record<string, string>;
 
@@ -37,6 +23,7 @@ const en: Dict = {
 
   "home.start": "Start Calculation",
   "home.settings": "Settings",
+  "home.about": "About",
   "home.intro":
     "Answer a few questions about the deceased and surviving heirs. Your data stays on your device.",
   "home.offlineBadge": "Works fully offline",
@@ -415,9 +402,6 @@ const en: Dict = {
   "history.estate": "Estate",
   "history.delete": "Delete",
 
-  // ── Currency ──
-  "settings.currency": "Currency",
-
   // ── Hajb Screen ──
   "home.hajb": "Blocking Rules (Hajb)",
   "hajb.title": "Hajb — Blocking Rules",
@@ -457,6 +441,7 @@ const ur: Dict = {
 
   "home.start": "حساب شروع کریں",
   "home.settings": "ترتیبات",
+  "home.about": "ہمارے بارے میں",
   "home.intro":
     "میت اور وارثوں کے بارے میں چند سوالات کے جوابات دیں۔ آپ کا ڈیٹا آپ کے فون پر ہی رہتا ہے۔",
   "home.offlineBadge": "مکمل آف لائن کام کرتا ہے",
@@ -684,9 +669,6 @@ const ur: Dict = {
   "history.estate": "ترکہ",
   "history.delete": "حذف",
 
-  // ── Currency ──
-  "settings.currency": "کرنسی",
-
   // ── Hajb Screen ──
   "home.hajb": "حجب — محرومی کے اصول",
   "hajb.title": "حجب — محرومی کے اصول",
@@ -725,6 +707,7 @@ const ar: Dict = {
 
   "home.start": "ابدأ الحساب",
   "home.settings": "الإعدادات",
+  "home.about": "حول التطبيق",
   "home.intro":
     "أجب عن بعض الأسئلة حول المتوفى والورثة. تبقى بياناتك على جهازك.",
   "home.offlineBadge": "يعمل دون إنترنت",
@@ -951,9 +934,6 @@ const ar: Dict = {
   "history.emptyHint": "اضغط على 'حفظ' في شاشة النتائج لحفظها هنا.",
   "history.estate": "التركة",
   "history.delete": "حذف",
-
-  // ── Currency ──
-  "settings.currency": "العملة",
 
   // ── Hajb Screen ──
   "home.hajb": "الحجب — قواعد الحرمان",

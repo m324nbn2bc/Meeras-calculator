@@ -30,34 +30,24 @@ import { WizardState } from "@/lib/wizard";
 import { saveCalculation } from "@/lib/history";
 
 const SHARE_COLORS = [
-  "#2D7A4F",
-  "#F59E0B",
-  "#3B82F6",
-  "#EC4899",
-  "#8B5CF6",
-  "#10B981",
-  "#F97316",
-  "#6366F1",
-  "#14B8A6",
-  "#EF4444",
+  "#555555",
+  "#888888",
+  "#AAAAAA",
+  "#333333",
+  "#777777",
+  "#999999",
+  "#444444",
+  "#666666",
+  "#BBBBBB",
+  "#222222",
 ];
 
-function formatMoney(n: number, lang: LanguageCode, currency?: string): string {
+function formatAmount(n: number, lang: LanguageCode): string {
   const fixed = Math.round(n * 100) / 100;
-  const locale = lang === "ar" ? "ar-SA" : lang === "ur" ? "ur-PK" : lang;
+  const locale = lang === "ar" ? "ar-SA" : lang === "ur" ? "ur-PK" : "en";
   try {
-    if (currency) {
-      return new Intl.NumberFormat(locale, {
-        style: "currency",
-        currency,
-        maximumFractionDigits: 2,
-      }).format(fixed);
-    }
-    return new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(
-      fixed,
-    );
+    return new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(fixed);
   } catch {
-    if (currency) return `${currency} ${fixed.toLocaleString()}`;
     return fixed.toLocaleString();
   }
 }
@@ -69,7 +59,6 @@ function heirLabel(lang: LanguageCode, heir: HeirId, count: number): string {
 function buildPdfHtml(
   result: CalculationOutput,
   language: LanguageCode,
-  currency: string,
   madhab: string,
   label: string,
 ): string {
@@ -89,8 +78,8 @@ function buildPdfHtml(
         ${t(language, `heir.${s.heir}`)}${s.count > 1 ? ` (${s.count})` : ""}
       </td>
       <td style="padding:10px 12px;border-bottom:1px solid #eee;font-weight:600;">${formatFraction(s.fraction)}</td>
-      <td style="padding:10px 12px;border-bottom:1px solid #eee;color:#2D7A4F;font-weight:700;">${formatMoney(s.amount, language, currency)}</td>
-      ${s.count > 1 ? `<td style="padding:10px 12px;border-bottom:1px solid #eee;color:#666;">${formatMoney(s.perPerson, language, currency)} ${t(language, "result.each")}</td>` : "<td></td>"}
+      <td style="padding:10px 12px;border-bottom:1px solid #eee;font-weight:700;">${formatAmount(s.amount, language)}</td>
+      ${s.count > 1 ? `<td style="padding:10px 12px;border-bottom:1px solid #eee;color:#666;">${formatAmount(s.perPerson, language)} ${t(language, "result.each")}</td>` : "<td></td>"}
     </tr>`,
     )
     .join("");
@@ -103,8 +92,8 @@ function buildPdfHtml(
 
   const rulesHtml =
     result.awl || result.radd
-      ? `<div style="background:#fff8e7;border:1px solid #f59e0b;border-radius:6px;padding:14px 18px;margin-bottom:20px;">
-          <p style="margin:0;font-size:13px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:0.4px;">${t(language, "result.rules")}</p>
+      ? `<div style="background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:14px 18px;margin-bottom:20px;">
+          <p style="margin:0;font-size:13px;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:0.4px;">${t(language, "result.rules")}</p>
           ${result.awl ? `<p style="margin:6px 0 0;font-size:14px;color:#333;">${t(language, "result.awl")} (${result.awl.from} → ${result.awl.to})</p>` : ""}
           ${result.radd ? `<p style="margin:6px 0 0;font-size:14px;color:#333;">${t(language, "result.radd")}</p>` : ""}
         </div>`
@@ -119,10 +108,10 @@ function buildPdfHtml(
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, Arial, sans-serif; color: #1a1a1a; padding: 40px; direction: ${dir}; }
-  h1 { font-size: 26px; color: #2D7A4F; margin-bottom: 4px; }
+  h1 { font-size: 26px; color: #111; margin-bottom: 4px; }
   .tagline { color: #666; font-size: 14px; margin-bottom: 24px; }
-  .estate-card { background: #2D7A4F; color: #fff; border-radius: 10px; padding: 24px; margin-bottom: 24px; }
-  .estate-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; opacity: 0.8; margin-bottom: 6px; }
+  .estate-card { background: #111; color: #fff; border-radius: 10px; padding: 24px; margin-bottom: 24px; }
+  .estate-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; opacity: 0.7; margin-bottom: 6px; }
   .estate-value { font-size: 32px; font-weight: 700; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
   th { background: #f5f5f5; padding: 10px 12px; text-align: start; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: #666; }
@@ -134,7 +123,7 @@ function buildPdfHtml(
 <p class="tagline">Islamic Inheritance Distribution · ${madhab}</p>
 <div class="estate-card">
   <p class="estate-label">${t(language, "result.estate")}</p>
-  <p class="estate-value">${formatMoney(result.estate, language, currency)}</p>
+  <p class="estate-value">${formatAmount(result.estate, language)}</p>
 </div>
 ${rulesHtml}
 <p style="font-size:13px;font-weight:600;color:#444;margin-bottom:8px;">${label}</p>
@@ -159,12 +148,10 @@ ${exclusionRows}
 function DeductionCard({
   state,
   language,
-  currency,
   colors,
 }: {
   state: WizardState;
   language: LanguageCode;
-  currency: string;
   colors: ReturnType<typeof import("@/hooks/useColors").useColors>;
 }) {
   const gross = state.grossEstate ?? state.estate;
@@ -194,7 +181,7 @@ function DeductionCard({
           {sign} {label}
         </Text>
         <Text style={[styles.dedRowValue, { color: muted ? colors.mutedForeground : colors.foreground }]}>
-          {formatMoney(value, language, currency)}
+          {formatAmount(value, language)}
         </Text>
       </View>
     ) : null;
@@ -213,7 +200,7 @@ function DeductionCard({
       <View style={[styles.dedHeader, { borderBottomColor: colors.border }]}>
         <Feather name="scissors" size={13} color={colors.mutedForeground} />
         <Text style={[styles.dedHeaderText, { color: colors.mutedForeground }]}>
-          {t(language, "deductions.gross")}: {formatMoney(gross, language, currency)}
+          {t(language, "deductions.gross")}: {formatAmount(gross, language)}
         </Text>
       </View>
       <Row label={t(language, "deductions.funeral")} value={funeral} sign="−" muted />
@@ -231,8 +218,8 @@ function DeductionCard({
         <Text style={[styles.dedNetLabel, { color: colors.foreground }]}>
           {t(language, "deductions.net")}
         </Text>
-        <Text style={[styles.dedNetValue, { color: colors.primary }]}>
-          {formatMoney(net, language, currency)}
+        <Text style={[styles.dedNetValue, { color: colors.foreground }]}>
+          {formatAmount(net, language)}
         </Text>
       </View>
     </View>
@@ -242,7 +229,7 @@ function DeductionCard({
 export default function ResultScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { language, madhab: settingsMadhab, currency } = useSettings();
+  const { language, madhab: settingsMadhab } = useSettings();
   const params = useLocalSearchParams<{
     state?: string;
     madhab?: string;
@@ -322,7 +309,6 @@ export default function ResultScreen() {
       await saveCalculation({
         label: label || t(language, "result.title"),
         madhab: effectiveMadhab,
-        currency,
         state: params.state,
         estate: result.estate,
       });
@@ -337,7 +323,7 @@ export default function ResultScreen() {
     if (sharing) return;
     setSharing(true);
     try {
-      const html = buildPdfHtml(result, language, currency, madhabLabel, label);
+      const html = buildPdfHtml(result, language, madhabLabel, label);
       if (isWeb) {
         await Print.printAsync({ html });
       } else {
@@ -392,19 +378,19 @@ export default function ResultScreen() {
             style={[
               styles.noteBox,
               {
-                backgroundColor: colors.primary + "12",
-                borderColor: colors.primary + "40",
+                backgroundColor: colors.secondary,
+                borderColor: colors.border,
                 borderRadius: colors.radius,
               },
             ]}
           >
             <View style={styles.noteHeader}>
-              <Feather name="book-open" size={14} color={colors.primary} />
-              <Text style={[styles.noteLabel, { color: colors.primary }]}>
+              <Feather name="book-open" size={14} color={colors.mutedForeground} />
+              <Text style={[styles.noteLabel, { color: colors.foreground }]}>
                 {t(language, classicalCase.descKey)}
               </Text>
             </View>
-            <Text style={[styles.noteBody, { color: colors.foreground }]}>
+            <Text style={[styles.noteBody, { color: colors.mutedForeground }]}>
               {t(language, classicalCase.noteKey)}
             </Text>
           </View>
@@ -414,7 +400,6 @@ export default function ResultScreen() {
           <DeductionCard
             state={wizardState}
             language={language}
-            currency={currency}
             colors={colors}
           />
         ) : null}
@@ -428,7 +413,7 @@ export default function ResultScreen() {
           <Text
             style={[
               styles.estateLabel,
-              { color: colors.primaryForeground, opacity: 0.85 },
+              { color: colors.primaryForeground, opacity: 0.7 },
             ]}
           >
             {t(language, "result.estate")}
@@ -436,7 +421,7 @@ export default function ResultScreen() {
           <Text
             style={[styles.estateValue, { color: colors.primaryForeground }]}
           >
-            {formatMoney(result.estate, language, currency)}
+            {formatAmount(result.estate, language)}
           </Text>
         </View>
 
@@ -491,23 +476,23 @@ export default function ResultScreen() {
             style={[
               styles.alertBox,
               {
-                backgroundColor: colors.card,
-                borderColor: colors.accent,
+                backgroundColor: colors.secondary,
+                borderColor: colors.border,
                 borderRadius: colors.radius,
               },
             ]}
           >
-            <Text style={[styles.alertTitle, { color: colors.accent }]}>
+            <Text style={[styles.alertTitle, { color: colors.foreground }]}>
               {t(language, "result.rules")}
             </Text>
             {result.awl ? (
-              <Text style={[styles.alertText, { color: colors.foreground }]}>
+              <Text style={[styles.alertText, { color: colors.mutedForeground }]}>
                 {t(language, "result.awl")} ({result.awl.from} →{" "}
                 {result.awl.to})
               </Text>
             ) : null}
             {result.radd ? (
-              <Text style={[styles.alertText, { color: colors.foreground }]}>
+              <Text style={[styles.alertText, { color: colors.mutedForeground }]}>
                 {t(language, "result.radd")}
               </Text>
             ) : null}
@@ -530,7 +515,6 @@ export default function ResultScreen() {
               key={`${share.heir}-${idx}`}
               share={share}
               language={language}
-              currency={currency}
               color={SHARE_COLORS[idx % SHARE_COLORS.length]}
             />
           ))
@@ -588,7 +572,7 @@ export default function ResultScreen() {
               {t(language, "result.residue")}
             </Text>
             <Text style={[styles.alertText, { color: colors.foreground }]}>
-              {formatMoney(result.residue, language, currency)}
+              {formatAmount(result.residue, language)}
             </Text>
           </View>
         ) : null}
@@ -603,12 +587,8 @@ export default function ResultScreen() {
           }}
         >
           {madhabLabel} ·{" "}
-          {formatMoney(
-            totalShareSum + (result.residue ?? 0),
-            language,
-            currency,
-          )}{" "}
-          / {formatMoney(result.estate, language, currency)}
+          {formatAmount(totalShareSum + (result.residue ?? 0), language)}{" "}
+          / {formatAmount(result.estate, language)}
         </Text>
       </ScrollView>
 
@@ -630,9 +610,9 @@ export default function ResultScreen() {
               styles.actionBtn,
               {
                 backgroundColor: saved
-                  ? colors.primary + "18"
+                  ? colors.secondary
                   : colors.secondary,
-                borderColor: saved ? colors.primary : colors.border,
+                borderColor: saved ? colors.foreground : colors.border,
                 borderRadius: colors.radius,
                 opacity: pressed ? 0.7 : 1,
               },
@@ -641,12 +621,12 @@ export default function ResultScreen() {
             <Feather
               name={saved ? "check" : "bookmark"}
               size={16}
-              color={saved ? colors.primary : colors.foreground}
+              color={colors.foreground}
             />
             <Text
               style={[
                 styles.actionBtnText,
-                { color: saved ? colors.primary : colors.foreground },
+                { color: colors.foreground },
               ]}
             >
               {saved
@@ -692,12 +672,10 @@ export default function ResultScreen() {
 function ShareCard({
   share,
   language,
-  currency,
   color,
 }: {
   share: ShareResult;
   language: LanguageCode;
-  currency?: string;
   color: string;
 }) {
   const colors = useColors();
@@ -731,7 +709,7 @@ function ShareCard({
           <View
             style={[
               styles.kindPill,
-              { borderColor: color + "80", marginTop: 6 },
+              { borderColor: colors.border, marginTop: 6 },
             ]}
           >
             <Feather
@@ -745,17 +723,17 @@ function ShareCard({
                       : "check-circle"
               }
               size={11}
-              color={color}
+              color={colors.mutedForeground}
             />
-            <Text style={[styles.kindLabel, { color }]}>{kindLabel}</Text>
+            <Text style={[styles.kindLabel, { color: colors.mutedForeground }]}>{kindLabel}</Text>
           </View>
         </View>
         <View style={{ alignItems: "flex-end" }}>
           <Text style={[styles.fraction, { color: colors.foreground }]}>
             {formatFraction(share.fraction)}
           </Text>
-          <Text style={[styles.amount, { color }]}>
-            {formatMoney(share.amount, language, currency)}
+          <Text style={[styles.amount, { color: colors.foreground }]}>
+            {formatAmount(share.amount, language)}
           </Text>
         </View>
       </View>
@@ -786,7 +764,7 @@ function ShareCard({
               fontFamily: "Inter_600SemiBold",
             }}
           >
-            {formatMoney(share.perPerson, language, currency)}
+            {formatAmount(share.perPerson, language)}
           </Text>
         </View>
       ) : null}
@@ -821,7 +799,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   shareBarTrack: {
-    height: 12,
+    height: 10,
     flexDirection: "row",
     marginBottom: 10,
   },

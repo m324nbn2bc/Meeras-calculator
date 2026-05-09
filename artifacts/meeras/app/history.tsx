@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useSettings } from "@/contexts/SettingsContext";
 import { useColors } from "@/hooks/useColors";
-import { isRTL, t } from "@/lib/i18n";
+import { isRTL, LanguageCode, t } from "@/lib/i18n";
 import {
   deleteCalculation,
   formatSavedDate,
@@ -22,17 +22,13 @@ import {
   SavedCalc,
 } from "@/lib/history";
 
-function formatAmount(n: number, currency: string, lang: string): string {
+function formatAmount(n: number, lang: LanguageCode): string {
   const locale =
-    lang === "ar" ? "ar-SA" : lang === "ur" ? "ur-PK" : lang;
+    lang === "ar" ? "ar-SA" : lang === "ur" ? "ur-PK" : "en";
   try {
-    return new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    }).format(n);
+    return new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(n);
   } catch {
-    return `${currency} ${n.toLocaleString()}`;
+    return n.toLocaleString();
   }
 }
 
@@ -106,14 +102,16 @@ export default function HistoryScreen() {
           {item.label}
         </Text>
         <View style={styles.metaRow}>
-          <Text style={[styles.metaText, { color: colors.primary }]}>
-            {formatAmount(item.estate, item.currency, language)}
-          </Text>
-          <Text
-            style={[styles.metaDot, { color: colors.mutedForeground }]}
-          >
-            ·
-          </Text>
+          {item.estate > 0 && (
+            <Text style={[styles.metaText, { color: colors.foreground }]}>
+              {formatAmount(item.estate, language)}
+            </Text>
+          )}
+          {item.estate > 0 && (
+            <Text style={[styles.metaDot, { color: colors.mutedForeground }]}>
+              ·
+            </Text>
+          )}
           <Text style={[styles.metaText, { color: colors.mutedForeground }]}>
             {t(language, `madhab.${item.madhab}`)}
           </Text>

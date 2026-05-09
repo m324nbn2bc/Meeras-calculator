@@ -10,9 +10,9 @@ export interface SavedCalc {
   savedAt: number;
   label: string;
   madhab: MadhabId;
-  currency: string;
   state: string;
   estate: number;
+  currency?: string;
 }
 
 export async function listCalculations(): Promise<SavedCalc[]> {
@@ -27,7 +27,7 @@ export async function listCalculations(): Promise<SavedCalc[]> {
 }
 
 export async function saveCalculation(
-  entry: Omit<SavedCalc, "id" | "savedAt">,
+  entry: Omit<SavedCalc, "id" | "savedAt" | "currency">,
 ): Promise<SavedCalc> {
   const list = await listCalculations();
   const newEntry: SavedCalc = {

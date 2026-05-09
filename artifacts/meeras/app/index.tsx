@@ -1,7 +1,15 @@
 import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React from "react";
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+  Modal,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { PrimaryButton } from "@/components/PrimaryButton";
@@ -16,9 +24,20 @@ export default function HomeScreen() {
   const rtl = isRTL(language);
   const isWeb = Platform.OS === "web";
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuBtnRef = useRef<View>(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, right: 0 });
+
   if (!hydrated) {
     return <View style={{ flex: 1, backgroundColor: colors.background }} />;
   }
+
+  const openMenu = () => {
+    menuBtnRef.current?.measure((_fx, _fy, _w, _h, px, py) => {
+      setMenuPos({ top: py + _h + 4, right: isWeb ? 24 : 16 });
+      setMenuOpen(true);
+    });
+  };
 
   return (
     <View
@@ -26,43 +45,114 @@ export default function HomeScreen() {
         styles.container,
         {
           backgroundColor: colors.background,
-          paddingTop: (isWeb ? Math.max(insets.top, 67) : insets.top) + 16,
+          paddingTop: isWeb ? Math.max(insets.top, 0) : insets.top,
           paddingBottom: (isWeb ? Math.max(insets.bottom, 34) : insets.bottom) + 24,
           direction: rtl ? "rtl" : "ltr",
         },
       ]}
     >
-      <View style={styles.topRow}>
-        <View />
+      {/* ── Header ── */}
+      <View
+        style={[
+          styles.header,
+          {
+            borderBottomColor: colors.border,
+            paddingTop: 12,
+          },
+        ]}
+      >
+        <View style={styles.headerBrand}>
+          <View
+            style={[
+              styles.headerIcon,
+              { backgroundColor: colors.primary },
+            ]}
+          >
+            <Feather name="pie-chart" size={16} color={colors.primaryForeground} />
+          </View>
+          <Text style={[styles.headerTitle, { color: colors.foreground }]}>
+            {t(language, "app.name")}
+          </Text>
+        </View>
+
         <Pressable
-          onPress={() => router.push("/settings")}
+          ref={menuBtnRef}
+          onPress={openMenu}
           hitSlop={12}
           style={({ pressed }) => [
-            styles.iconBtn,
-            { backgroundColor: colors.secondary, opacity: pressed ? 0.7 : 1 },
+            styles.menuBtn,
+            {
+              backgroundColor: pressed ? colors.secondary : "transparent",
+              borderColor: colors.border,
+            },
           ]}
         >
-          <Feather name="settings" size={20} color={colors.foreground} />
+          <Feather name="menu" size={20} color={colors.foreground} />
         </Pressable>
       </View>
 
-      <View style={styles.hero}>
-        <View
-          style={[
-            styles.emblem,
-            { backgroundColor: colors.primary, borderRadius: colors.radius * 1.6 },
-          ]}
-        >
-          <Feather name="pie-chart" size={42} color={colors.primaryForeground} />
-        </View>
+      {/* ── Dropdown Menu ── */}
+      <Modal
+        visible={menuOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setMenuOpen(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setMenuOpen(false)}>
+          <View style={StyleSheet.absoluteFill}>
+            <View
+              style={[
+                styles.dropdown,
+                {
+                  top: menuPos.top,
+                  right: menuPos.right,
+                  backgroundColor: colors.card,
+                  borderColor: colors.border,
+                  shadowColor: colors.foreground,
+                },
+              ]}
+            >
+              <Pressable
+                onPress={() => {
+                  setMenuOpen(false);
+                  router.push("/settings");
+                }}
+                style={({ pressed }) => [
+                  styles.dropdownItem,
+                  { backgroundColor: pressed ? colors.secondary : "transparent" },
+                ]}
+              >
+                <Feather name="settings" size={15} color={colors.foreground} />
+                <Text style={[styles.dropdownItemText, { color: colors.foreground }]}>
+                  {t(language, "home.settings")}
+                </Text>
+              </Pressable>
+              <View style={[styles.dropdownDivider, { backgroundColor: colors.border }]} />
+              <Pressable
+                onPress={() => {
+                  setMenuOpen(false);
+                  router.push("/settings");
+                }}
+                style={({ pressed }) => [
+                  styles.dropdownItem,
+                  { backgroundColor: pressed ? colors.secondary : "transparent" },
+                ]}
+              >
+                <Feather name="info" size={15} color={colors.foreground} />
+                <Text style={[styles.dropdownItemText, { color: colors.foreground }]}>
+                  {t(language, "home.about")}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
 
+      {/* ── Hero ── */}
+      <View style={styles.hero}>
         <Text style={[styles.title, { color: colors.foreground }]}>
-          {t(language, "app.name")}
-        </Text>
-        <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>
           {t(language, "app.tagline")}
         </Text>
-
         <Text
           style={[
             styles.intro,
@@ -71,25 +161,15 @@ export default function HomeScreen() {
         >
           {t(language, "home.intro")}
         </Text>
-
-        <View
-          style={[
-            styles.badge,
-            { borderColor: colors.border, backgroundColor: colors.card },
-          ]}
-        >
-          <Feather name="shield" size={14} color={colors.primary} />
-          <Text style={[styles.badgeText, { color: colors.foreground }]}>
-            {t(language, "home.offlineBadge")}
-          </Text>
-        </View>
       </View>
 
+      {/* ── Actions ── */}
       <View style={styles.actions}>
         <PrimaryButton
           label={t(language, "home.start")}
           onPress={() => router.push("/wizard")}
         />
+
         <Pressable
           onPress={() => router.push("/cases")}
           style={({ pressed }) => [
@@ -102,18 +182,23 @@ export default function HomeScreen() {
             },
           ]}
         >
-          <Feather name="book-open" size={16} color={colors.primary} />
+          <Feather name="book-open" size={16} color={colors.foreground} />
           <Text style={[styles.secondaryBtnText, { color: colors.foreground }]}>
             {t(language, "home.cases")}
           </Text>
         </Pressable>
-        <View style={styles.tertiaryRow}>
+
+        <View style={[styles.tertiaryRow, { borderColor: colors.border }]}>
           <Pressable
             onPress={() => router.push("/hajb")}
             style={({ pressed }) => [
               styles.tertiaryBtn,
-              styles.tertiaryBtnFlex,
-              { opacity: pressed ? 0.6 : 1 },
+              {
+                flex: 1,
+                borderRightWidth: 1,
+                borderRightColor: colors.border,
+                opacity: pressed ? 0.6 : 1,
+              },
             ]}
           >
             <Feather name="alert-circle" size={14} color={colors.mutedForeground} />
@@ -121,13 +206,11 @@ export default function HomeScreen() {
               {t(language, "home.hajb")}
             </Text>
           </Pressable>
-          <View style={[styles.tertiaryDivider, { backgroundColor: colors.border }]} />
           <Pressable
             onPress={() => router.push("/history")}
             style={({ pressed }) => [
               styles.tertiaryBtn,
-              styles.tertiaryBtnFlex,
-              { opacity: pressed ? 0.6 : 1 },
+              { flex: 1, opacity: pressed ? 0.6 : 1 },
             ]}
           >
             <Feather name="bookmark" size={14} color={colors.mutedForeground} />
@@ -144,74 +227,96 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
-  topRow: {
+  header: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    marginBottom: 0,
   },
-  iconBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  headerBrand: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  headerIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
+  },
+  headerTitle: {
+    fontSize: 17,
+    fontFamily: "Inter_700Bold",
+    fontWeight: "700",
+    letterSpacing: -0.3,
+  },
+  menuBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dropdown: {
+    position: "absolute",
+    borderRadius: 10,
+    borderWidth: 1,
+    minWidth: 180,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 8,
+    overflow: "hidden",
+  },
+  dropdownItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 13,
+  },
+  dropdownItemText: {
+    fontSize: 15,
+    fontFamily: "Inter_500Medium",
+  },
+  dropdownDivider: {
+    height: 1,
   },
   hero: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     gap: 14,
-  },
-  emblem: {
-    width: 96,
-    height: 96,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 12,
+    paddingHorizontal: 8,
   },
   title: {
-    fontSize: 30,
+    fontSize: 26,
     fontFamily: "Inter_700Bold",
     fontWeight: "700",
     letterSpacing: -0.5,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontFamily: "Inter_500Medium",
+    textAlign: "center",
   },
   intro: {
-    marginTop: 18,
     fontSize: 15,
-    lineHeight: 22,
+    lineHeight: 23,
     fontFamily: "Inter_400Regular",
-    paddingHorizontal: 8,
-    maxWidth: 380,
-  },
-  badge: {
-    marginTop: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderRadius: 999,
-  },
-  badgeText: {
-    fontSize: 13,
-    fontFamily: "Inter_500Medium",
+    maxWidth: 340,
   },
   actions: {
-    gap: 12,
+    gap: 10,
   },
   secondaryBtn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    paddingVertical: 14,
+    paddingVertical: 15,
     borderWidth: 1,
   },
   secondaryBtnText: {
@@ -221,21 +326,16 @@ const styles = StyleSheet.create({
   },
   tertiaryRow: {
     flexDirection: "row",
-    alignItems: "center",
-  },
-  tertiaryBtnFlex: {
-    flex: 1,
-  },
-  tertiaryDivider: {
-    width: 1,
-    height: 16,
+    borderWidth: 1,
+    borderRadius: 10,
+    overflow: "hidden",
   },
   tertiaryBtn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 6,
-    paddingVertical: 8,
+    paddingVertical: 13,
   },
   tertiaryBtnText: {
     fontSize: 13,

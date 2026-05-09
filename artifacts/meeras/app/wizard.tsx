@@ -26,17 +26,15 @@ import {
   WizardState,
 } from "@/lib/wizard";
 
-function fmt(n: number, currency: string, lang: string): string {
+function fmt(n: number, lang: string): string {
   if (n === 0) return "—";
-  const locale = lang === "ar" ? "ar-SA" : lang === "ur" ? "ur-PK" : lang;
+  const locale = lang === "ar" ? "ar-SA" : lang === "ur" ? "ur-PK" : "en";
   try {
     return new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(n);
   } catch {
-    return `${currency} ${n.toLocaleString()}`;
+    return n.toLocaleString();
   }
 }
 
@@ -135,7 +133,7 @@ function DeductionField({
 export default function WizardScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { language, madhab, currency } = useSettings();
+  const { language, madhab } = useSettings();
   const rtl = isRTL(language);
   const isWeb = Platform.OS === "web";
 
@@ -362,9 +360,9 @@ export default function WizardScreen() {
                 colors={colors}
                 caption={
                   wasiyyahCapped
-                    ? `${t(language, "q.wasiyyah.capped")}: ${fmt(maxWasiyyah, currency, language)}`
+                    ? `${t(language, "q.wasiyyah.capped")}: ${fmt(maxWasiyyah, language)}`
                     : maxWasiyyah > 0
-                      ? `Max 1/3: ${fmt(maxWasiyyah, currency, language)}`
+                      ? `Max 1/3: ${fmt(maxWasiyyah, language)}`
                       : undefined
                 }
                 onChange={(v) => {
@@ -398,7 +396,7 @@ export default function WizardScreen() {
                       { color: colors.primaryForeground },
                     ]}
                   >
-                    {fmt(gross, currency, language)}
+                    {fmt(gross, language)}
                   </Text>
                 </View>
                 {(state.funeralExpenses ?? 0) > 0 && (
@@ -417,7 +415,7 @@ export default function WizardScreen() {
                         { color: colors.primaryForeground, opacity: 0.85 },
                       ]}
                     >
-                      {fmt(state.funeralExpenses ?? 0, currency, language)}
+                      {fmt(state.funeralExpenses ?? 0, language)}
                     </Text>
                   </View>
                 )}
@@ -437,7 +435,7 @@ export default function WizardScreen() {
                         { color: colors.primaryForeground, opacity: 0.85 },
                       ]}
                     >
-                      {fmt(state.debtsOwed ?? 0, currency, language)}
+                      {fmt(state.debtsOwed ?? 0, language)}
                     </Text>
                   </View>
                 )}
@@ -457,7 +455,7 @@ export default function WizardScreen() {
                         { color: colors.primaryForeground, opacity: 0.85 },
                       ]}
                     >
-                      {fmt(state.receivables ?? 0, currency, language)}
+                      {fmt(state.receivables ?? 0, language)}
                     </Text>
                   </View>
                 )}
@@ -478,7 +476,7 @@ export default function WizardScreen() {
                         { color: colors.primaryForeground, opacity: 0.85 },
                       ]}
                     >
-                      {fmt(appliedWasiyyah, currency, language)}
+                      {fmt(appliedWasiyyah, language)}
                     </Text>
                   </View>
                 )}
@@ -503,7 +501,7 @@ export default function WizardScreen() {
                       { color: colors.primaryForeground },
                     ]}
                   >
-                    {fmt(netEstate, currency, language)}
+                    {fmt(netEstate, language)}
                   </Text>
                 </View>
                 <Text
