@@ -959,7 +959,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderWidth: 1,
-    borderRadius: 999,
+    borderRadius: 6,
   },
   kindLabel: {
     fontSize: 10,

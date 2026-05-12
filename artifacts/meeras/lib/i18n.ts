@@ -576,6 +576,51 @@ const en: Dict = {
   "guide.diff.mushtarakah.others":
     "Maliki · Shafi'i: Mushtarakah ruling — full brothers and uterine siblings share the 1/3 portion equally, preventing full brothers from displacing the uterine siblings entirely.",
 
+  // ── Guide Ch.3: ʿAwl & Radd ──
+  "guide.chapter.awlRadd": "ʿAwl & Radd — Adjustment Rules",
+  "guide.chapter.awlRadd.desc":
+    "How shares are scaled when the estate is over-subscribed (ʿAwl) or under-subscribed (Radd) with no residuary heir.",
+  "guide.awlRadd.awl.title": "ʿAwl — Proportional Reduction",
+  "guide.awlRadd.awl.body":
+    "ʿAwl occurs when the total of all fixed shares (Zawil Furud) exceeds the whole estate. To resolve this, the base number (asl) is enlarged so all shares fit, reducing each heir's portion proportionally. All four major schools agree on this mechanism.",
+  "guide.awlRadd.awlCases.title": "Common ʿAwl Scenarios",
+  "guide.awlRadd.awlCases.body":
+    "Base 6 → 7: Husband (1/2) + Mother (1/6) + Two Full Sisters (2/3).\n\nBase 6 → 8: Same + Uterine Sibling (1/6).\n\nBase 6 → 9: Husband (1/2) + Mother (1/6) + Two Uterine Siblings (1/3).\n\nBase 12 → 13: Wife (1/4) + Daughter + Full Sister.\n\nBase 24 → 27: Wife (1/8) + Mother (1/6) + Two Daughters (2/3) + Two Sisters.",
+  "guide.awlRadd.radd.title": "Radd — Return of Surplus",
+  "guide.awlRadd.radd.body":
+    "Radd occurs when fixed shares total less than 1 and no Asabah (residuary heir) exists. The remaining surplus is returned proportionally to the fixed-share heirs. The key inter-school difference is whether the spouse participates in this return.",
+  "guide.awlRadd.radd.example":
+    "Example: Mother (1/6) + Full Sister (1/2), no Asabah — shares total 2/3 < 1, surplus is 1/3. Under Radd, returned proportionally → Mother receives 1/4 of the estate, Full Sister receives 3/4.",
+  "guide.label.example": "Example",
+
+  // ── Guide Ch.4: Hajb Ladder ──
+  "guide.chapter.hajb": "Ḥajb — Priority & Exclusion",
+  "guide.chapter.hajb.desc":
+    "The inheritance priority ladder. Heirs in higher tiers fully exclude those in lower tiers who share the same line of descent.",
+  "guide.hajb.intro":
+    "Higher tiers represent closer relatives. When a closer heir is present, those below them in the same line are excluded entirely.",
+  "guide.hajb.tier1.label": "Tier 1 — Primary Heirs (Never Excluded)",
+  "guide.hajb.tier1.note":
+    "These always inherit. No heir excludes them — they are the core of every estate.",
+  "guide.hajb.tier2.label": "Tier 2 — Excluded by Direct Superior",
+  "guide.hajb.tier2.note":
+    "Grandfather → excluded by Father. Maternal Grandmother → by Mother. Paternal Grandmother → by Mother, Father, or Grandfather. Grandson → by Son. Granddaughter → by Son (or 2+ daughters when no grandson).",
+  "guide.hajb.tier3.label": "Tier 3 — Full Siblings",
+  "guide.hajb.tier3.note": "Excluded by Son, Grandson, Father, or Paternal Grandfather.",
+  "guide.hajb.tier4.label": "Tier 4 — Consanguine Siblings",
+  "guide.hajb.tier4.note":
+    "Excluded by everything in Tier 3, plus the Full Brother.",
+  "guide.hajb.tier5.label": "Tier 5 — Uterine Siblings",
+  "guide.hajb.tier5.note":
+    "Excluded by any descendant (Son, Daughter, Grandson, Granddaughter) or any male ascendant (Father, Grandfather).",
+  "guide.hajb.tier6.label": "Tier 6 — Extended Asabah Chain",
+  "guide.hajb.tier6.note":
+    "Each sub-tier excludes all lower ones. Only the closest surviving Asabah inherits the residue.",
+  "guide.diff.hajb.hanafi":
+    "Hanafi: The Paternal Grandfather (Tier 2) fully excludes all siblings in Tier 3 and Tier 4. Siblings inherit nothing when the grandfather is alive.",
+  "guide.diff.hajb.others":
+    "Shafi'i · Maliki · Hanbali: Grandfather does not fully exclude siblings. They share the residue by Muqasamah — grandfather takes whichever is more: an equal share alongside siblings, or 1/3 of the full estate.",
+
   // ── Hajb Screen ──
   "home.hajb": "Blocking Rules (Hajb)",
   "hajb.title": "Hajb — Blocking Rules",
@@ -999,6 +1044,51 @@ const ur: Dict = {
   "guide.diff.mushtarakah.others":
     "مالکی · شافعی: مسئلہ مشترکہ — حقیقی بھائی اور اخیافی بہن بھائی 1/3 حصہ برابر مل کر تقسیم کرتے ہیں تاکہ حقیقی بھائی اخیافی کو مکمل محروم نہ کر سکے۔",
 
+  // ── Guide Ch.3: ʿAwl & Radd ──
+  "guide.chapter.awlRadd": "عَوْل اور رَدّ — تعدیل کے اصول",
+  "guide.chapter.awlRadd.desc":
+    "جب مقررہ حصے ترکہ سے زیادہ ہوں (عول) یا کم ہوں اور کوئی عصبہ نہ ہو (رد) تو ترکہ کیسے تقسیم ہوتا ہے۔",
+  "guide.awlRadd.awl.title": "عَوْل — نسبتی کمی",
+  "guide.awlRadd.awl.body":
+    "عول اس وقت ہوتا ہے جب تمام مقررہ حصوں کا مجموع پورے ترکہ سے زیادہ ہو جائے۔ اس کو حل کرنے کے لیے اصل کو بڑھا دیا جاتا ہے تاکہ سب حصے سما سکیں، جس سے ہر وارث کا حصہ نسبتی طور پر کم ہو جاتا ہے۔ چاروں مسالک اس اصول پر متفق ہیں۔",
+  "guide.awlRadd.awlCases.title": "عول کی عام مثالیں",
+  "guide.awlRadd.awlCases.body":
+    "اصل 6 ← 7: شوہر (1/2) + والدہ (1/6) + دو حقیقی بہنیں (2/3)۔\n\nاصل 6 ← 8: وہی + اخیافی بہن/بھائی (1/6)۔\n\nاصل 6 ← 9: شوہر (1/2) + والدہ (1/6) + دو اخیافی (1/3)۔\n\nاصل 12 ← 13: بیوی (1/4) + بیٹی + حقیقی بہن۔\n\nاصل 24 ← 27: بیوی (1/8) + والدہ (1/6) + دو بیٹیاں (2/3) + دو بہنیں۔",
+  "guide.awlRadd.radd.title": "رَدّ — بقیہ واپس کرنا",
+  "guide.awlRadd.radd.body":
+    "رد اس وقت ہوتا ہے جب مقررہ حصوں کا مجموع 1 سے کم ہو اور کوئی عصبہ موجود نہ ہو۔ بچا ہوا بقیہ نسبتی طور پر مقررہ وارثوں میں واپس لوٹایا جاتا ہے۔ اہم اختلاف یہ ہے کہ میاں/بیوی کو اس میں شامل کیا جائے یا نہیں۔",
+  "guide.awlRadd.radd.example":
+    "مثال: والدہ (1/6) + حقیقی بہن (1/2)، کوئی عصبہ نہیں — حصوں کا مجموع 2/3 < 1، بقیہ 1/3 ہے۔ رد کے تحت نسبتی طور پر واپس → والدہ کو ترکہ کا 1/4 اور حقیقی بہن کو 3/4 ملتا ہے۔",
+  "guide.label.example": "مثال",
+
+  // ── Guide Ch.4: Hajb Ladder ──
+  "guide.chapter.hajb": "حجب — ترجیح اور محرومی",
+  "guide.chapter.hajb.desc":
+    "وراثت کی ترجیحی ترتیب۔ اوپری درجوں کے وارث نچلے درجوں کے ان وارثوں کو مکمل محروم کر دیتے ہیں جو ایک ہی سلسلے سے ہوں۔",
+  "guide.hajb.intro":
+    "اوپری درجے قریب تر رشتہ دار ہیں۔ جب قریب تر رشتہ دار زندہ ہو تو اسی سلسلے کے نچلے وارث مکمل محروم ہو جاتے ہیں۔",
+  "guide.hajb.tier1.label": "درجہ 1 — بنیادی وارث (کبھی محروم نہیں)",
+  "guide.hajb.tier1.note":
+    "یہ ہمیشہ وراثت پاتے ہیں۔ کوئی انہیں محروم نہیں کرتا — یہ ہر ترکہ کی بنیاد ہیں۔",
+  "guide.hajb.tier2.label": "درجہ 2 — اپنے قریب تر رشتہ دار سے محروم",
+  "guide.hajb.tier2.note":
+    "دادا ← والد سے محروم۔ نانی ← والدہ سے محروم۔ دادی ← والدہ، والد یا دادا سے محروم۔ پوتا ← بیٹے سے محروم۔ پوتی ← بیٹے سے محروم (یا 2+ بیٹیوں سے جب کوئی پوتا نہ ہو)۔",
+  "guide.hajb.tier3.label": "درجہ 3 — حقیقی بہن بھائی",
+  "guide.hajb.tier3.note": "بیٹے، پوتے، والد یا دادا سے محروم۔",
+  "guide.hajb.tier4.label": "درجہ 4 — علاتی بہن بھائی",
+  "guide.hajb.tier4.note":
+    "درجہ 3 میں موجود تمام حاجبوں سے، اور مزید حقیقی بھائی سے بھی محروم۔",
+  "guide.hajb.tier5.label": "درجہ 5 — اخیافی بہن بھائی",
+  "guide.hajb.tier5.note":
+    "کوئی بھی اولاد (بیٹا، بیٹی، پوتا، پوتی) یا مرد اصول (والد، دادا) سے محروم۔",
+  "guide.hajb.tier6.label": "درجہ 6 — بعید عصبہ کی ترتیب",
+  "guide.hajb.tier6.note":
+    "ہر ذیلی درجہ اپنے سے نچلے تمام درجوں کو محروم کرتا ہے۔ صرف قریب ترین زندہ عصبہ بقیہ لیتا ہے۔",
+  "guide.diff.hajb.hanafi":
+    "حنفی: دادا (درجہ 2) تمام حقیقی اور علاتی بہن بھائیوں (درجہ 3 و 4) کو مکمل محروم کر دیتا ہے۔ دادا کی زندگی میں بہن بھائیوں کو کچھ نہیں ملتا۔",
+  "guide.diff.hajb.others":
+    "شافعی · مالکی · حنبلی: دادا بہن بھائیوں کو مکمل محروم نہیں کرتا۔ وہ مقاسمہ کے ذریعے بقیہ مل کر تقسیم کرتے ہیں — دادا جو بھی زیادہ ہو لیتا ہے: بہن بھائیوں کے ساتھ برابر حصہ، یا پورے ترکہ کا 1/3۔",
+
   // ── Hajb Screen ──
   "home.hajb": "حجب — محرومی کے اصول",
   "hajb.title": "حجب — محرومی کے اصول",
@@ -1376,6 +1466,51 @@ const ar: Dict = {
     "الحنفي: في المسألة المشتركة — الأشقاء عصبة ويأخذون الباقي. الإخوة لأم يأخذون ثلثهم فرضًا.",
   "guide.diff.mushtarakah.others":
     "المالكي · الشافعي: حكم التشريك — يشترك الأشقاء مع الإخوة لأم في الثلث بالتساوي لئلا يُسقطهم الأشقاء.",
+
+  // ── Guide Ch.3: ʿAwl & Radd ──
+  "guide.chapter.awlRadd": "العَوْل والرَّدّ — أحكام التعديل",
+  "guide.chapter.awlRadd.desc":
+    "كيف تُعدَّل الحصص حين تزيد الفروض على التركة (عَوْل) أو تنقص ولا عاصب (رَدّ).",
+  "guide.awlRadd.awl.title": "العَوْل — النقص بالنسبة",
+  "guide.awlRadd.awl.body":
+    "يحدث العَوْل حين يزيد مجموع الفروض المقدَّرة على التركة كلها. يُحلّ ذلك بتوسيع الأصل حتى تسع جميع الحصص، فيَنقص نصيب كل وارث بنسبة حصته. والمذاهب الأربعة متفقة على هذا المبدأ.",
+  "guide.awlRadd.awlCases.title": "صور العَوْل الشائعة",
+  "guide.awlRadd.awlCases.body":
+    "الأصل 6 ← 7: زوج (1/2) + أم (1/6) + أختان شقيقتان (2/3).\n\nالأصل 6 ← 8: السابق + أخ لأم (1/6).\n\nالأصل 6 ← 9: زوج (1/2) + أم (1/6) + اثنان من الإخوة لأم (1/3).\n\nالأصل 12 ← 13: زوجة (1/4) + بنت + أخت شقيقة.\n\nالأصل 24 ← 27: زوجة (1/8) + أم (1/6) + بنتان (2/3) + أختان.",
+  "guide.awlRadd.radd.title": "الرَّدّ — إعادة الفاضل",
+  "guide.awlRadd.radd.body":
+    "يحدث الرَّدّ حين يقلّ مجموع الفروض عن التركة ولا يوجد عاصب. يُوزَّع الفاضل على أصحاب الفروض بنسبة حصصهم. والخلاف الرئيسي: هل يشمل الرَّدُّ الزوجَيْن؟",
+  "guide.awlRadd.radd.example":
+    "مثال: أم (1/6) + أخت شقيقة (1/2)، لا عاصب — مجموع 2/3 < 1، الفاضل 1/3. بالردّ بنسبة → الأم تأخذ 1/4 من التركة، والأخت 3/4.",
+  "guide.label.example": "مثال",
+
+  // ── Guide Ch.4: Hajb Ladder ──
+  "guide.chapter.hajb": "الحَجْب — الأولوية والإسقاط",
+  "guide.chapter.hajb.desc":
+    "سلّم أولويات الإرث. الورثة في الدرجات العليا يحجبون من دونهم في الدرجات الدنيا ممن يشاركونهم نفس الجهة.",
+  "guide.hajb.intro":
+    "الدرجات الأعلى تمثّل الأقرب. إذا وُجد الأقرب حجب مَن دونه في جهته حجبًا كاملًا.",
+  "guide.hajb.tier1.label": "الدرجة الأولى — الورثة الأساسيون (لا يُحجبون أبدًا)",
+  "guide.hajb.tier1.note":
+    "هؤلاء يرثون دائمًا. لا أحد يحجبهم — هم محور كل تركة.",
+  "guide.hajb.tier2.label": "الدرجة الثانية — محجوبون بمن هو أقرب منهم مباشرة",
+  "guide.hajb.tier2.note":
+    "الجد ← يحجبه الأب. الجدة لأم ← تحجبها الأم. الجدة لأب ← تحجبها الأم أو الأب أو الجد. ابن الابن ← يحجبه الابن. بنت الابن ← يحجبها الابن (أو بنتان فأكثر بلا ابن ابن).",
+  "guide.hajb.tier3.label": "الدرجة الثالثة — الإخوة الأشقاء",
+  "guide.hajb.tier3.note": "يحجبهم الابن، أو ابن الابن، أو الأب، أو الجد لأب.",
+  "guide.hajb.tier4.label": "الدرجة الرابعة — الإخوة لأب",
+  "guide.hajb.tier4.note":
+    "يحجبهم كل حاجب الدرجة الثالثة، ويُضاف إليه الأخ الشقيق.",
+  "guide.hajb.tier5.label": "الدرجة الخامسة — الإخوة لأم",
+  "guide.hajb.tier5.note":
+    "يحجبهم أي فرع وارث (ابن أو بنت أو ابن ابن أو بنت ابن) أو أصل ذكر (أب أو جد).",
+  "guide.hajb.tier6.label": "الدرجة السادسة — سلسلة العصبات البعيدة",
+  "guide.hajb.tier6.note":
+    "كل درجة فرعية تحجب ما دونها. يرث الأقرب فقط من العصبة.",
+  "guide.diff.hajb.hanafi":
+    "الحنفي: الجد لأب (الدرجة الثانية) يحجب جميع إخوة الدرجتين الثالثة والرابعة حجبًا كاملًا. لا يرث الإخوة شيئًا مع وجود الجد.",
+  "guide.diff.hajb.others":
+    "الشافعي · المالكي · الحنبلي: الجد لا يحجب الإخوة حجبًا كاملًا. يشتركون في الباقي بالمقاسمة — يأخذ الجد الأحظَّ: مقاسمة كأخ، أو ثلث التركة.",
 
   // ── Hajb Screen ──
   "home.hajb": "الحجب — قواعد الحرمان",

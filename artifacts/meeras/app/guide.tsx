@@ -12,7 +12,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useSettings } from "@/contexts/SettingsContext";
 import { useColors } from "@/hooks/useColors";
-import { GUIDE_CHAPTERS, MadhabFilter } from "@/lib/guide";
+import {
+  GUIDE_CHAPTERS,
+  LadderRung,
+  MadhabFilter,
+  MadhabNote,
+  TextBlock,
+} from "@/lib/guide";
 import { isRTL, t } from "@/lib/i18n";
 
 const MADHAB_FILTERS: { id: MadhabFilter; labelKey: string }[] = [
@@ -22,6 +28,8 @@ const MADHAB_FILTERS: { id: MadhabFilter; labelKey: string }[] = [
   { id: "maliki", labelKey: "madhab.maliki" },
   { id: "hanbali", labelKey: "madhab.hanbali" },
 ];
+
+type Madhab = "hanafi" | "shafii" | "maliki" | "hanbali";
 
 export default function GuideScreen() {
   const colors = useColors();
@@ -39,14 +47,220 @@ export default function GuideScreen() {
     setCollapsedChapters((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const filterNotes = (notes: MadhabNote[]) => {
+    if (activeFilter === "all") return notes;
+    return notes.filter((n) => n.madhabs.includes(activeFilter as Madhab));
+  };
+
+  const renderMadhabNotes = (notes: MadhabNote[]) => {
+    const visible = filterNotes(notes);
+    if (visible.length === 0) return null;
+    const isAll = activeFilter === "all";
+    return (
+      <>
+        <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>
+          {t(language, "guide.label.madhabNotes")}
+        </Text>
+        {visible.map((note, i) => (
+          <View
+            key={i}
+            style={[
+              styles.noteRow,
+              isAll
+                ? { backgroundColor: "#F59E0B0C", borderLeftColor: "#F59E0B" }
+                : { backgroundColor: colors.secondary, borderLeftColor: colors.accent },
+            ]}
+          >
+            {isAll && (
+              <Text style={[styles.noteMadhabs, { color: "#F59E0B" }]}>
+                {note.madhabs.map((m) => t(language, `madhab.${m}`)).join(" · ")}
+              </Text>
+            )}
+            <Text
+              style={[
+                styles.noteText,
+                {
+                  color: isAll ? colors.foreground : colors.mutedForeground,
+                  textAlign: rtl ? "right" : "left",
+                },
+              ]}
+            >
+              {t(language, note.noteKey)}
+            </Text>
+          </View>
+        ))}
+      </>
+    );
+  };
+
+  const renderNarrativeBlock = (block: TextBlock, i: number) => {
+    const hasDiff = block.madhabNotes && block.madhabNotes.length > 0;
+    return (
+      <View
+        key={i}
+        style={[
+          styles.narrativeBlock,
+          {
+            backgroundColor: colors.card,
+            borderColor: colors.border,
+            borderRadius: colors.radius,
+          },
+        ]}
+      >
+        <Text
+          style={[styles.narrativeTitle, { color: colors.foreground }]}
+        >
+          {t(language, block.titleKey)}
+        </Text>
+        <Text
+          style={[
+            styles.narrativeBody,
+            { color: colors.mutedForeground, textAlign: rtl ? "right" : "left" },
+          ]}
+        >
+          {t(language, block.bodyKey)}
+        </Text>
+        {block.exampleKey && (
+          <View
+            style={[
+              styles.exampleBox,
+              { backgroundColor: colors.primary + "0A", borderColor: colors.primary + "25" },
+            ]}
+          >
+            <Text style={[styles.exampleLabel, { color: colors.primary }]}>
+              {t(language, "guide.label.example")}
+            </Text>
+            <Text
+              style={[
+                styles.exampleText,
+                { color: colors.foreground, textAlign: rtl ? "right" : "left" },
+              ]}
+            >
+              {t(language, block.exampleKey)}
+            </Text>
+          </View>
+        )}
+        {hasDiff && (
+          <>
+            <View style={[styles.separator, { borderTopColor: colors.border }]} />
+            {renderMadhabNotes(block.madhabNotes!)}
+          </>
+        )}
+      </View>
+    );
+  };
+
+  const renderLadderRung = (rung: LadderRung) => {
+    const hasDiff = rung.madhabNotes && rung.madhabNotes.length > 0;
+    const isAll = activeFilter === "all";
+    return (
+      <View key={rung.priority} style={styles.rungWrapper}>
+        {/* Connector line */}
+        {rung.priority > 1 && (
+          <View style={[styles.connectorLine, { backgroundColor: colors.border }]} />
+        )}
+        <View
+          style={[
+            styles.rungCard,
+            {
+              backgroundColor: colors.card,
+              borderColor: colors.border,
+              borderRadius: colors.radius,
+            },
+          ]}
+        >
+          {/* Rung header */}
+          <View style={styles.rungHeader}>
+            <View
+              style={[
+                styles.rungNumber,
+                { backgroundColor: colors.primary + "18", borderColor: colors.primary + "35" },
+              ]}
+            >
+              <Text style={[styles.rungNumberText, { color: colors.primary }]}>
+                {rung.priority}
+              </Text>
+            </View>
+            <Text style={[styles.rungLabel, { color: colors.foreground }]}>
+              {t(language, rung.labelKey)}
+            </Text>
+          </View>
+
+          {/* Heir chips */}
+          <View style={styles.rungHeirs}>
+            {rung.heirIds.map((hid) => (
+              <View
+                key={hid}
+                style={[
+                  styles.heirChip,
+                  {
+                    backgroundColor: colors.accent + "12",
+                    borderColor: colors.accent + "30",
+                  },
+                ]}
+              >
+                <Text style={[styles.heirChipText, { color: colors.accent }]}>
+                  {t(language, `heir.${hid}`)}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          {/* Note */}
+          <Text
+            style={[
+              styles.rungNote,
+              { color: colors.mutedForeground, textAlign: rtl ? "right" : "left" },
+            ]}
+          >
+            {t(language, rung.noteKey)}
+          </Text>
+
+          {/* Madhab notes */}
+          {hasDiff && (
+            <>
+              <View style={[styles.separator, { borderTopColor: colors.border, marginHorizontal: 0 }]} />
+              {filterNotes(rung.madhabNotes!).map((note, i) => (
+                <View
+                  key={i}
+                  style={[
+                    styles.noteRow,
+                    { marginHorizontal: 0 },
+                    isAll
+                      ? { backgroundColor: "#F59E0B0C", borderLeftColor: "#F59E0B" }
+                      : { backgroundColor: colors.secondary, borderLeftColor: colors.accent },
+                  ]}
+                >
+                  {isAll && (
+                    <Text style={[styles.noteMadhabs, { color: "#F59E0B" }]}>
+                      {note.madhabs.map((m) => t(language, `madhab.${m}`)).join(" · ")}
+                    </Text>
+                  )}
+                  <Text
+                    style={[
+                      styles.noteText,
+                      {
+                        color: isAll ? colors.foreground : colors.mutedForeground,
+                        textAlign: rtl ? "right" : "left",
+                      },
+                    ]}
+                  >
+                    {t(language, note.noteKey)}
+                  </Text>
+                </View>
+              ))}
+            </>
+          )}
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View
       style={[
         styles.container,
-        {
-          backgroundColor: colors.background,
-          direction: rtl ? "rtl" : "ltr",
-        },
+        { backgroundColor: colors.background, direction: rtl ? "rtl" : "ltr" },
       ]}
     >
       <ScrollView
@@ -54,8 +268,7 @@ export default function GuideScreen() {
           styles.scroll,
           {
             paddingTop: isWeb ? Math.max(insets.top, 67) + 8 : 16,
-            paddingBottom:
-              (isWeb ? Math.max(insets.bottom, 34) : insets.bottom) + 40,
+            paddingBottom: (isWeb ? Math.max(insets.bottom, 34) : insets.bottom) + 40,
           },
         ]}
         showsVerticalScrollIndicator={false}
@@ -69,10 +282,7 @@ export default function GuideScreen() {
           <Text
             style={[
               styles.subtitle,
-              {
-                color: colors.mutedForeground,
-                textAlign: rtl ? "right" : "left",
-              },
+              { color: colors.mutedForeground, textAlign: rtl ? "right" : "left" },
             ]}
           >
             {t(language, "guide.subtitle")}
@@ -100,9 +310,7 @@ export default function GuideScreen() {
                   style={[
                     styles.filterChip,
                     {
-                      backgroundColor: active
-                        ? colors.accent
-                        : colors.card,
+                      backgroundColor: active ? colors.accent : colors.card,
                       borderColor: active ? colors.accent : colors.border,
                     },
                   ]}
@@ -110,11 +318,7 @@ export default function GuideScreen() {
                   <Text
                     style={[
                       styles.filterChipText,
-                      {
-                        color: active
-                          ? "#fff"
-                          : colors.foreground,
-                      },
+                      { color: active ? "#fff" : colors.foreground },
                     ]}
                   >
                     {t(language, f.labelKey)}
@@ -128,6 +332,8 @@ export default function GuideScreen() {
         {/* ── Chapters ── */}
         {GUIDE_CHAPTERS.map((chapter) => {
           const collapsed = collapsedChapters[chapter.key] ?? false;
+          const chapterType = chapter.type ?? "heirs";
+
           return (
             <View key={chapter.key} style={styles.chapterBlock}>
               {/* Chapter header */}
@@ -136,27 +342,20 @@ export default function GuideScreen() {
                 style={({ pressed }) => [
                   styles.chapterHeader,
                   {
-                    backgroundColor: pressed
-                      ? colors.secondary
-                      : colors.card,
+                    backgroundColor: pressed ? colors.secondary : colors.card,
                     borderColor: colors.border,
                     borderRadius: colors.radius,
                   },
                 ]}
               >
                 <View style={styles.chapterHeaderLeft}>
-                  <Text
-                    style={[styles.chapterTitle, { color: colors.foreground }]}
-                  >
+                  <Text style={[styles.chapterTitle, { color: colors.foreground }]}>
                     {t(language, chapter.titleKey)}
                   </Text>
                   <Text
                     style={[
                       styles.chapterDesc,
-                      {
-                        color: colors.mutedForeground,
-                        textAlign: rtl ? "right" : "left",
-                      },
+                      { color: colors.mutedForeground, textAlign: rtl ? "right" : "left" },
                     ]}
                   >
                     {t(language, chapter.descKey)}
@@ -169,35 +368,12 @@ export default function GuideScreen() {
                 />
               </Pressable>
 
-              {/* Heir cards */}
-              {!collapsed &&
-                chapter.entries.map((entry) => {
-                  const visibleNotes =
-                    activeFilter === "all"
-                      ? entry.madhabNotes
-                      : entry.madhabNotes.filter((n) =>
-                          n.madhabs.includes(
-                            activeFilter as
-                              | "hanafi"
-                              | "shafii"
-                              | "maliki"
-                              | "hanbali"
-                          )
-                        );
-
-                  const showDiffBadge =
-                    entry.hasMadhabDiff &&
-                    (activeFilter === "all"
-                      ? true
-                      : entry.madhabNotes.some((n) =>
-                          n.madhabs.includes(
-                            activeFilter as
-                              | "hanafi"
-                              | "shafii"
-                              | "maliki"
-                              | "hanbali"
-                          )
-                        ));
+              {/* ── HEIRS chapter ── */}
+              {!collapsed && chapterType === "heirs" &&
+                chapter.entries!.map((entry, entryIndex) => {
+                  const visibleNotes = filterNotes(entry.madhabNotes);
+                  const showDiffBadge = entry.hasMadhabDiff && activeFilter === "all";
+                  const hasDiffBorder = showDiffBadge;
 
                   return (
                     <View
@@ -206,7 +382,7 @@ export default function GuideScreen() {
                         styles.card,
                         {
                           backgroundColor: colors.card,
-                          borderColor: showDiffBadge
+                          borderColor: hasDiffBorder
                             ? colors.accent + "55"
                             : colors.border,
                           borderRadius: colors.radius,
@@ -216,79 +392,37 @@ export default function GuideScreen() {
                       {/* Card header */}
                       <View style={styles.cardHeader}>
                         <View style={styles.cardHeaderLeft}>
-                          <Text
-                            style={[
-                              styles.heirName,
-                              { color: colors.foreground },
-                            ]}
-                          >
+                          <Text style={[styles.heirName, { color: colors.foreground }]}>
                             {t(language, `heir.${entry.heirId}`)}
                           </Text>
-                          <Text
-                            style={[
-                              styles.arabicName,
-                              { color: colors.mutedForeground },
-                            ]}
-                          >
+                          <Text style={[styles.arabicName, { color: colors.mutedForeground }]}>
                             {entry.arabicName}
                           </Text>
                         </View>
                         <View style={styles.badgesRow}>
+                          {/* Number badge instead of type badge */}
                           <View
                             style={[
-                              styles.typeBadge,
+                              styles.numberBadge,
                               {
-                                backgroundColor:
-                                  entry.type === "zawilFurud"
-                                    ? colors.primary + "18"
-                                    : colors.accent + "18",
-                                borderColor:
-                                  entry.type === "zawilFurud"
-                                    ? colors.primary + "40"
-                                    : colors.accent + "40",
+                                backgroundColor: colors.primary + "15",
+                                borderColor: colors.primary + "35",
                               },
                             ]}
                           >
-                            <Text
-                              style={[
-                                styles.typeBadgeText,
-                                {
-                                  color:
-                                    entry.type === "zawilFurud"
-                                      ? colors.primary
-                                      : colors.accent,
-                                },
-                              ]}
-                            >
-                              {t(
-                                language,
-                                entry.type === "zawilFurud"
-                                  ? "guide.badge.zawilFurud"
-                                  : "guide.badge.asabah"
-                              )}
+                            <Text style={[styles.numberBadgeText, { color: colors.primary }]}>
+                              {entryIndex + 1}
                             </Text>
                           </View>
                           {showDiffBadge && (
                             <View
                               style={[
                                 styles.diffBadge,
-                                {
-                                  backgroundColor: "#F59E0B18",
-                                  borderColor: "#F59E0B55",
-                                },
+                                { backgroundColor: "#F59E0B18", borderColor: "#F59E0B55" },
                               ]}
                             >
-                              <Feather
-                                name="alert-triangle"
-                                size={9}
-                                color="#F59E0B"
-                              />
-                              <Text
-                                style={[
-                                  styles.diffBadgeText,
-                                  { color: "#F59E0B" },
-                                ]}
-                              >
+                              <Feather name="alert-triangle" size={9} color="#F59E0B" />
+                              <Text style={[styles.diffBadgeText, { color: "#F59E0B" }]}>
                                 {t(language, "guide.madhabDiffers")}
                               </Text>
                             </View>
@@ -297,20 +431,10 @@ export default function GuideScreen() {
                       </View>
 
                       {/* Separator */}
-                      <View
-                        style={[
-                          styles.separator,
-                          { borderTopColor: colors.border },
-                        ]}
-                      />
+                      <View style={[styles.separator, { borderTopColor: colors.border }]} />
 
                       {/* Share scenarios */}
-                      <Text
-                        style={[
-                          styles.sectionLabel,
-                          { color: colors.mutedForeground },
-                        ]}
-                      >
+                      <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>
                         {t(language, "guide.label.shares")}
                       </Text>
                       {entry.scenarios.map((sc, i) => (
@@ -324,22 +448,14 @@ export default function GuideScreen() {
                               },
                             ]}
                           >
-                            <Text
-                              style={[
-                                styles.fractionText,
-                                { color: colors.primary },
-                              ]}
-                            >
+                            <Text style={[styles.fractionText, { color: colors.primary }]}>
                               {t(language, sc.fractionKey)}
                             </Text>
                           </View>
                           <Text
                             style={[
                               styles.condText,
-                              {
-                                color: colors.foreground,
-                                textAlign: rtl ? "right" : "left",
-                              },
+                              { color: colors.foreground, textAlign: rtl ? "right" : "left" },
                             ]}
                           >
                             {t(language, sc.condKey)}
@@ -350,18 +466,8 @@ export default function GuideScreen() {
                       {/* Blockers */}
                       {entry.blockerIds.length > 0 && (
                         <>
-                          <View
-                            style={[
-                              styles.separator,
-                              { borderTopColor: colors.border },
-                            ]}
-                          />
-                          <Text
-                            style={[
-                              styles.sectionLabel,
-                              { color: colors.mutedForeground },
-                            ]}
-                          >
+                          <View style={[styles.separator, { borderTopColor: colors.border }]} />
+                          <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>
                             {t(language, "guide.label.blockedBy")}
                           </Text>
                           <View style={styles.pillsRow}>
@@ -371,18 +477,12 @@ export default function GuideScreen() {
                                 style={[
                                   styles.pill,
                                   {
-                                    backgroundColor:
-                                      colors.accent + "12",
+                                    backgroundColor: colors.accent + "12",
                                     borderColor: colors.accent + "35",
                                   },
                                 ]}
                               >
-                                <Text
-                                  style={[
-                                    styles.pillText,
-                                    { color: colors.accent },
-                                  ]}
-                                >
+                                <Text style={[styles.pillText, { color: colors.accent }]}>
                                   {t(language, `heir.${bid}`)}
                                 </Text>
                               </View>
@@ -394,59 +494,37 @@ export default function GuideScreen() {
                       {/* Madhab diff notes */}
                       {visibleNotes.length > 0 && (
                         <>
-                          <View
-                            style={[
-                              styles.separator,
-                              { borderTopColor: colors.border },
-                            ]}
-                          />
-                          <Text
-                            style={[
-                              styles.sectionLabel,
-                              { color: colors.mutedForeground },
-                            ]}
-                          >
-                            {t(language, "guide.label.madhabNotes")}
-                          </Text>
-                          {visibleNotes.map((note, i) => (
-                            <View
-                              key={i}
-                              style={[
-                                styles.noteRow,
-                                {
-                                  backgroundColor: "#F59E0B0C",
-                                  borderLeftColor: "#F59E0B",
-                                },
-                              ]}
-                            >
-                              <Text
-                                style={[
-                                  styles.noteMadhabs,
-                                  { color: "#F59E0B" },
-                                ]}
-                              >
-                                {note.madhabs
-                                  .map((m) => t(language, `madhab.${m}`))
-                                  .join(" · ")}
-                              </Text>
-                              <Text
-                                style={[
-                                  styles.noteText,
-                                  {
-                                    color: colors.foreground,
-                                    textAlign: rtl ? "right" : "left",
-                                  },
-                                ]}
-                              >
-                                {t(language, note.noteKey)}
-                              </Text>
-                            </View>
-                          ))}
+                          <View style={[styles.separator, { borderTopColor: colors.border }]} />
+                          {renderMadhabNotes(entry.madhabNotes)}
                         </>
                       )}
                     </View>
                   );
                 })}
+
+              {/* ── NARRATIVE chapter ── */}
+              {!collapsed && chapterType === "narrative" && (
+                <View style={styles.narrativeContainer}>
+                  {chapter.blocks!.map((block, i) =>
+                    renderNarrativeBlock(block, i)
+                  )}
+                </View>
+              )}
+
+              {/* ── LADDER chapter ── */}
+              {!collapsed && chapterType === "ladder" && (
+                <View style={styles.ladderContainer}>
+                  <Text
+                    style={[
+                      styles.ladderIntro,
+                      { color: colors.mutedForeground, textAlign: rtl ? "right" : "left" },
+                    ]}
+                  >
+                    {t(language, "guide.hajb.intro")}
+                  </Text>
+                  {chapter.rungs!.map((rung) => renderLadderRung(rung))}
+                </View>
+              )}
             </View>
           );
         })}
@@ -462,19 +540,11 @@ export default function GuideScreen() {
             },
           ]}
         >
-          <Feather
-            name="info"
-            size={14}
-            color={colors.mutedForeground}
-            style={{ marginTop: 1 }}
-          />
+          <Feather name="info" size={14} color={colors.mutedForeground} style={{ marginTop: 1 }} />
           <Text
             style={[
               styles.footerText,
-              {
-                color: colors.mutedForeground,
-                textAlign: rtl ? "right" : "left",
-              },
+              { color: colors.mutedForeground, textAlign: rtl ? "right" : "left" },
             ]}
           >
             {t(language, "guide.footer")}
@@ -509,15 +579,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
   },
-  filterBar: {
-    flexDirection: "row",
-    gap: 8,
-    paddingRight: 4,
-  },
+  filterBar: { flexDirection: "row", gap: 8, paddingRight: 4 },
   filterChip: {
     paddingHorizontal: 14,
     paddingVertical: 7,
-    borderRadius: 999,
+    borderRadius: 8,
     borderWidth: 1,
   },
   filterChipText: {
@@ -575,19 +641,20 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 5,
     justifyContent: "flex-end",
-    maxWidth: 140,
+    alignItems: "center",
   },
-  typeBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+  numberBadge: {
+    width: 28,
+    height: 28,
     borderRadius: 6,
     borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  typeBadgeText: {
-    fontSize: 9,
+  numberBadgeText: {
+    fontSize: 13,
     fontFamily: "Inter_700Bold",
-    letterSpacing: 0.4,
-    textTransform: "uppercase",
+    fontWeight: "700",
   },
   diffBadge: {
     flexDirection: "row",
@@ -604,10 +671,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4,
     textTransform: "uppercase",
   },
-  separator: {
-    borderTopWidth: 1,
-    marginHorizontal: 14,
-  },
+  separator: { borderTopWidth: 1, marginHorizontal: 14 },
   sectionLabel: {
     fontSize: 10,
     fontFamily: "Inter_700Bold",
@@ -627,7 +691,7 @@ const styles = StyleSheet.create({
   fractionBadge: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 8,
+    borderRadius: 6,
     borderWidth: 1,
     minWidth: 60,
     alignItems: "center",
@@ -654,7 +718,7 @@ const styles = StyleSheet.create({
   pill: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 999,
+    borderRadius: 6,
     borderWidth: 1,
   },
   pillText: {
@@ -677,6 +741,112 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   noteText: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    lineHeight: 19,
+  },
+  // Narrative chapter styles
+  narrativeContainer: { gap: 12 },
+  narrativeBlock: {
+    borderWidth: 1,
+    padding: 16,
+    marginBottom: 0,
+    gap: 10,
+  },
+  narrativeTitle: {
+    fontSize: 15,
+    fontFamily: "Inter_700Bold",
+    fontWeight: "700",
+    letterSpacing: -0.1,
+  },
+  narrativeBody: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    lineHeight: 20,
+  },
+  exampleBox: {
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 12,
+    gap: 6,
+  },
+  exampleLabel: {
+    fontSize: 10,
+    fontFamily: "Inter_700Bold",
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
+  exampleText: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    lineHeight: 19,
+  },
+  // Ladder chapter styles
+  ladderContainer: { gap: 0 },
+  ladderIntro: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    lineHeight: 19,
+    marginBottom: 16,
+  },
+  rungWrapper: { position: "relative" },
+  connectorLine: {
+    width: 2,
+    height: 16,
+    marginLeft: 19,
+    marginBottom: 0,
+  },
+  rungCard: {
+    borderWidth: 1,
+    marginBottom: 0,
+    overflow: "hidden",
+    paddingHorizontal: 14,
+    paddingTop: 14,
+    paddingBottom: 10,
+    gap: 10,
+  },
+  rungHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  rungNumber: {
+    width: 40,
+    height: 40,
+    borderRadius: 6,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  },
+  rungNumberText: {
+    fontSize: 17,
+    fontFamily: "Inter_700Bold",
+    fontWeight: "700",
+  },
+  rungLabel: {
+    flex: 1,
+    fontSize: 14,
+    fontFamily: "Inter_700Bold",
+    fontWeight: "700",
+    letterSpacing: -0.1,
+  },
+  rungHeirs: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+  },
+  heirChip: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 6,
+    borderWidth: 1,
+  },
+  heirChipText: {
+    fontSize: 12,
+    fontFamily: "Inter_500Medium",
+  },
+  rungNote: {
     fontSize: 13,
     fontFamily: "Inter_400Regular",
     lineHeight: 19,

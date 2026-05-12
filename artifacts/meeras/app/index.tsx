@@ -252,7 +252,7 @@ export default function HomeScreen() {
           ]}
         >
           <Pressable
-            onPress={() => router.push("/hajb")}
+            onPress={() => router.push("/guide")}
             style={({ pressed }) => [
               styles.tertiaryBtn,
               {
@@ -264,14 +264,14 @@ export default function HomeScreen() {
             ]}
           >
             <Feather
-              name="alert-circle"
+              name="book"
               size={14}
               color={colors.mutedForeground}
             />
             <Text
               style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}
             >
-              {t(language, "home.hajb")}
+              {t(language, "home.guide")}
             </Text>
           </Pressable>
           <Pressable

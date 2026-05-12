@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderWidth: 1,
-    borderRadius: 999,
+    borderRadius: 6,
     overflow: "hidden",
   },
 });

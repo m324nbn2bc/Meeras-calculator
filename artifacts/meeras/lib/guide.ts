@@ -20,16 +20,35 @@ export interface GuideHeirEntry {
   hasMadhabDiff: boolean;
 }
 
+export interface TextBlock {
+  titleKey: string;
+  bodyKey: string;
+  exampleKey?: string;
+  madhabNotes?: MadhabNote[];
+}
+
+export interface LadderRung {
+  priority: number;
+  labelKey: string;
+  heirIds: string[];
+  noteKey: string;
+  madhabNotes?: MadhabNote[];
+}
+
 export interface GuideChapter {
   key: string;
+  type?: 'heirs' | 'narrative' | 'ladder';
   titleKey: string;
   descKey: string;
-  entries: GuideHeirEntry[];
+  entries?: GuideHeirEntry[];
+  blocks?: TextBlock[];
+  rungs?: LadderRung[];
 }
 
 export const GUIDE_CHAPTERS: GuideChapter[] = [
   {
     key: 'zawilFurud',
+    type: 'heirs',
     titleKey: 'guide.chapter.zawilFurud',
     descKey: 'guide.chapter.zawilFurud.desc',
     entries: [
@@ -55,14 +74,8 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         ],
         blockerIds: [],
         madhabNotes: [
-          {
-            madhabs: ['hanafi', 'shafii', 'hanbali'],
-            noteKey: 'guide.diff.radd.sunni3',
-          },
-          {
-            madhabs: ['maliki'],
-            noteKey: 'guide.diff.radd.maliki',
-          },
+          { madhabs: ['hanafi', 'shafii', 'hanbali'], noteKey: 'guide.diff.radd.sunni3' },
+          { madhabs: ['maliki'], noteKey: 'guide.diff.radd.maliki' },
         ],
         hasMadhabDiff: true,
       },
@@ -104,14 +117,8 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         ],
         blockerIds: ['father'],
         madhabNotes: [
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.grandfather.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki', 'hanbali'],
-            noteKey: 'guide.diff.grandfather.others',
-          },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.grandfather.hanafi' },
+          { madhabs: ['shafii', 'maliki', 'hanbali'], noteKey: 'guide.diff.grandfather.others' },
         ],
         hasMadhabDiff: true,
       },
@@ -177,22 +184,10 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         ],
         blockerIds: ['son', 'grandson', 'father', 'paternalGrandfather'],
         madhabNotes: [
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.grandfather.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki', 'hanbali'],
-            noteKey: 'guide.diff.grandfather.others',
-          },
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.mushtarakah.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki'],
-            noteKey: 'guide.diff.mushtarakah.others',
-          },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.grandfather.hanafi' },
+          { madhabs: ['shafii', 'maliki', 'hanbali'], noteKey: 'guide.diff.grandfather.others' },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.mushtarakah.hanafi' },
+          { madhabs: ['shafii', 'maliki'], noteKey: 'guide.diff.mushtarakah.others' },
         ],
         hasMadhabDiff: true,
       },
@@ -208,14 +203,8 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         ],
         blockerIds: ['son', 'grandson', 'father', 'paternalGrandfather', 'fullBrother'],
         madhabNotes: [
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.grandfather.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki', 'hanbali'],
-            noteKey: 'guide.diff.grandfather.others',
-          },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.grandfather.hanafi' },
+          { madhabs: ['shafii', 'maliki', 'hanbali'], noteKey: 'guide.diff.grandfather.others' },
         ],
         hasMadhabDiff: true,
       },
@@ -229,22 +218,10 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         ],
         blockerIds: ['son', 'daughter', 'grandson', 'granddaughter', 'father', 'paternalGrandfather'],
         madhabNotes: [
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.uterine.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki', 'hanbali'],
-            noteKey: 'guide.diff.uterine.others',
-          },
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.mushtarakah.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki'],
-            noteKey: 'guide.diff.mushtarakah.others',
-          },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.uterine.hanafi' },
+          { madhabs: ['shafii', 'maliki', 'hanbali'], noteKey: 'guide.diff.uterine.others' },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.mushtarakah.hanafi' },
+          { madhabs: ['shafii', 'maliki'], noteKey: 'guide.diff.mushtarakah.others' },
         ],
         hasMadhabDiff: true,
       },
@@ -252,6 +229,7 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
   },
   {
     key: 'asabah',
+    type: 'heirs',
     titleKey: 'guide.chapter.asabah',
     descKey: 'guide.chapter.asabah.desc',
     entries: [
@@ -289,22 +267,10 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         ],
         blockerIds: ['son', 'grandson', 'father', 'paternalGrandfather'],
         madhabNotes: [
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.mushtarakah.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki'],
-            noteKey: 'guide.diff.mushtarakah.others',
-          },
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.grandfather.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki', 'hanbali'],
-            noteKey: 'guide.diff.grandfather.others',
-          },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.mushtarakah.hanafi' },
+          { madhabs: ['shafii', 'maliki'], noteKey: 'guide.diff.mushtarakah.others' },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.grandfather.hanafi' },
+          { madhabs: ['shafii', 'maliki', 'hanbali'], noteKey: 'guide.diff.grandfather.others' },
         ],
         hasMadhabDiff: true,
       },
@@ -318,14 +284,8 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         ],
         blockerIds: ['son', 'grandson', 'father', 'paternalGrandfather', 'fullBrother'],
         madhabNotes: [
-          {
-            madhabs: ['hanafi'],
-            noteKey: 'guide.diff.grandfather.hanafi',
-          },
-          {
-            madhabs: ['shafii', 'maliki', 'hanbali'],
-            noteKey: 'guide.diff.grandfather.others',
-          },
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.grandfather.hanafi' },
+          { madhabs: ['shafii', 'maliki', 'hanbali'], noteKey: 'guide.diff.grandfather.others' },
         ],
         hasMadhabDiff: true,
       },
@@ -339,6 +299,79 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         blockerIds: ['son', 'grandson', 'father', 'paternalGrandfather', 'fullBrother', 'paternalHalfBrother'],
         madhabNotes: [],
         hasMadhabDiff: false,
+      },
+    ],
+  },
+  {
+    key: 'awlRadd',
+    type: 'narrative',
+    titleKey: 'guide.chapter.awlRadd',
+    descKey: 'guide.chapter.awlRadd.desc',
+    blocks: [
+      {
+        titleKey: 'guide.awlRadd.awl.title',
+        bodyKey: 'guide.awlRadd.awl.body',
+      },
+      {
+        titleKey: 'guide.awlRadd.awlCases.title',
+        bodyKey: 'guide.awlRadd.awlCases.body',
+      },
+      {
+        titleKey: 'guide.awlRadd.radd.title',
+        bodyKey: 'guide.awlRadd.radd.body',
+        exampleKey: 'guide.awlRadd.radd.example',
+        madhabNotes: [
+          { madhabs: ['hanafi', 'shafii', 'hanbali'], noteKey: 'guide.diff.radd.sunni3' },
+          { madhabs: ['maliki'], noteKey: 'guide.diff.radd.maliki' },
+        ],
+      },
+    ],
+  },
+  {
+    key: 'hajb',
+    type: 'ladder',
+    titleKey: 'guide.chapter.hajb',
+    descKey: 'guide.chapter.hajb.desc',
+    rungs: [
+      {
+        priority: 1,
+        labelKey: 'guide.hajb.tier1.label',
+        heirIds: ['husband', 'wife', 'son', 'daughter', 'father', 'mother'],
+        noteKey: 'guide.hajb.tier1.note',
+      },
+      {
+        priority: 2,
+        labelKey: 'guide.hajb.tier2.label',
+        heirIds: ['paternalGrandfather', 'maternalGrandmother', 'paternalGrandmother', 'grandson', 'granddaughter'],
+        noteKey: 'guide.hajb.tier2.note',
+      },
+      {
+        priority: 3,
+        labelKey: 'guide.hajb.tier3.label',
+        heirIds: ['fullBrother', 'fullSister'],
+        noteKey: 'guide.hajb.tier3.note',
+        madhabNotes: [
+          { madhabs: ['hanafi'], noteKey: 'guide.diff.hajb.hanafi' },
+          { madhabs: ['shafii', 'maliki', 'hanbali'], noteKey: 'guide.diff.hajb.others' },
+        ],
+      },
+      {
+        priority: 4,
+        labelKey: 'guide.hajb.tier4.label',
+        heirIds: ['paternalHalfBrother', 'paternalHalfSister'],
+        noteKey: 'guide.hajb.tier4.note',
+      },
+      {
+        priority: 5,
+        labelKey: 'guide.hajb.tier5.label',
+        heirIds: ['maternalHalfSibling'],
+        noteKey: 'guide.hajb.tier5.note',
+      },
+      {
+        priority: 6,
+        labelKey: 'guide.hajb.tier6.label',
+        heirIds: ['fullBrothersSon', 'paternalHalfBrothersSon', 'fullPaternalUncle', 'paternalHalfPaternalUncle', 'fullPaternalUnclesSon', 'paternalHalfPaternalUnclesSon'],
+        noteKey: 'guide.hajb.tier6.note',
       },
     ],
   },

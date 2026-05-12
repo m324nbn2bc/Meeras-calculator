@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   countBadge: {
-    borderRadius: 999,
+    borderRadius: 6,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   famousBadge: {
-    borderRadius: 999,
+    borderRadius: 6,
     paddingHorizontal: 6,
     paddingVertical: 1,
   },
@@ -496,7 +496,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 3,
     borderWidth: 1,
-    borderRadius: 999,
+    borderRadius: 6,
     paddingHorizontal: 8,
     paddingVertical: 3,
   },

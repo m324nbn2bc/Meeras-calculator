@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     gap: 4,
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 999,
+    borderRadius: 6,
     borderWidth: 1,
   },
   blockedBadgeText: {
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   pill: {
     paddingHorizontal: 10,
     paddingVertical: 5,
-    borderRadius: 999,
+    borderRadius: 6,
     borderWidth: 1,
   },
   pillText: {
