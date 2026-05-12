@@ -54,6 +54,7 @@ function ThemedStack() {
         <Stack.Screen name="hajb" options={{ title: "" }} />
         <Stack.Screen name="history" options={{ title: "" }} />
         <Stack.Screen name="about" options={{ title: "" }} />
+        <Stack.Screen name="guide" options={{ title: "" }} />
       </Stack>
     </>
   );

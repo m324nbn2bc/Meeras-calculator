@@ -422,6 +422,160 @@ const en: Dict = {
   "about.footer":
     "Meeras Calculator — For educational use only. Always consult a qualified Islamic scholar for actual inheritance rulings.",
 
+  // ── Guide Screen ──
+  "home.guide": "Inheritance Guide",
+  "guide.title": "Inheritance Guide",
+  "guide.subtitle":
+    "A scholarly reference for Faraid — heir shares, conditions, and inter-school differences. More chapters coming soon.",
+  "guide.filterAll": "A'immah Arba'ah",
+  "guide.madhabDiffers": "Differs",
+  "guide.label.shares": "Shares",
+  "guide.label.blockedBy": "Excluded by",
+  "guide.label.madhabNotes": "School Differences",
+  "guide.badge.zawilFurud": "Zawil Furud",
+  "guide.badge.asabah": "Asabah",
+  "guide.footer":
+    "This guide presents Hanafi rules as the primary reference, with noted differences across other schools. For any actual inheritance distribution, always consult a qualified Islamic scholar (Mufti).",
+
+  "guide.chapter.zawilFurud": "Zawil Furud — Fixed Share Heirs",
+  "guide.chapter.zawilFurud.desc":
+    "The 12 heirs whose shares are explicitly fixed in the Quran and Sunnah. Each receives a defined fraction under specific conditions.",
+  "guide.chapter.asabah": "Asabah — Residuary Heirs",
+  "guide.chapter.asabah.desc":
+    "Heirs who receive the remainder after fixed shares are distributed. Priority runs strictly from the closest surviving male relative downward.",
+
+  "guide.frac.half": "1/2",
+  "guide.frac.quarter": "1/4",
+  "guide.frac.eighth": "1/8",
+  "guide.frac.third": "1/3",
+  "guide.frac.twoThirds": "2/3",
+  "guide.frac.sixth": "1/6",
+  "guide.frac.twelfth": "1/12",
+  "guide.frac.sixthPlusAsabah": "1/6 + Asabah",
+  "guide.frac.thirdRemainder": "1/3 of remainder",
+  "guide.frac.asabah": "Asabah",
+  "guide.frac.allEstate": "Full estate",
+
+  // Share condition strings
+  "guide.husband.c1": "Deceased has no descendants — husband takes 1/2",
+  "guide.husband.c2": "Deceased has descendants (any) — husband takes 1/4",
+
+  "guide.wife.c1":
+    "Deceased has no descendants — wife takes 1/4 (divided equally among wives if multiple)",
+  "guide.wife.c2":
+    "Deceased has descendants — wife takes 1/8 (divided equally among wives if multiple)",
+
+  "guide.father.c1":
+    "Male descendants exist (son or grandson) — father takes 1/6 fixed",
+  "guide.father.c2":
+    "Female descendants only (daughters/granddaughters, no sons) — father takes 1/6 fixed plus whatever remains as Asabah",
+  "guide.father.c3":
+    "No descendants — father takes the entire residue as pure Asabah",
+
+  "guide.mother.c1":
+    "No descendants AND fewer than 2 siblings — mother takes 1/3",
+  "guide.mother.c2":
+    "Descendants present (any) — mother reduced to 1/6",
+  "guide.mother.c3":
+    "Two or more siblings of any type — mother reduced to 1/6",
+  "guide.mother.c4":
+    "Umariyyatain: spouse + father present, no descendants, fewer than 2 siblings — mother takes 1/3 of the remainder after the spouse's share (not 1/3 of the full estate)",
+
+  "guide.pgf.c1":
+    "Father absent; male descendants present — grandfather takes 1/6 fixed (acts as father)",
+  "guide.pgf.c2":
+    "Father absent; female descendants only — grandfather takes 1/6 fixed plus residue as Asabah",
+  "guide.pgf.c3":
+    "Father absent; no descendants — grandfather takes the entire residue as pure Asabah",
+
+  "guide.mgranny.c1":
+    "Mother absent; only maternal grandmother eligible — she takes 1/6",
+  "guide.mgranny.c2":
+    "Both maternal and paternal grandmothers eligible — they share 1/6 equally (1/12 each)",
+
+  "guide.pgranny.c1":
+    "No mother, father, or paternal grandfather; only paternal grandmother eligible — she takes 1/6",
+  "guide.pgranny.c2":
+    "Both grandmothers eligible — they share 1/6 equally (1/12 each)",
+
+  "guide.daughter.c1":
+    "Sole daughter, no son — takes 1/2",
+  "guide.daughter.c2":
+    "Multiple daughters, no son — collectively take 2/3 divided equally",
+  "guide.daughter.c3":
+    "Son present — no fixed share; becomes Asabah with the son in a 2:1 ratio (son gets twice the daughter's share)",
+
+  "guide.granddaughter.c1":
+    "Sole granddaughter; no son, no daughters, no grandson — takes 1/2",
+  "guide.granddaughter.c2":
+    "Multiple granddaughters; no son or daughters — collectively take 2/3",
+  "guide.granddaughter.c3":
+    "Exactly one daughter present (no sons or grandsons) — granddaughter(s) take 1/6 to complete the daughters' 2/3 cap",
+  "guide.granddaughter.c4":
+    "Grandson present — no fixed share; becomes Asabah with grandson in 2:1 ratio",
+
+  "guide.fullSister.c1":
+    "Sole full sister; no male descendants, father, grandfather, or brothers — takes 1/2",
+  "guide.fullSister.c2":
+    "Multiple full sisters; same conditions — collectively take 2/3",
+  "guide.fullSister.c3":
+    "Daughters or granddaughters present (no son, grandson, or brother) — becomes Asabah ma'a Ghayrihi, taking the entire residue",
+
+  "guide.consSister.c1":
+    "Sole consanguine sister; no blocking relatives — takes 1/2",
+  "guide.consSister.c2":
+    "Multiple consanguine sisters — collectively take 2/3",
+  "guide.consSister.c3":
+    "One full sister present (no full brother) — consanguine sister(s) take 1/6 to complete the 2/3 sisters' cap",
+  "guide.consSister.c4":
+    "Daughters/granddaughters + no full siblings — becomes Asabah ma'a Ghayrihi",
+
+  "guide.uterine.c1":
+    "Sole uterine sibling; no descendants, father, or grandfather — takes 1/6",
+  "guide.uterine.c2":
+    "Multiple uterine siblings — collectively take 1/3, divided equally regardless of gender",
+
+  "guide.son.c1":
+    "Sole male heir or sole residuary — takes the full estate",
+  "guide.son.c2":
+    "Daughters also present — takes Asabah in a 2:1 ratio with daughters (son receives double a daughter's share)",
+
+  "guide.grandson.c1":
+    "No son; sole male at this level — takes the full residue",
+  "guide.grandson.c2":
+    "Granddaughters also present — shares residue in 2:1 ratio with granddaughters",
+
+  "guide.fullBrother.c1":
+    "Sole full brother; no higher-priority heirs — takes the full residue",
+  "guide.fullBrother.c2":
+    "Full sisters also present — shares residue in 2:1 ratio (brother gets twice a sister's share)",
+
+  "guide.consBrother.c1":
+    "Sole consanguine brother; no full brother — takes the full residue",
+  "guide.consBrother.c2":
+    "Consanguine sisters also present — shares residue in 2:1 ratio",
+
+  "guide.extended.c1":
+    "Priority chain (each group excludes lower): Full Brother's Son → Consanguine Brother's Son → Full Paternal Uncle → Consanguine Paternal Uncle → Full Paternal Uncle's Son → Consanguine Paternal Uncle's Son",
+
+  // Madhab difference notes
+  "guide.diff.grandfather.hanafi":
+    "Hanafi: The paternal grandfather completely blocks all siblings — full, consanguine, and uterine. Siblings inherit nothing when the grandfather is alive.",
+  "guide.diff.grandfather.others":
+    "Shafi'i · Maliki · Hanbali: Muqasamah rule applies — grandfather and siblings divide the residue together. Grandfather takes whichever is greater: an equal share alongside siblings, or 1/3 of the total estate.",
+  "guide.diff.uterine.hanafi":
+    "Hanafi: The paternal grandfather blocks uterine siblings entirely, just as the father does.",
+  "guide.diff.uterine.others":
+    "Shafi'i · Maliki · Hanbali: The grandfather does NOT block uterine siblings. They still receive their 1/6 (one sibling) or 1/3 (multiple siblings) share even when the grandfather is present.",
+  "guide.diff.radd.sunni3":
+    "Hanafi · Shafi'i · Hanbali: The spouse is excluded from Radd. Any estate surplus is returned only to the other fixed-share heirs.",
+  "guide.diff.radd.maliki":
+    "Maliki: The spouse is included in Radd and receives a proportional share of any returned surplus alongside the other fixed-share heirs.",
+  "guide.diff.mushtarakah.hanafi":
+    "Hanafi: In the Mushtarakah case (husband + mother + uterine siblings + full brothers), full brothers are pure Asabah and take the residue. Uterine siblings take their 1/3 Furudh share first.",
+  "guide.diff.mushtarakah.others":
+    "Maliki · Shafi'i: Mushtarakah ruling — full brothers and uterine siblings share the 1/3 portion equally, preventing full brothers from displacing the uterine siblings entirely.",
+
   // ── Hajb Screen ──
   "home.hajb": "Blocking Rules (Hajb)",
   "hajb.title": "Hajb — Blocking Rules",
@@ -709,6 +863,142 @@ const ur: Dict = {
   "about.footer":
     "میراث کیلکولیٹر — صرف تعلیمی استعمال کے لیے۔ حقیقی وراثت کے لیے ہمیشہ اہل علم سے رجوع کریں۔",
 
+  // ── Guide Screen ──
+  "home.guide": "وراثت گائیڈ",
+  "guide.title": "وراثت گائیڈ",
+  "guide.subtitle":
+    "فرائض کا علمی حوالہ — وارثوں کے حصے، شرائط، اور مسالک کے درمیان اختلافات۔ مزید ابواب جلد آ رہے ہیں۔",
+  "guide.filterAll": "ائمہ اربعہ",
+  "guide.madhabDiffers": "اختلاف",
+  "guide.label.shares": "حصے",
+  "guide.label.blockedBy": "سے محروم",
+  "guide.label.madhabNotes": "مسالک کے اختلافات",
+  "guide.badge.zawilFurud": "ذوی الفروض",
+  "guide.badge.asabah": "عصبہ",
+  "guide.footer":
+    "یہ گائیڈ بنیادی طور پر حنفی مسلک کے اصول پیش کرتی ہے، جہاں دیگر مسالک مختلف ہوں وہاں نوٹ کیا گیا ہے۔ حقیقی وراثت کی تقسیم کے لیے ہمیشہ کسی اہل مفتی سے رجوع کریں۔",
+
+  "guide.chapter.zawilFurud": "ذوو الفروض — مقررہ حصہ دار",
+  "guide.chapter.zawilFurud.desc":
+    "وہ 12 وارث جن کے حصے قرآن و سنت میں واضح طور پر مقرر ہیں۔ ہر ایک مخصوص شرائط کے تحت ایک متعین حصہ پاتا ہے۔",
+  "guide.chapter.asabah": "عصبہ — بقیہ کے وارث",
+  "guide.chapter.asabah.desc":
+    "وہ وارث جو مقررہ حصوں کی تقسیم کے بعد باقی ترکہ پاتے ہیں۔ ترتیب سختی سے قریب ترین مرد رشتہ دار سے شروع ہوتی ہے۔",
+
+  "guide.frac.half": "1/2",
+  "guide.frac.quarter": "1/4",
+  "guide.frac.eighth": "1/8",
+  "guide.frac.third": "1/3",
+  "guide.frac.twoThirds": "2/3",
+  "guide.frac.sixth": "1/6",
+  "guide.frac.twelfth": "1/12",
+  "guide.frac.sixthPlusAsabah": "1/6 + عصبہ",
+  "guide.frac.thirdRemainder": "بقیہ کا 1/3",
+  "guide.frac.asabah": "عصبہ",
+  "guide.frac.allEstate": "پورا ترکہ",
+
+  "guide.husband.c1": "میت کی کوئی اولاد نہ ہو — شوہر کو 1/2 ملتا ہے",
+  "guide.husband.c2": "میت کی اولاد ہو (کوئی بھی) — شوہر کو 1/4 ملتا ہے",
+  "guide.wife.c1":
+    "میت کی کوئی اولاد نہ ہو — بیوی کو 1/4 ملتا ہے (متعدد بیویاں ہوں تو برابر تقسیم)",
+  "guide.wife.c2":
+    "میت کی اولاد ہو — بیوی کو 1/8 ملتا ہے (متعدد بیویاں ہوں تو برابر تقسیم)",
+  "guide.father.c1":
+    "مرد اولاد موجود ہو (بیٹا یا پوتا) — والد کو 1/6 مقررہ",
+  "guide.father.c2":
+    "صرف خواتین اولاد ہوں (بیٹیاں/پوتیاں، کوئی بیٹا نہیں) — والد کو 1/6 مقررہ + بقیہ بطور عصبہ",
+  "guide.father.c3":
+    "کوئی اولاد نہ ہو — والد پورا بقیہ خالص عصبہ کے طور پر لیتا ہے",
+  "guide.mother.c1":
+    "کوئی اولاد نہ ہو اور دو سے کم بہن بھائی ہوں — والدہ کو 1/3",
+  "guide.mother.c2":
+    "کوئی بھی اولاد موجود ہو — والدہ 1/6 پر آ جاتی ہے",
+  "guide.mother.c3":
+    "دو یا زائد بہن بھائی موجود ہوں — والدہ 1/6 پر آ جاتی ہے",
+  "guide.mother.c4":
+    "عمریتین: میاں/بیوی + والد موجود، کوئی اولاد نہ ہو، دو سے کم بہن بھائی — والدہ کو میاں/بیوی کے حصے کے بعد بقیہ کا 1/3 (پورے ترکہ کا 1/3 نہیں)",
+  "guide.pgf.c1":
+    "والد غیر حاضر؛ مرد اولاد موجود — دادا کو 1/6 مقررہ (والد کی جگہ)",
+  "guide.pgf.c2":
+    "والد غیر حاضر؛ صرف خواتین اولاد — دادا کو 1/6 مقررہ + بقیہ بطور عصبہ",
+  "guide.pgf.c3":
+    "والد غیر حاضر؛ کوئی اولاد نہ ہو — دادا پورا بقیہ خالص عصبہ کے طور پر لیتا ہے",
+  "guide.mgranny.c1":
+    "والدہ غیر حاضر؛ صرف نانی اہل — وہ 1/6 لیتی ہے",
+  "guide.mgranny.c2":
+    "نانی اور دادی دونوں اہل — 1/6 برابر تقسیم (ہر ایک کو 1/12)",
+  "guide.pgranny.c1":
+    "کوئی والدہ، والد یا دادا نہ ہو؛ صرف دادی اہل — وہ 1/6 لیتی ہے",
+  "guide.pgranny.c2":
+    "دونوں دادیاں اہل — 1/6 برابر تقسیم (ہر ایک کو 1/12)",
+  "guide.daughter.c1":
+    "اکیلی بیٹی، کوئی بیٹا نہیں — 1/2 لیتی ہے",
+  "guide.daughter.c2":
+    "متعدد بیٹیاں، کوئی بیٹا نہیں — مجموعی 2/3 برابر تقسیم",
+  "guide.daughter.c3":
+    "بیٹا موجود ہو — کوئی مقررہ حصہ نہیں؛ بیٹے کے ساتھ 2:1 کی نسبت سے عصبہ بنتی ہے",
+  "guide.granddaughter.c1":
+    "اکیلی پوتی؛ کوئی بیٹا، بیٹی یا پوتا نہیں — 1/2 لیتی ہے",
+  "guide.granddaughter.c2":
+    "متعدد پوتیاں؛ کوئی بیٹا یا بیٹی نہیں — مجموعی 2/3",
+  "guide.granddaughter.c3":
+    "ایک بیٹی موجود (کوئی بیٹا یا پوتا نہیں) — پوتی/پوتیاں 2/3 کی حد مکمل کرنے کے لیے 1/6 لیتی ہیں",
+  "guide.granddaughter.c4":
+    "پوتا موجود — کوئی مقررہ حصہ نہیں؛ پوتے کے ساتھ 2:1 نسبت سے عصبہ",
+  "guide.fullSister.c1":
+    "اکیلی حقیقی بہن؛ کوئی مانع رشتہ دار نہ ہو — 1/2 لیتی ہے",
+  "guide.fullSister.c2":
+    "متعدد حقیقی بہنیں؛ انہی شرائط میں — مجموعی 2/3",
+  "guide.fullSister.c3":
+    "بیٹیاں یا پوتیاں موجود ہوں (بیٹا، پوتا یا بھائی نہ ہو) — عصبہ مع غیرہ بن کر پورا بقیہ لیتی ہے",
+  "guide.consSister.c1":
+    "اکیلی علاتی بہن؛ کوئی مانع رشتہ دار نہ ہو — 1/2",
+  "guide.consSister.c2":
+    "متعدد علاتی بہنیں — مجموعی 2/3",
+  "guide.consSister.c3":
+    "ایک حقیقی بہن موجود (کوئی حقیقی بھائی نہیں) — علاتی بہن/بہنیں 2/3 کی حد مکمل کرنے کے لیے 1/6 لیتی ہیں",
+  "guide.consSister.c4":
+    "بیٹیاں/پوتیاں + کوئی حقیقی بہن بھائی نہیں — عصبہ مع غیرہ",
+  "guide.uterine.c1":
+    "اکیلا اخیافی بہن/بھائی؛ کوئی اولاد، والد یا دادا نہ ہو — 1/6",
+  "guide.uterine.c2":
+    "متعدد اخیافی بہن بھائی — مجموعی 1/3، جنس سے قطع نظر برابر تقسیم",
+  "guide.son.c1":
+    "اکیلا مرد وارث یا اکیلا عصبہ — پورا ترکہ لیتا ہے",
+  "guide.son.c2":
+    "بیٹیاں بھی موجود — 2:1 کی نسبت سے بیٹیوں کے ساتھ عصبہ (بیٹے کو بیٹی سے دگنا)",
+  "guide.grandson.c1":
+    "کوئی بیٹا نہیں؛ اس سطح پر اکیلا مرد — پورا بقیہ لیتا ہے",
+  "guide.grandson.c2":
+    "پوتیاں بھی موجود — بقیہ 2:1 کی نسبت سے پوتیوں کے ساتھ",
+  "guide.fullBrother.c1":
+    "اکیلا حقیقی بھائی؛ کوئی اعلیٰ ترجیحی وارث نہیں — پورا بقیہ لیتا ہے",
+  "guide.fullBrother.c2":
+    "حقیقی بہنیں بھی موجود — بقیہ 2:1 کی نسبت سے (بھائی کو بہن سے دگنا)",
+  "guide.consBrother.c1":
+    "اکیلا علاتی بھائی؛ کوئی حقیقی بھائی نہیں — پورا بقیہ",
+  "guide.consBrother.c2":
+    "علاتی بہنیں بھی موجود — بقیہ 2:1 کی نسبت سے",
+  "guide.extended.c1":
+    "ترتیب (ہر گروہ نچلے کو محروم کرتا ہے): حقیقی بھائی کا بیٹا ← علاتی بھائی کا بیٹا ← حقیقی چچا ← علاتی چچا ← حقیقی چچا کا بیٹا ← علاتی چچا کا بیٹا",
+
+  "guide.diff.grandfather.hanafi":
+    "حنفی: دادا تمام بہن بھائیوں کو مکمل طور پر محروم کر دیتا ہے — حقیقی، علاتی اور اخیافی سب۔ دادا کی زندگی میں بہن بھائیوں کو کچھ نہیں ملتا۔",
+  "guide.diff.grandfather.others":
+    "شافعی · مالکی · حنبلی: مقاسمہ کا اصول لاگو ہوتا ہے — دادا اور بہن بھائی مل کر بقیہ تقسیم کرتے ہیں۔ دادا جو بھی زیادہ ہو لیتا ہے: بہن بھائیوں کے ساتھ برابر حصہ، یا کل ترکہ کا 1/3۔",
+  "guide.diff.uterine.hanafi":
+    "حنفی: دادا اخیافی بہن بھائیوں کو بھی مکمل محروم کر دیتا ہے، بالکل ویسے جیسے والد کرتا ہے۔",
+  "guide.diff.uterine.others":
+    "شافعی · مالکی · حنبلی: دادا اخیافی بہن بھائیوں کو محروم نہیں کرتا۔ انہیں اپنا مقررہ حصہ 1/6 یا 1/3 ملتا رہتا ہے حتیٰ کہ دادا زندہ ہو۔",
+  "guide.diff.radd.sunni3":
+    "حنفی · شافعی · حنبلی: شوہر/بیوی کو رَدّ میں شامل نہیں کیا جاتا۔ بچا ہوا حصہ صرف دیگر مقررہ وارثوں میں واپس لوٹایا جاتا ہے۔",
+  "guide.diff.radd.maliki":
+    "مالکی: شوہر/بیوی کو بھی رَدّ میں شامل کیا جاتا ہے اور وہ دیگر مقررہ وارثوں کے ساتھ بقیہ میں نسبتی حصہ پاتے ہیں۔",
+  "guide.diff.mushtarakah.hanafi":
+    "حنفی: مسئلہ مشترکہ میں (شوہر + والدہ + اخیافی بہن بھائی + حقیقی بھائی) — حقیقی بھائی خالص عصبہ ہیں اور پورا بقیہ لیتے ہیں۔ اخیافی بہن بھائی پہلے اپنا 1/3 فرائض حصہ لیتے ہیں۔",
+  "guide.diff.mushtarakah.others":
+    "مالکی · شافعی: مسئلہ مشترکہ — حقیقی بھائی اور اخیافی بہن بھائی 1/3 حصہ برابر مل کر تقسیم کرتے ہیں تاکہ حقیقی بھائی اخیافی کو مکمل محروم نہ کر سکے۔",
+
   // ── Hajb Screen ──
   "home.hajb": "حجب — محرومی کے اصول",
   "hajb.title": "حجب — محرومی کے اصول",
@@ -994,6 +1284,98 @@ const ar: Dict = {
     "جميع الحسابات تتم على جهازك مباشرة. لا تُرسَل أي بيانات إلى أي خادم، ولا حاجة لاتصال بالإنترنت.",
   "about.footer":
     "حاسبة الميراث — للاستخدام التعليمي فقط. ارجع دائمًا إلى عالم شريعة مؤهل لأحكام الميراث الفعلية.",
+
+  // ── Guide Screen ──
+  "home.guide": "دليل الميراث",
+  "guide.title": "دليل الميراث",
+  "guide.subtitle":
+    "مرجع علمي في الفرائض — حصص الورثة وشروطها والخلافات بين المذاهب. المزيد من الأبواب قريبًا.",
+  "guide.filterAll": "الأئمة الأربعة",
+  "guide.madhabDiffers": "خلاف",
+  "guide.label.shares": "الحصص",
+  "guide.label.blockedBy": "يُحجب بـ",
+  "guide.label.madhabNotes": "الخلافات المذهبية",
+  "guide.badge.zawilFurud": "ذوو الفروض",
+  "guide.badge.asabah": "العصبة",
+  "guide.footer":
+    "يعرض هذا الدليل أحكام المذهب الحنفي أساسًا مع الإشارة إلى مواضع الخلاف عند غيره. لأي توزيع فعلي للميراث استشر عالمًا مؤهلًا (مفتيًا).",
+  "guide.chapter.zawilFurud": "ذوو الفروض — أصحاب الحصص المقدَّرة",
+  "guide.chapter.zawilFurud.desc":
+    "الورثة الاثنا عشر الذين نصّ القرآن والسنة على حصصهم بعينها. لكل منهم حصة محددة بشروط معينة.",
+  "guide.chapter.asabah": "العصبة — ورثة الباقي",
+  "guide.chapter.asabah.desc":
+    "الورثة الذين يأخذون ما تبقى من التركة بعد توزيع الفروض، بترتيب أولوية صارم يبدأ بأقرب عاصب ذكر.",
+  "guide.frac.half": "1/2",
+  "guide.frac.quarter": "1/4",
+  "guide.frac.eighth": "1/8",
+  "guide.frac.third": "1/3",
+  "guide.frac.twoThirds": "2/3",
+  "guide.frac.sixth": "1/6",
+  "guide.frac.twelfth": "1/12",
+  "guide.frac.sixthPlusAsabah": "1/6 + تعصيب",
+  "guide.frac.thirdRemainder": "ثلث الباقي",
+  "guide.frac.asabah": "تعصيب",
+  "guide.frac.allEstate": "كامل التركة",
+  "guide.husband.c1": "لا فرع وارث للمتوفاة — للزوج النصف 1/2",
+  "guide.husband.c2": "يوجد فرع وارث — للزوج الربع 1/4",
+  "guide.wife.c1": "لا فرع وارث للمتوفى — للزوجة الربع 1/4 (يُشترك فيه بين الزوجات إن تعددن)",
+  "guide.wife.c2": "يوجد فرع وارث — للزوجة الثمن 1/8 (يُشترك فيه بين الزوجات إن تعددن)",
+  "guide.father.c1": "يوجد فرع وارث ذكر (ابن أو ابن ابن) — للأب السدس 1/6 فرضًا",
+  "guide.father.c2": "فرع وارث إناث فقط (بنات/بنات ابن) — للأب السدس فرضًا والباقي تعصيبًا",
+  "guide.father.c3": "لا فرع وارث — يأخذ الأب كامل الباقي عصبةً بنفسه",
+  "guide.mother.c1": "لا فرع وارث وأقل من اثنين من الإخوة — للأم الثلث 1/3",
+  "guide.mother.c2": "يوجد فرع وارث — تُردّ الأم إلى السدس 1/6",
+  "guide.mother.c3": "اثنان أو أكثر من الإخوة من أي نوع — تُردّ الأم إلى السدس 1/6",
+  "guide.mother.c4": "العمريتان: وجود زوج أو زوجة + الأب، لا فرع وارث، أقل من اثنين من الإخوة — للأم ثلث الباقي بعد نصيب الزوج/الزوجة",
+  "guide.pgf.c1": "غياب الأب؛ فرع وارث ذكر — للجد السدس 1/6 فرضًا (يقوم مقام الأب)",
+  "guide.pgf.c2": "غياب الأب؛ فرع وارث إناث فقط — للجد السدس فرضًا والباقي تعصيبًا",
+  "guide.pgf.c3": "غياب الأب؛ لا فرع وارث — يأخذ الجد كامل الباقي عصبةً",
+  "guide.mgranny.c1": "غياب الأم؛ الجدة لأم وحدها مستحقة — لها السدس 1/6",
+  "guide.mgranny.c2": "استحقاق كلتا الجدتين — تشتركان في السدس (لكل منهما 1/12)",
+  "guide.pgranny.c1": "غياب الأم والأب والجد؛ الجدة لأب وحدها مستحقة — لها السدس 1/6",
+  "guide.pgranny.c2": "استحقاق كلتا الجدتين — تشتركان في السدس (لكل منهما 1/12)",
+  "guide.daughter.c1": "بنت واحدة، لا ابن — لها النصف 1/2",
+  "guide.daughter.c2": "بنتان فأكثر، لا ابن — لهن الثلثان 2/3 مشتركًا",
+  "guide.daughter.c3": "ابن موجود — لا فرض؛ تصير عصبةً مع الابن بنسبة 2:1",
+  "guide.granddaughter.c1": "بنت ابن واحدة؛ لا ابن ولا بنت ولا ابن ابن — لها النصف 1/2",
+  "guide.granddaughter.c2": "بنات ابن متعددات؛ لا ابن ولا بنات — لهن الثلثان 2/3",
+  "guide.granddaughter.c3": "بنت واحدة فقط (لا ابن ولا ابن ابن) — تستكمل بنت الابن الثلثين بأخذ السدس 1/6",
+  "guide.granddaughter.c4": "ابن ابن موجود — تصير عصبةً معه بنسبة 2:1",
+  "guide.fullSister.c1": "أخت شقيقة واحدة؛ لا حاجب — لها النصف 1/2",
+  "guide.fullSister.c2": "أختان شقيقتان فأكثر — لهن الثلثان 2/3 مشتركًا",
+  "guide.fullSister.c3": "بنات أو بنات ابن موجودات (لا ابن ولا ابن ابن ولا أخ) — تصير عصبةً مع الغير فتأخذ الباقي",
+  "guide.consSister.c1": "أخت لأب واحدة؛ لا حاجب — لها النصف 1/2",
+  "guide.consSister.c2": "أختان لأب فأكثر — لهن الثلثان 2/3",
+  "guide.consSister.c3": "أخت شقيقة واحدة (لا أخ شقيق) — تستكمل الأخت لأب الثلثين بالسدس 1/6",
+  "guide.consSister.c4": "بنات/بنات ابن + لا أشقاء — تصير عصبةً مع الغير",
+  "guide.uterine.c1": "أخ أو أخت لأم واحد؛ لا فرع وارث ولا أصل ذكر — له/لها السدس 1/6",
+  "guide.uterine.c2": "اثنان أو أكثر من الإخوة لأم — لهم الثلث 1/3 بالتساوي بين الذكر والأنثى",
+  "guide.son.c1": "وارث ذكر وحيد أو عاصب منفرد — يأخذ كامل التركة",
+  "guide.son.c2": "بنات موجودات أيضًا — يرث عصبةً مع البنات بنسبة 2:1",
+  "guide.grandson.c1": "لا ابن؛ منفرد في درجته — يأخذ كامل الباقي",
+  "guide.grandson.c2": "بنات ابن موجودات أيضًا — يرث الباقي معهن بنسبة 2:1",
+  "guide.fullBrother.c1": "أخ شقيق منفرد؛ لا وارث أعلى أولوية — يأخذ كامل الباقي",
+  "guide.fullBrother.c2": "أخوات شقيقات موجودات أيضًا — يرث الباقي معهن بنسبة 2:1",
+  "guide.consBrother.c1": "أخ لأب منفرد؛ لا أخ شقيق — يأخذ كامل الباقي",
+  "guide.consBrother.c2": "أخوات لأب موجودات أيضًا — يرث الباقي معهن بنسبة 2:1",
+  "guide.extended.c1":
+    "ترتيب الأولوية (كل درجة تحجب ما دونها): ابن أخ شقيق ← ابن أخ لأب ← عم شقيق ← عم لأب ← ابن عم شقيق ← ابن عم لأب",
+  "guide.diff.grandfather.hanafi":
+    "الحنفي: الجد يحجب جميع الإخوة حجبًا كاملًا — الأشقاء والأخوة لأب والإخوة لأم. لا يرث الإخوة شيئًا مع الجد.",
+  "guide.diff.grandfather.others":
+    "الشافعي · المالكي · الحنبلي: تطبّق المقاسمة — يشترك الجد مع الإخوة في الباقي. يأخذ الجد الأحظَّ له: المقاسمة كأخ أو ثلث التركة.",
+  "guide.diff.uterine.hanafi":
+    "الحنفي: الجد يحجب الإخوة لأم كما يحجبهم الأب تمامًا.",
+  "guide.diff.uterine.others":
+    "الشافعي · المالكي · الحنبلي: الجد لا يحجب الإخوة لأم. يظلون يرثون سدسهم أو ثلثهم حتى مع وجود الجد.",
+  "guide.diff.radd.sunni3":
+    "الحنفي · الشافعي · الحنبلي: لا يُردّ على الزوج أو الزوجة. يُوزَّع الفاضل على بقية أصحاب الفروض دون الزوجين.",
+  "guide.diff.radd.maliki":
+    "المالكي: يُردّ على الزوج والزوجة أيضًا، فيأخذان نصيبًا من الفاضل مع سائر أصحاب الفروض.",
+  "guide.diff.mushtarakah.hanafi":
+    "الحنفي: في المسألة المشتركة — الأشقاء عصبة ويأخذون الباقي. الإخوة لأم يأخذون ثلثهم فرضًا.",
+  "guide.diff.mushtarakah.others":
+    "المالكي · الشافعي: حكم التشريك — يشترك الأشقاء مع الإخوة لأم في الثلث بالتساوي لئلا يُسقطهم الأشقاء.",
 
   // ── Hajb Screen ──
   "home.hajb": "الحجب — قواعد الحرمان",

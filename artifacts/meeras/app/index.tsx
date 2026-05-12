@@ -144,6 +144,36 @@ export default function HomeScreen() {
               <Pressable
                 onPress={() => {
                   setMenuOpen(false);
+                  router.push("/guide");
+                }}
+                style={({ pressed }) => [
+                  styles.dropdownItem,
+                  {
+                    backgroundColor: pressed
+                      ? colors.secondary
+                      : "transparent",
+                  },
+                ]}
+              >
+                <Feather name="book" size={15} color={colors.foreground} />
+                <Text
+                  style={[
+                    styles.dropdownItemText,
+                    { color: colors.foreground },
+                  ]}
+                >
+                  {t(language, "home.guide")}
+                </Text>
+              </Pressable>
+              <View
+                style={[
+                  styles.dropdownDivider,
+                  { backgroundColor: colors.border },
+                ]}
+              />
+              <Pressable
+                onPress={() => {
+                  setMenuOpen(false);
                   router.push("/about");
                 }}
                 style={({ pressed }) => [

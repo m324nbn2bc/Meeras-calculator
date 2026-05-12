@@ -179,7 +179,7 @@ Researched 12 queries across App Store/Play Store reviews, scholarly Faraid refe
 - Currently when there are no eligible heirs the result shows "RESIDUE (NO ELIGIBLE ASABAH)".
 - This residue should go to **Bayt al-Mal** (the Islamic public treasury) — label it clearly with a scholarly note explaining this rule.
 
-### Feature M — Faraid Reference Guide screen *(A'immah Arba'ah)*
+### Feature M — Faraid Reference Guide screen *(A'immah Arba'ah)* ✅ CHAPTER 1 & 2 DONE
 - **Entry point**: a "Reference Guide" button in the hamburger menu on the home screen, alongside Settings and About.
 - **Purpose**: a built-in scholarly encyclopedia — works like a book/article that documents heirs, their shares, and conditions according to all four madhabs. Content is **static reference data** and can be built before the Shafi'i/Maliki/Hanbali calculation engines (Feature A) are complete.
 - **Top filter bar** (sticky at top of screen):
