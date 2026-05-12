@@ -179,6 +179,24 @@ Researched 12 queries across App Store/Play Store reviews, scholarly Faraid refe
 - Currently when there are no eligible heirs the result shows "RESIDUE (NO ELIGIBLE ASABAH)".
 - This residue should go to **Bayt al-Mal** (the Islamic public treasury) — label it clearly with a scholarly note explaining this rule.
 
+### Feature M — Faraid Reference Guide screen *(A'immah Arba'ah)*
+- **Entry point**: a "Reference Guide" button in the hamburger menu on the home screen, alongside Settings and About.
+- **Purpose**: a built-in scholarly encyclopedia — works like a book/article that documents heirs, their shares, and conditions according to all four madhabs. Content is **static reference data** and can be built before the Shafi'i/Maliki/Hanbali calculation engines (Feature A) are complete.
+- **Top filter bar** (sticky at top of screen):
+  - Buttons: `A'immah Arba'ah (All 4)` | `Hanafi` | `Shafi'i` | `Maliki` | `Hanbali`
+  - Tap "All 4" → every heir card shows a row for each madhab side by side for instant comparison.
+  - Tap a specific madhab → cards collapse to show only that school's rules.
+- **Three collapsible sections**:
+  1. **Zawil Furud (Fixed-Share Heirs)** — all 12 Quranic heirs; for each: name (EN/UR/AR), fixed share fraction (1/2, 1/4, 1/6, 1/8, 1/3, 2/3), and the conditions under which they receive that share. Where madhabs differ, show a highlighted "Madhab Note" chip/banner on the card.
+  2. **Asabah (Residuary Heirs)** — list residuary heirs in priority order with conditions.
+  3. **Disputed Cases** — the scholarly high-value section: grandfather + siblings (the major inter-madhab dispute), Akdariyyah case, uterine siblings with grandfather, 'Awl (proportional reduction) and Radd (return) differences between schools.
+- **Each heir card shows**: name in EN / UR / AR, share fraction(s), condition(s), and a "Madhab differs" banner when relevant (visible in All 4 mode or when switching between madhabs reveals a difference).
+- **New screen**: `app/guide.tsx`
+- **New i18n strings**: all reference content headings and labels in all three languages (EN + UR + AR) in `lib/i18n.ts`
+- **New data file**: `lib/guide.ts` — typed static data structures for all heir entries, conditions, and per-madhab notes
+- Register screen in `app/_layout.tsx` as `<Stack.Screen name="guide" />`
+- Add "Reference Guide" entry to the hamburger dropdown in `app/index.tsx`
+
 ---
 
 ## Conventions — always follow these
