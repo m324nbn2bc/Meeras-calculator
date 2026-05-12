@@ -41,7 +41,7 @@ export default function GuideScreen() {
   const [activeFilter, setActiveFilter] = useState<MadhabFilter>("all");
   const [collapsedChapters, setCollapsedChapters] = useState<
     Record<string, boolean>
-  >({});
+  >({ zawilFurud: true, asabah: true, awlRadd: true, hajb: true });
 
   const toggleChapter = (key: string) => {
     setCollapsedChapters((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -331,7 +331,7 @@ export default function GuideScreen() {
 
         {/* ── Chapters ── */}
         {GUIDE_CHAPTERS.map((chapter) => {
-          const collapsed = collapsedChapters[chapter.key] ?? false;
+          const collapsed = collapsedChapters[chapter.key] ?? true;
           const chapterType = chapter.type ?? "heirs";
 
           return (
@@ -391,7 +391,21 @@ export default function GuideScreen() {
                     >
                       {/* Card header */}
                       <View style={styles.cardHeader}>
-                        <View style={styles.cardHeaderLeft}>
+                        {/* Number badge — left side, prominent */}
+                        <View
+                          style={[
+                            styles.numberBadge,
+                            {
+                              backgroundColor: colors.primary + "15",
+                              borderColor: colors.primary + "35",
+                            },
+                          ]}
+                        >
+                          <Text style={[styles.numberBadgeText, { color: colors.primary }]}>
+                            {entryIndex + 1}
+                          </Text>
+                        </View>
+                        <View style={styles.cardHeaderMiddle}>
                           <Text style={[styles.heirName, { color: colors.foreground }]}>
                             {t(language, `heir.${entry.heirId}`)}
                           </Text>
@@ -399,35 +413,19 @@ export default function GuideScreen() {
                             {entry.arabicName}
                           </Text>
                         </View>
-                        <View style={styles.badgesRow}>
-                          {/* Number badge instead of type badge */}
+                        {showDiffBadge && (
                           <View
                             style={[
-                              styles.numberBadge,
-                              {
-                                backgroundColor: colors.primary + "15",
-                                borderColor: colors.primary + "35",
-                              },
+                              styles.diffBadge,
+                              { backgroundColor: "#F59E0B18", borderColor: "#F59E0B55" },
                             ]}
                           >
-                            <Text style={[styles.numberBadgeText, { color: colors.primary }]}>
-                              {entryIndex + 1}
+                            <Feather name="alert-triangle" size={9} color="#F59E0B" />
+                            <Text style={[styles.diffBadgeText, { color: "#F59E0B" }]}>
+                              {t(language, "guide.madhabDiffers")}
                             </Text>
                           </View>
-                          {showDiffBadge && (
-                            <View
-                              style={[
-                                styles.diffBadge,
-                                { backgroundColor: "#F59E0B18", borderColor: "#F59E0B55" },
-                              ]}
-                            >
-                              <Feather name="alert-triangle" size={9} color="#F59E0B" />
-                              <Text style={[styles.diffBadgeText, { color: "#F59E0B" }]}>
-                                {t(language, "guide.madhabDiffers")}
-                              </Text>
-                            </View>
-                          )}
-                        </View>
+                        )}
                       </View>
 
                       {/* Separator */}
@@ -620,12 +618,11 @@ const styles = StyleSheet.create({
   },
   cardHeader: {
     flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
+    alignItems: "center",
     padding: 14,
-    gap: 10,
+    gap: 12,
   },
-  cardHeaderLeft: { flex: 1, gap: 2 },
+  cardHeaderMiddle: { flex: 1, gap: 2 },
   heirName: {
     fontSize: 16,
     fontFamily: "Inter_600SemiBold",
@@ -636,23 +633,17 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontStyle: "italic",
   },
-  badgesRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 5,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
   numberBadge: {
-    width: 28,
-    height: 28,
+    width: 36,
+    height: 36,
     borderRadius: 6,
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
+    flexShrink: 0,
   },
   numberBadgeText: {
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: "Inter_700Bold",
     fontWeight: "700",
   },

@@ -41,11 +41,13 @@ cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts
 | `hooks/useColors.ts` | Theme-aware colour tokens (now includes `accent: #2563EB` / `#60A5FA`) |
 | `components/` | `Counter`, `OptionRow`, `PrimaryButton`, `KeyboardAwareScrollViewCompat`, `ErrorFallback` |
 | `app/_layout.tsx` | Stack navigator — registers all screens including `about` |
-| `app/index.tsx` | Home screen — header with icon+name+menu dropdown (Settings → /settings, About → /about) |
+| `app/index.tsx` | Home screen — header with icon+name+menu dropdown (Settings, Guide, About). Actions: Start Calculation (primary) + tertiary row [Browse Classical Scenarios \| Saved Calculations] |
 | `app/wizard.tsx` | Step-by-step wizard (estate → deductions → gender → heirs) |
 | `app/result.tsx` | Result screen — auto-save on load, colorful share bar, "In History" button, Share/PDF |
 | `app/cases.tsx` | Classical scenario browser with search |
-| `app/hajb.tsx` | Blocking Rules (Hajb) reference screen |
+| `app/hajb.tsx` | Blocking Rules (Hajb) reference screen — **orphaned** (no nav entry point; content now lives in Guide Ch.4). See ISSUES.md U1. |
+| `app/guide.tsx` | Faraid Reference Guide — 4 collapsible chapters (collapsed by default), sticky madhab filter bar, 3 chapter types: heirs/narrative/ladder |
+| `lib/guide.ts` | Guide data — `GuideChapter`, `GuideHeirEntry`, `TextBlock`, `LadderRung`, `MadhabNote` types + `GUIDE_CHAPTERS` array (Ch.1 Zawil Furud, Ch.2 Asabah, Ch.3 ʿAwl & Radd, Ch.4 Hajb ladder) |
 | `app/history.tsx` | Saved Calculations list — fixed deletion (un-nested Pressables) |
 | `app/settings.tsx` | Language / Theme / Madhab settings (no currency) |
 | `app/about.tsx` | **NEW** — Dedicated About screen with Faraid explanation, disclaimer, how-to, madhab status |

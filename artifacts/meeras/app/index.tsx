@@ -225,26 +225,6 @@ export default function HomeScreen() {
           onPress={() => router.push("/wizard")}
         />
 
-        <Pressable
-          onPress={() => router.push("/cases")}
-          style={({ pressed }) => [
-            styles.secondaryBtn,
-            {
-              backgroundColor: colors.card,
-              borderColor: colors.border,
-              borderRadius: colors.radius,
-              opacity: pressed ? 0.7 : 1,
-            },
-          ]}
-        >
-          <Feather name="book-open" size={16} color={colors.foreground} />
-          <Text
-            style={[styles.secondaryBtnText, { color: colors.foreground }]}
-          >
-            {t(language, "home.cases")}
-          </Text>
-        </Pressable>
-
         <View
           style={[
             styles.tertiaryRow,
@@ -252,7 +232,7 @@ export default function HomeScreen() {
           ]}
         >
           <Pressable
-            onPress={() => router.push("/guide")}
+            onPress={() => router.push("/cases")}
             style={({ pressed }) => [
               styles.tertiaryBtn,
               {
@@ -264,14 +244,14 @@ export default function HomeScreen() {
             ]}
           >
             <Feather
-              name="book"
+              name="book-open"
               size={14}
               color={colors.mutedForeground}
             />
             <Text
               style={[styles.tertiaryBtnText, { color: colors.mutedForeground }]}
             >
-              {t(language, "home.guide")}
+              {t(language, "home.cases")}
             </Text>
           </Pressable>
           <Pressable
@@ -380,19 +360,6 @@ const styles = StyleSheet.create({
     maxWidth: 340,
   },
   actions: { gap: 10 },
-  secondaryBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    paddingVertical: 15,
-    borderWidth: 1,
-  },
-  secondaryBtnText: {
-    fontSize: 16,
-    fontFamily: "Inter_600SemiBold",
-    fontWeight: "600",
-  },
   tertiaryRow: {
     flexDirection: "row",
     borderWidth: 1,
