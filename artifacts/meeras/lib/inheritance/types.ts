@@ -65,6 +65,11 @@ export interface CalculationInput {
   madhab: MadhabId;
 }
 
+export interface InheritanceEngine {
+  id: MadhabId;
+  calculate: (input: CalculationInput) => CalculationOutput;
+}
+
 export interface Fraction {
   num: number;
   den: number;

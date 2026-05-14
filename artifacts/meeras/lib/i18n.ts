@@ -621,6 +621,100 @@ const en: Dict = {
   "guide.diff.hajb.others":
     "Shafi'i · Maliki · Hanbali: Grandfather does not fully exclude siblings. They share the residue by Muqasamah — grandfather takes whichever is more: an equal share alongside siblings, or 1/3 of the full estate.",
 
+  "guide.chapter.foundations": "Foundations — How an Estate Is Prepared",
+  "guide.chapter.foundations.desc":
+    "The order of settlement before heirs receive shares: expenses, debts, valid bequest, then Faraid distribution.",
+  "guide.foundations.order.title": "Order before distribution",
+  "guide.foundations.order.body":
+    "The estate is not divided immediately. First come funeral expenses, then enforceable debts, then a valid wasiyyah up to one third of the remaining estate for non-heirs, and only then the Faraid shares are calculated.",
+  "guide.foundations.order.example":
+    "Gross estate 120, debts 20, wasiyyah 10 → distributable estate is 90.",
+  "guide.foundations.sources.title": "Primary sources",
+  "guide.foundations.sources.body":
+    "The fixed shares come mainly from Qur'an 4:11, 4:12, and 4:176. The juristic system then organizes residue, blocking, return, and disputed cases through the four Sunni schools.",
+  "guide.foundations.classes.title": "Three broad heir classes",
+  "guide.foundations.classes.body":
+    "Ashab al-Furud receive fixed shares. Asabah receive the residue after fixed shares. Dhawil Arham are distant kindred considered only when no fixed-share or residuary heir remains, with important madhab differences.",
+
+  "guide.chapter.madhabMatrix": "Four-Madhab Difference Matrix",
+  "guide.chapter.madhabMatrix.desc":
+    "A compact map of the main places where Hanafi, Shafi'i, Maliki, and Hanbali inheritance rules diverge.",
+  "guide.matrix.pgfSiblings.topic": "Paternal grandfather with full or consanguine siblings",
+  "guide.matrix.pgfSiblings.hanafi":
+    "Grandfather fully blocks siblings and takes as father would.",
+  "guide.matrix.pgfSiblings.others":
+    "Grandfather shares with siblings by muqasamah, or takes 1/3 when that is better.",
+  "guide.matrix.uterinePgf.topic": "Uterine siblings with paternal grandfather",
+  "guide.matrix.uterinePgf.hanafi":
+    "Grandfather blocks uterine siblings.",
+  "guide.matrix.uterinePgf.review":
+    "Marked for scholar review before final calculator support; sources differ in simplified summaries.",
+  "guide.matrix.akdariyyah.topic": "Akdariyyah",
+  "guide.matrix.akdariyyah.hanafi":
+    "Sister is excluded by grandfather.",
+  "guide.matrix.akdariyyah.shafiiMaliki":
+    "Grandfather and sister are combined and re-divided, with grandfather receiving twice the sister.",
+  "guide.matrix.akdariyyah.hanbali":
+    "Requires separate verification before calculator implementation.",
+  "guide.matrix.mushtarakah.topic": "Mushtarakah / Himariyyah",
+  "guide.matrix.mushtarakah.hanafi":
+    "Full brothers remain residuary; if no residue remains, they receive nothing.",
+  "guide.matrix.mushtarakah.shafiiMaliki":
+    "Full brothers are joined with uterine siblings in the one-third share.",
+  "guide.matrix.radd.topic": "Radd and spouse participation",
+  "guide.matrix.radd.hanafi":
+    "Return goes to fixed-share heirs except spouse.",
+  "guide.matrix.radd.shafii":
+    "Classical position routes surplus to Bayt al-Mal when present; practical treatments vary when no treasury is available.",
+  "guide.matrix.radd.maliki":
+    "Often tied to Bayt al-Mal; spouse participation needs careful jurisdictional/scholarly handling.",
+  "guide.matrix.radd.hanbali":
+    "Return goes to fixed-share heirs except spouse in common teaching.",
+  "guide.matrix.dhawilArham.topic": "Dhawil Arham / distant kindred",
+  "guide.matrix.dhawilArham.hanafi":
+    "Recognized when no fixed-share or residuary heir remains.",
+  "guide.matrix.dhawilArham.shafiiMaliki":
+    "Generally not given while a valid Bayt al-Mal is assumed; practical opinions may differ.",
+  "guide.matrix.dhawilArham.hanbali":
+    "Recognized in absence of primary heirs and residuaries.",
+
+  "guide.chapter.famousCases": "Famous Cases",
+  "guide.chapter.famousCases.desc":
+    "Named problems every serious Faraid reference should explain and every calculator should test.",
+  "guide.famous.umariyyatain.title": "Umariyyatain",
+  "guide.famous.umariyyatain.body":
+    "A spouse, mother, and father are present, with no descendants and fewer than two siblings. The mother receives one third of the remainder after the spouse, not one third of the whole estate.",
+  "guide.famous.umariyyatain.example":
+    "Husband + Mother + Father → Husband 1/2, Mother 1/6, Father 1/3.",
+  "guide.famous.akdariyyah.title": "Akdariyyah",
+  "guide.famous.akdariyyah.body":
+    "A rare grandfather case involving spouse, mother, grandfather, and sister. It is one of the highest-value cross-madhab test cases because the sister's treatment differs.",
+  "guide.famous.akdariyyah.example":
+    "Husband + Mother + Paternal Grandfather + Full/Consanguine Sister.",
+  "guide.famous.mushtarakah.title": "Mushtarakah / Himariyyah",
+  "guide.famous.mushtarakah.body":
+    "A case where uterine siblings take one third and full brothers may otherwise receive no residue. Shafi'i and Maliki join the full brothers into the shared third.",
+  "guide.famous.mushtarakah.example":
+    "Husband + Mother + two uterine siblings + full brothers.",
+  "guide.famous.mimbariyyah.title": "Mimbariyyah",
+  "guide.famous.mimbariyyah.body":
+    "A classic 'awl case where fixed shares exceed the estate and are proportionally reduced.",
+  "guide.famous.mimbariyyah.example":
+    "Wife + two daughters + father + mother → base 24 rises to 27.",
+
+  "guide.chapter.impediments": "Impediments to Inheritance",
+  "guide.chapter.impediments.desc":
+    "Conditions that can prevent a person from inheriting even when the relationship normally qualifies.",
+  "guide.impediments.religion.title": "Difference of religion",
+  "guide.impediments.religion.body":
+    "Across the four Sunni schools, a non-Muslim does not inherit from a Muslim. Related wasiyyah questions should be handled separately.",
+  "guide.impediments.murder.title": "Killing the deceased",
+  "guide.impediments.murder.body":
+    "A killer is barred from inheriting from the person killed. Details differ by intent and legal classification.",
+  "guide.impediments.slavery.title": "Slavery historical note",
+  "guide.impediments.slavery.body":
+    "Classical books mention slavery as an impediment. It is retained here only as historical fiqh terminology, not as a modern app workflow.",
+
   // ── Hajb Screen ──
   "home.hajb": "Blocking Rules (Hajb)",
   "hajb.title": "Hajb — Blocking Rules",
@@ -1089,6 +1183,100 @@ const ur: Dict = {
   "guide.diff.hajb.others":
     "شافعی · مالکی · حنبلی: دادا بہن بھائیوں کو مکمل محروم نہیں کرتا۔ وہ مقاسمہ کے ذریعے بقیہ مل کر تقسیم کرتے ہیں — دادا جو بھی زیادہ ہو لیتا ہے: بہن بھائیوں کے ساتھ برابر حصہ، یا پورے ترکہ کا 1/3۔",
 
+  "guide.chapter.foundations": "بنیادیں — ترکہ کیسے تیار ہوتا ہے",
+  "guide.chapter.foundations.desc":
+    "ورثاء کے حصوں سے پہلے ترتیب: اخراجات، قرض، درست وصیت، پھر فرائض کی تقسیم۔",
+  "guide.foundations.order.title": "تقسیم سے پہلے ترتیب",
+  "guide.foundations.order.body":
+    "ترکہ فوراً تقسیم نہیں ہوتا۔ پہلے تجہیز، پھر واجب قرض، پھر غیر وارث کے لیے درست وصیت ایک تہائی تک، پھر فرائض کے حصے نکالے جاتے ہیں۔",
+  "guide.foundations.order.example":
+    "کل ترکہ 120، قرض 20، وصیت 10 → قابل تقسیم ترکہ 90۔",
+  "guide.foundations.sources.title": "اصل مآخذ",
+  "guide.foundations.sources.body":
+    "مقررہ حصے بنیادی طور پر قرآن 4:11، 4:12، اور 4:176 سے آتے ہیں۔ پھر فقہی نظام عصبہ، حجب، رد، اور اختلافی مسائل کو منظم کرتا ہے۔",
+  "guide.foundations.classes.title": "ورثاء کی تین بڑی قسمیں",
+  "guide.foundations.classes.body":
+    "اصحاب الفروض مقررہ حصے لیتے ہیں۔ عصبہ مقررہ حصوں کے بعد بقیہ لیتے ہیں۔ ذوی الارحام دور کے رشتہ دار ہیں جن میں مسالک کا اہم اختلاف ہے۔",
+
+  "guide.chapter.madhabMatrix": "چار مسالک کا تقابلی جدول",
+  "guide.chapter.madhabMatrix.desc":
+    "حنفی، شافعی، مالکی، اور حنبلی قواعد کے اہم اختلافی مقامات کا خلاصہ۔",
+  "guide.matrix.pgfSiblings.topic": "دادا کے ساتھ حقیقی یا علاتی بہن بھائی",
+  "guide.matrix.pgfSiblings.hanafi":
+    "دادا بہن بھائیوں کو مکمل محروم کرتا ہے۔",
+  "guide.matrix.pgfSiblings.others":
+    "دادا مقاسمہ کرتا ہے یا جو بہتر ہو تو 1/3 لیتا ہے۔",
+  "guide.matrix.uterinePgf.topic": "دادا کے ساتھ اخیافی بہن بھائی",
+  "guide.matrix.uterinePgf.hanafi":
+    "دادا اخیافی بہن بھائیوں کو محروم کرتا ہے۔",
+  "guide.matrix.uterinePgf.review":
+    "حتمی calculator support سے پہلے عالم سے تصدیق مطلوب؛ مختصر مآخذ میں اختلاف ہے۔",
+  "guide.matrix.akdariyyah.topic": "اکدریہ",
+  "guide.matrix.akdariyyah.hanafi":
+    "بہن دادا کی وجہ سے محروم ہوتی ہے۔",
+  "guide.matrix.akdariyyah.shafiiMaliki":
+    "دادا اور بہن کے حصے جمع کر کے 2:1 سے دوبارہ تقسیم ہوتے ہیں۔",
+  "guide.matrix.akdariyyah.hanbali":
+    "calculator implementation سے پہلے جدا تصدیق مطلوب۔",
+  "guide.matrix.mushtarakah.topic": "مشترکہ / حماریہ",
+  "guide.matrix.mushtarakah.hanafi":
+    "حقیقی بھائی عصبہ رہتے ہیں؛ بقیہ نہ ہو تو کچھ نہیں لیتے۔",
+  "guide.matrix.mushtarakah.shafiiMaliki":
+    "حقیقی بھائی اخیافی بہن بھائیوں کے ساتھ ایک تہائی میں شریک ہوتے ہیں۔",
+  "guide.matrix.radd.topic": "رد اور زوجین",
+  "guide.matrix.radd.hanafi":
+    "رد زوجین کے علاوہ مقررہ وارثوں کو ہوتا ہے۔",
+  "guide.matrix.radd.shafii":
+    "کلاسیکی طور پر بقیہ بیت المال کو جاتا ہے؛ عملی صورت میں اختلاف ہو سکتا ہے۔",
+  "guide.matrix.radd.maliki":
+    "بیت المال سے متعلق؛ زوجین کی شمولیت کے لیے دقیق فقہی تحقیق ضروری ہے۔",
+  "guide.matrix.radd.hanbali":
+    "عام تعلیم میں رد زوجین کے علاوہ مقررہ وارثوں کو ہوتا ہے۔",
+  "guide.matrix.dhawilArham.topic": "ذوی الارحام",
+  "guide.matrix.dhawilArham.hanafi":
+    "اصحاب الفروض اور عصبہ نہ ہوں تو معتبر ہیں۔",
+  "guide.matrix.dhawilArham.shafiiMaliki":
+    "درست بیت المال فرض ہو تو عموماً حصہ نہیں دیا جاتا؛ عملی آراء مختلف ہو سکتی ہیں۔",
+  "guide.matrix.dhawilArham.hanbali":
+    "بنیادی وارث اور عصبہ نہ ہوں تو معتبر ہیں۔",
+
+  "guide.chapter.famousCases": "مشہور مسائل",
+  "guide.chapter.famousCases.desc":
+    "وہ نامی مسائل جنہیں ہر سنجیدہ فرائض کتاب اور calculator test میں ہونا چاہیے۔",
+  "guide.famous.umariyyatain.title": "عمریتین",
+  "guide.famous.umariyyatain.body":
+    "زوج/زوجہ، والدہ، والد موجود ہوں، اولاد نہ ہو، دو سے کم بہن بھائی ہوں۔ والدہ کل ترکہ کا نہیں بلکہ زوج/زوجہ کے بعد بقیہ کا تہائی لیتی ہے۔",
+  "guide.famous.umariyyatain.example":
+    "شوہر + والدہ + والد → شوہر 1/2، والدہ 1/6، والد 1/3۔",
+  "guide.famous.akdariyyah.title": "اکدریہ",
+  "guide.famous.akdariyyah.body":
+    "زوج، والدہ، دادا، اور بہن کا نادر مسئلہ۔ یہ اہم cross-madhab test ہے کیونکہ بہن کا حکم بدلتا ہے۔",
+  "guide.famous.akdariyyah.example":
+    "شوہر + والدہ + دادا + حقیقی/علاتی بہن۔",
+  "guide.famous.mushtarakah.title": "مشترکہ / حماریہ",
+  "guide.famous.mushtarakah.body":
+    "اخیافی بہن بھائی ایک تہائی لیتے ہیں اور حقیقی بھائیوں کے لیے بقیہ نہیں بچتا۔ شافعی و مالکی انہیں ایک تہائی میں شریک کرتے ہیں۔",
+  "guide.famous.mushtarakah.example":
+    "شوہر + والدہ + دو اخیافی + حقیقی بھائی۔",
+  "guide.famous.mimbariyyah.title": "منبریہ",
+  "guide.famous.mimbariyyah.body":
+    "مشہور عول مسئلہ جہاں مقررہ حصے ترکہ سے زیادہ ہو جاتے ہیں۔",
+  "guide.famous.mimbariyyah.example":
+    "بیوی + دو بیٹیاں + والد + والدہ → اصل 24 سے 27۔",
+
+  "guide.chapter.impediments": "موانع وراثت",
+  "guide.chapter.impediments.desc":
+    "ایسی حالتیں جو رشتہ موجود ہونے کے باوجود وراثت سے روک سکتی ہیں۔",
+  "guide.impediments.religion.title": "اختلاف دین",
+  "guide.impediments.religion.body":
+    "چاروں سنی مسالک میں غیر مسلم مسلمان سے میراث نہیں پاتا۔ وصیت کے سوالات الگ دیکھے جائیں۔",
+  "guide.impediments.murder.title": "قتل",
+  "guide.impediments.murder.body":
+    "قاتل مقتول سے وارث نہیں بنتا۔ نیت اور قانونی نوعیت کی تفصیل میں اختلاف ہے۔",
+  "guide.impediments.slavery.title": "غلامی — تاریخی نوٹ",
+  "guide.impediments.slavery.body":
+    "کلاسیکی کتب میں غلامی مانع کے طور پر آتی ہے۔ یہاں یہ صرف تاریخی فقہی اصطلاح کے طور پر رکھی گئی ہے۔",
+
   // ── Hajb Screen ──
   "home.hajb": "حجب — محرومی کے اصول",
   "hajb.title": "حجب — محرومی کے اصول",
@@ -1511,6 +1699,100 @@ const ar: Dict = {
     "الحنفي: الجد لأب (الدرجة الثانية) يحجب جميع إخوة الدرجتين الثالثة والرابعة حجبًا كاملًا. لا يرث الإخوة شيئًا مع وجود الجد.",
   "guide.diff.hajb.others":
     "الشافعي · المالكي · الحنبلي: الجد لا يحجب الإخوة حجبًا كاملًا. يشتركون في الباقي بالمقاسمة — يأخذ الجد الأحظَّ: مقاسمة كأخ، أو ثلث التركة.",
+
+  "guide.chapter.foundations": "الأسس — تهيئة التركة",
+  "guide.chapter.foundations.desc":
+    "ترتيب التسوية قبل حصص الورثة: المصاريف، الديون، الوصية الصحيحة، ثم قسمة الفرائض.",
+  "guide.foundations.order.title": "الترتيب قبل القسمة",
+  "guide.foundations.order.body":
+    "لا تقسم التركة مباشرة. تبدأ بمصاريف التجهيز، ثم الديون، ثم الوصية الصحيحة لغير الوارث في حدود الثلث، ثم تحسب حصص الفرائض.",
+  "guide.foundations.order.example":
+    "تركة 120، ديون 20، وصية 10 → التركة القابلة للقسمة 90.",
+  "guide.foundations.sources.title": "المصادر الأصلية",
+  "guide.foundations.sources.body":
+    "الفروض المقدرة مأخوذة أساسًا من القرآن 4:11 و4:12 و4:176، ثم رتبت المذاهب أحكام العصبة والحجب والرد والمسائل المختلف فيها.",
+  "guide.foundations.classes.title": "ثلاث طبقات عامة",
+  "guide.foundations.classes.body":
+    "أصحاب الفروض يأخذون أنصبة مقدرة. العصبة يأخذون الباقي. ذوو الأرحام أقارب بعيدون يختلف حكمهم بين المذاهب.",
+
+  "guide.chapter.madhabMatrix": "جدول اختلاف المذاهب الأربعة",
+  "guide.chapter.madhabMatrix.desc":
+    "خريطة مختصرة لأهم مواضع الاختلاف بين الحنفي والشافعي والمالكي والحنبلي.",
+  "guide.matrix.pgfSiblings.topic": "الجد لأب مع الإخوة الأشقاء أو لأب",
+  "guide.matrix.pgfSiblings.hanafi":
+    "الجد يحجب الإخوة حجبًا كاملًا.",
+  "guide.matrix.pgfSiblings.others":
+    "الجد يقاسم الإخوة أو يأخذ الثلث إذا كان أحظ له.",
+  "guide.matrix.uterinePgf.topic": "الإخوة لأم مع الجد لأب",
+  "guide.matrix.uterinePgf.hanafi":
+    "الجد يحجب الإخوة لأم.",
+  "guide.matrix.uterinePgf.review":
+    "تحتاج إلى مراجعة عالم قبل الدعم النهائي في الحاسبة؛ الملخصات المبسطة تختلف.",
+  "guide.matrix.akdariyyah.topic": "الأكدرية",
+  "guide.matrix.akdariyyah.hanafi":
+    "الأخت محجوبة بالجد.",
+  "guide.matrix.akdariyyah.shafiiMaliki":
+    "يجمع نصيب الجد والأخت ثم يقسم بينهما بنسبة 2:1.",
+  "guide.matrix.akdariyyah.hanbali":
+    "تحتاج إلى تحقق مستقل قبل التنفيذ.",
+  "guide.matrix.mushtarakah.topic": "المشتركة / الحمارية",
+  "guide.matrix.mushtarakah.hanafi":
+    "الإخوة الأشقاء يبقون عصبة؛ فإن لم يبق شيء فلا يأخذون.",
+  "guide.matrix.mushtarakah.shafiiMaliki":
+    "يشترك الأشقاء مع الإخوة لأم في الثلث.",
+  "guide.matrix.radd.topic": "الرد ومشاركة الزوجين",
+  "guide.matrix.radd.hanafi":
+    "الرد لأصحاب الفروض عدا الزوجين.",
+  "guide.matrix.radd.shafii":
+    "الأصل الكلاسيكي يوجه الفاضل إلى بيت المال؛ والتطبيق العملي قد يختلف عند عدم وجوده.",
+  "guide.matrix.radd.maliki":
+    "مرتبط ببيت المال؛ مشاركة الزوجين تحتاج تحريرًا فقهيًا دقيقًا.",
+  "guide.matrix.radd.hanbali":
+    "في التعليم الشائع الرد لأصحاب الفروض عدا الزوجين.",
+  "guide.matrix.dhawilArham.topic": "ذوو الأرحام",
+  "guide.matrix.dhawilArham.hanafi":
+    "يرثون عند عدم أصحاب الفروض والعصبات.",
+  "guide.matrix.dhawilArham.shafiiMaliki":
+    "غالبًا لا يعطون مع افتراض بيت مال صحيح؛ وقد تختلف التطبيقات.",
+  "guide.matrix.dhawilArham.hanbali":
+    "يعترف بهم عند عدم الورثة الأصليين والعصبات.",
+
+  "guide.chapter.famousCases": "المسائل المشهورة",
+  "guide.chapter.famousCases.desc":
+    "مسائل مسماة ينبغي لكل مرجع جاد وحاسبة فرائض اختبارها.",
+  "guide.famous.umariyyatain.title": "العمريتان",
+  "guide.famous.umariyyatain.body":
+    "وجود زوج أو زوجة مع الأم والأب، بلا فرع وارث وبأقل من اثنين من الإخوة. الأم تأخذ ثلث الباقي بعد الزوج لا ثلث التركة كلها.",
+  "guide.famous.umariyyatain.example":
+    "زوج + أم + أب → الزوج 1/2، الأم 1/6، الأب 1/3.",
+  "guide.famous.akdariyyah.title": "الأكدرية",
+  "guide.famous.akdariyyah.body":
+    "مسألة نادرة في الجد مع الزوج والأم والأخت. هي اختبار مهم بين المذاهب لاختلاف حكم الأخت.",
+  "guide.famous.akdariyyah.example":
+    "زوج + أم + جد لأب + أخت شقيقة/لأب.",
+  "guide.famous.mushtarakah.title": "المشتركة / الحمارية",
+  "guide.famous.mushtarakah.body":
+    "الإخوة لأم يأخذون الثلث، وقد لا يبقى للأشقاء شيء. الشافعي والمالكي يشركان الأشقاء في الثلث.",
+  "guide.famous.mushtarakah.example":
+    "زوج + أم + أخوان لأم + إخوة أشقاء.",
+  "guide.famous.mimbariyyah.title": "المنبرية",
+  "guide.famous.mimbariyyah.body":
+    "مسألة عول مشهورة تزيد فيها الفروض على التركة.",
+  "guide.famous.mimbariyyah.example":
+    "زوجة + بنتان + أب + أم → الأصل 24 يعول إلى 27.",
+
+  "guide.chapter.impediments": "موانع الإرث",
+  "guide.chapter.impediments.desc":
+    "أسباب تمنع الشخص من الإرث رغم وجود صلة القرابة.",
+  "guide.impediments.religion.title": "اختلاف الدين",
+  "guide.impediments.religion.body":
+    "عند المذاهب السنية الأربعة لا يرث غير المسلم من المسلم. مسائل الوصية تعالج على حدة.",
+  "guide.impediments.murder.title": "قتل المورث",
+  "guide.impediments.murder.body":
+    "القاتل يمنع من إرث من قتله، وتفاصيل ذلك تختلف باختلاف القصد والوصف القانوني.",
+  "guide.impediments.slavery.title": "الرق — ملاحظة تاريخية",
+  "guide.impediments.slavery.body":
+    "تذكر الكتب الكلاسيكية الرق مانعًا. يذكر هنا فقط كمصطلح فقهي تاريخي لا كمسار عملي حديث.",
 
   // ── Hajb Screen ──
   "home.hajb": "الحجب — قواعد الحرمان",

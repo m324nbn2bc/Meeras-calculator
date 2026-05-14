@@ -1,19 +1,35 @@
 import { calculateHanafi } from "./madhabs/hanafi";
-import { CalculationInput, CalculationOutput } from "./types";
+import { hanbaliEngine } from "./madhabs/hanbali";
+import { malikiEngine } from "./madhabs/maliki";
+import { shafiiEngine } from "./madhabs/shafii";
+import {
+  CalculationInput,
+  CalculationOutput,
+  InheritanceEngine,
+} from "./types";
 
-type Engine = (input: CalculationInput) => CalculationOutput;
-
-const engines: Record<string, Engine> = {
-  hanafi: calculateHanafi,
-  // Add other madhabs here as they become available.
-  // shafii: calculateShafii,
-  // maliki: calculateMaliki,
-  // hanbali: calculateHanbali,
+export const hanafiEngine: InheritanceEngine = {
+  id: "hanafi",
+  calculate: calculateHanafi,
 };
 
+export const inheritanceEngines: Partial<
+  Record<CalculationInput["madhab"], InheritanceEngine>
+> = {
+  hanafi: hanafiEngine,
+  shafii: shafiiEngine,
+  maliki: malikiEngine,
+  hanbali: hanbaliEngine,
+};
+
+export function getInheritanceEngine(
+  madhab: CalculationInput["madhab"],
+): InheritanceEngine {
+  return inheritanceEngines[madhab] ?? hanafiEngine;
+}
+
 export function calculate(input: CalculationInput): CalculationOutput {
-  const engine = engines[input.madhab] ?? calculateHanafi;
-  return engine(input);
+  return getInheritanceEngine(input.madhab).calculate(input);
 }
 
 export * from "./types";

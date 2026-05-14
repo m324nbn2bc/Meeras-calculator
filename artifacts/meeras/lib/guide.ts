@@ -35,17 +35,47 @@ export interface LadderRung {
   madhabNotes?: MadhabNote[];
 }
 
+export interface ComparisonRow {
+  topicKey: string;
+  hanafiKey: string;
+  shafiiKey: string;
+  malikiKey: string;
+  hanbaliKey: string;
+}
+
 export interface GuideChapter {
   key: string;
-  type?: 'heirs' | 'narrative' | 'ladder';
+  type?: 'heirs' | 'narrative' | 'ladder' | 'comparison';
   titleKey: string;
   descKey: string;
   entries?: GuideHeirEntry[];
   blocks?: TextBlock[];
   rungs?: LadderRung[];
+  rows?: ComparisonRow[];
 }
 
 export const GUIDE_CHAPTERS: GuideChapter[] = [
+  {
+    key: 'foundations',
+    type: 'narrative',
+    titleKey: 'guide.chapter.foundations',
+    descKey: 'guide.chapter.foundations.desc',
+    blocks: [
+      {
+        titleKey: 'guide.foundations.order.title',
+        bodyKey: 'guide.foundations.order.body',
+        exampleKey: 'guide.foundations.order.example',
+      },
+      {
+        titleKey: 'guide.foundations.sources.title',
+        bodyKey: 'guide.foundations.sources.body',
+      },
+      {
+        titleKey: 'guide.foundations.classes.title',
+        bodyKey: 'guide.foundations.classes.body',
+      },
+    ],
+  },
   {
     key: 'zawilFurud',
     type: 'heirs',
@@ -372,6 +402,113 @@ export const GUIDE_CHAPTERS: GuideChapter[] = [
         labelKey: 'guide.hajb.tier6.label',
         heirIds: ['fullBrothersSon', 'paternalHalfBrothersSon', 'fullPaternalUncle', 'paternalHalfPaternalUncle', 'fullPaternalUnclesSon', 'paternalHalfPaternalUnclesSon'],
         noteKey: 'guide.hajb.tier6.note',
+      },
+    ],
+  },
+  {
+    key: 'madhabMatrix',
+    type: 'comparison',
+    titleKey: 'guide.chapter.madhabMatrix',
+    descKey: 'guide.chapter.madhabMatrix.desc',
+    rows: [
+      {
+        topicKey: 'guide.matrix.pgfSiblings.topic',
+        hanafiKey: 'guide.matrix.pgfSiblings.hanafi',
+        shafiiKey: 'guide.matrix.pgfSiblings.others',
+        malikiKey: 'guide.matrix.pgfSiblings.others',
+        hanbaliKey: 'guide.matrix.pgfSiblings.others',
+      },
+      {
+        topicKey: 'guide.matrix.uterinePgf.topic',
+        hanafiKey: 'guide.matrix.uterinePgf.hanafi',
+        shafiiKey: 'guide.matrix.uterinePgf.review',
+        malikiKey: 'guide.matrix.uterinePgf.review',
+        hanbaliKey: 'guide.matrix.uterinePgf.review',
+      },
+      {
+        topicKey: 'guide.matrix.akdariyyah.topic',
+        hanafiKey: 'guide.matrix.akdariyyah.hanafi',
+        shafiiKey: 'guide.matrix.akdariyyah.shafiiMaliki',
+        malikiKey: 'guide.matrix.akdariyyah.shafiiMaliki',
+        hanbaliKey: 'guide.matrix.akdariyyah.hanbali',
+      },
+      {
+        topicKey: 'guide.matrix.mushtarakah.topic',
+        hanafiKey: 'guide.matrix.mushtarakah.hanafi',
+        shafiiKey: 'guide.matrix.mushtarakah.shafiiMaliki',
+        malikiKey: 'guide.matrix.mushtarakah.shafiiMaliki',
+        hanbaliKey: 'guide.matrix.mushtarakah.hanafi',
+      },
+      {
+        topicKey: 'guide.matrix.radd.topic',
+        hanafiKey: 'guide.matrix.radd.hanafi',
+        shafiiKey: 'guide.matrix.radd.shafii',
+        malikiKey: 'guide.matrix.radd.maliki',
+        hanbaliKey: 'guide.matrix.radd.hanbali',
+      },
+      {
+        topicKey: 'guide.matrix.dhawilArham.topic',
+        hanafiKey: 'guide.matrix.dhawilArham.hanafi',
+        shafiiKey: 'guide.matrix.dhawilArham.shafiiMaliki',
+        malikiKey: 'guide.matrix.dhawilArham.shafiiMaliki',
+        hanbaliKey: 'guide.matrix.dhawilArham.hanbali',
+      },
+    ],
+  },
+  {
+    key: 'famousCases',
+    type: 'narrative',
+    titleKey: 'guide.chapter.famousCases',
+    descKey: 'guide.chapter.famousCases.desc',
+    blocks: [
+      {
+        titleKey: 'guide.famous.umariyyatain.title',
+        bodyKey: 'guide.famous.umariyyatain.body',
+        exampleKey: 'guide.famous.umariyyatain.example',
+      },
+      {
+        titleKey: 'guide.famous.akdariyyah.title',
+        bodyKey: 'guide.famous.akdariyyah.body',
+        exampleKey: 'guide.famous.akdariyyah.example',
+        madhabNotes: [
+          { madhabs: ['hanafi'], noteKey: 'guide.matrix.akdariyyah.hanafi' },
+          { madhabs: ['shafii', 'maliki'], noteKey: 'guide.matrix.akdariyyah.shafiiMaliki' },
+          { madhabs: ['hanbali'], noteKey: 'guide.matrix.akdariyyah.hanbali' },
+        ],
+      },
+      {
+        titleKey: 'guide.famous.mushtarakah.title',
+        bodyKey: 'guide.famous.mushtarakah.body',
+        exampleKey: 'guide.famous.mushtarakah.example',
+        madhabNotes: [
+          { madhabs: ['hanafi', 'hanbali'], noteKey: 'guide.matrix.mushtarakah.hanafi' },
+          { madhabs: ['shafii', 'maliki'], noteKey: 'guide.matrix.mushtarakah.shafiiMaliki' },
+        ],
+      },
+      {
+        titleKey: 'guide.famous.mimbariyyah.title',
+        bodyKey: 'guide.famous.mimbariyyah.body',
+        exampleKey: 'guide.famous.mimbariyyah.example',
+      },
+    ],
+  },
+  {
+    key: 'impediments',
+    type: 'narrative',
+    titleKey: 'guide.chapter.impediments',
+    descKey: 'guide.chapter.impediments.desc',
+    blocks: [
+      {
+        titleKey: 'guide.impediments.religion.title',
+        bodyKey: 'guide.impediments.religion.body',
+      },
+      {
+        titleKey: 'guide.impediments.murder.title',
+        bodyKey: 'guide.impediments.murder.body',
+      },
+      {
+        titleKey: 'guide.impediments.slavery.title',
+        bodyKey: 'guide.impediments.slavery.body',
       },
     ],
   },

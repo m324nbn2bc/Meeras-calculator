@@ -14,10 +14,11 @@ import { useSettings } from "@/contexts/SettingsContext";
 import { useColors } from "@/hooks/useColors";
 import {
   GUIDE_CHAPTERS,
-  LadderRung,
-  MadhabFilter,
-  MadhabNote,
-  TextBlock,
+  type ComparisonRow,
+  type LadderRung,
+  type MadhabFilter,
+  type MadhabNote,
+  type TextBlock,
 } from "@/lib/guide";
 import { isRTL, t } from "@/lib/i18n";
 
@@ -41,7 +42,16 @@ export default function GuideScreen() {
   const [activeFilter, setActiveFilter] = useState<MadhabFilter>("all");
   const [collapsedChapters, setCollapsedChapters] = useState<
     Record<string, boolean>
-  >({ zawilFurud: true, asabah: true, awlRadd: true, hajb: true });
+  >({
+    foundations: true,
+    zawilFurud: true,
+    asabah: true,
+    awlRadd: true,
+    hajb: true,
+    madhabMatrix: true,
+    famousCases: true,
+    impediments: true,
+  });
 
   const toggleChapter = (key: string) => {
     setCollapsedChapters((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -251,6 +261,67 @@ export default function GuideScreen() {
               ))}
             </>
           )}
+        </View>
+      </View>
+    );
+  };
+
+  const renderComparisonRow = (row: ComparisonRow, i: number) => {
+    const schools: { id: Madhab; key: string }[] = [
+      { id: "hanafi", key: row.hanafiKey },
+      { id: "shafii", key: row.shafiiKey },
+      { id: "maliki", key: row.malikiKey },
+      { id: "hanbali", key: row.hanbaliKey },
+    ];
+    const visibleSchools =
+      activeFilter === "all"
+        ? schools
+        : schools.filter((school) => school.id === activeFilter);
+
+    return (
+      <View
+        key={`${row.topicKey}-${i}`}
+        style={[
+          styles.matrixCard,
+          {
+            backgroundColor: colors.card,
+            borderColor: colors.border,
+            borderRadius: colors.radius,
+          },
+        ]}
+      >
+        <Text style={[styles.matrixTopic, { color: colors.foreground }]}>
+          {t(language, row.topicKey)}
+        </Text>
+        <View style={styles.matrixSchools}>
+          {visibleSchools.map((school) => (
+            <View
+              key={school.id}
+              style={[
+                styles.matrixCell,
+                {
+                  backgroundColor: colors.secondary,
+                  borderColor: colors.border,
+                  borderRadius: colors.radius,
+                },
+              ]}
+            >
+              <Text style={[styles.matrixSchool, { color: colors.accent }]}>
+                {t(language, `madhab.${school.id}`)}
+              </Text>
+              <Text
+                style={[
+                  styles.matrixText,
+                  {
+                    color: colors.foreground,
+                    textAlign: rtl ? "right" : "left",
+                  },
+                ]}
+              >
+                {t(language, school.key)}
+              </Text>
+            </View>
+          ))}
         </View>
       </View>
     );
@@ -521,6 +592,13 @@ export default function GuideScreen() {
                     {t(language, "guide.hajb.intro")}
                   </Text>
                   {chapter.rungs!.map((rung) => renderLadderRung(rung))}
+                </View>
+              )}
+
+              {/* ── COMPARISON chapter ── */}
+              {!collapsed && chapterType === "comparison" && (
+                <View style={styles.matrixContainer}>
+                  {chapter.rows!.map((row, i) => renderComparisonRow(row, i))}
                 </View>
               )}
             </View>
@@ -841,6 +919,41 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Inter_400Regular",
     lineHeight: 19,
+  },
+  // Comparison chapter styles
+  matrixContainer: { gap: 12 },
+  matrixCard: {
+    borderWidth: 1,
+    padding: 14,
+    gap: 12,
+  },
+  matrixTopic: {
+    fontSize: 15,
+    fontFamily: "Inter_700Bold",
+    fontWeight: "700",
+  },
+  matrixSchools: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  matrixCell: {
+    borderWidth: 1,
+    padding: 10,
+    gap: 5,
+    flexBasis: "48%",
+    flexGrow: 1,
+  },
+  matrixSchool: {
+    fontSize: 11,
+    fontFamily: "Inter_700Bold",
+    letterSpacing: 0.4,
+    textTransform: "uppercase",
+  },
+  matrixText: {
+    fontSize: 12,
+    fontFamily: "Inter_400Regular",
+    lineHeight: 18,
   },
   footerBox: {
     flexDirection: "row",

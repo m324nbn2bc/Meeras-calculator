@@ -15,7 +15,7 @@ Reference this file at the start of any new session to pick up exactly where wor
 # Typecheck (must pass before any feature is "done")
 cd artifacts/meeras && pnpm exec tsc --noEmit
 
-# Engine unit tests (must stay 12/12)
+# Engine unit tests (must stay 35/35)
 cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts
 
 # Dev server — do NOT run pnpm dev directly, use the workflow tool instead
@@ -28,9 +28,12 @@ cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts
 
 | File | Purpose |
 |---|---|
-| `lib/inheritance/` | Pure-JS Faraid engine — fractions, Hanafi rules, 'Awl, Radd, Umariyyatan |
+| `lib/inheritance/` | Pure-JS Faraid engine — shared `InheritanceEngine` interface, engine registry, fractions, Hanafi rules, 'Awl, Radd, Umariyyatan |
 | `lib/inheritance/madhabs/hanafi.ts` | Full Hanafi implementation |
-| `lib/inheritance/__tests__.ts` | 12 engine unit tests |
+| `lib/inheritance/madhabs/shafii.ts` | Partial Shafi'i implementation — delegates to Hanafi except tested paternal-grandfather-with-siblings overrides |
+| `lib/inheritance/madhabs/maliki.ts` | Partial Maliki implementation — currently shares the tested Shafi'i grandfather/sibling behavior as a placeholder baseline |
+| `lib/inheritance/madhabs/hanbali.ts` | Partial Hanbali implementation — currently shares the tested Shafi'i grandfather/sibling behavior as a placeholder baseline |
+| `lib/inheritance/__tests__.ts` | 35 engine unit tests; aggregates multiple rows for same heir and verifies shares, exclusions, absent exclusions, share kinds, 'Awl, Radd, residue, and total-estate conservation |
 | `lib/wizard.ts` | WizardState type, Step definitions, `visibleSteps()`, `computeNetEstate()` |
 | `lib/i18n.ts` | EN/UR/AR string dictionaries + `t(lang, key)`, `isRTL(lang)`, `LANGUAGES`, `MADHABS` |
 | `lib/hajb.ts` | Hanafi blocking-rules data (9 cards, 4 groups) |
@@ -46,8 +49,8 @@ cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts
 | `app/result.tsx` | Result screen — auto-save on load, colorful share bar, "In History" button, Share/PDF |
 | `app/cases.tsx` | Classical scenario browser with search |
 | `app/hajb.tsx` | Blocking Rules (Hajb) reference screen — **orphaned** (no nav entry point; content now lives in Guide Ch.4). See ISSUES.md U1. |
-| `app/guide.tsx` | Faraid Reference Guide — 4 collapsible chapters (collapsed by default), sticky madhab filter bar, 3 chapter types: heirs/narrative/ladder |
-| `lib/guide.ts` | Guide data — `GuideChapter`, `GuideHeirEntry`, `TextBlock`, `LadderRung`, `MadhabNote` types + `GUIDE_CHAPTERS` array (Ch.1 Zawil Furud, Ch.2 Asabah, Ch.3 ʿAwl & Radd, Ch.4 Hajb ladder) |
+| `app/guide.tsx` | Faraid Reference Guide — collapsible book chapters, sticky madhab filter bar, 4 chapter types: heirs/narrative/ladder/comparison |
+| `lib/guide.ts` | Guide data — `GuideChapter`, `GuideHeirEntry`, `TextBlock`, `LadderRung`, `ComparisonRow`, `MadhabNote` types + `GUIDE_CHAPTERS` array (Foundations, Zawil Furud, Asabah, ʿAwl/Radd, Hajb, Madhab Matrix, Famous Cases, Impediments) |
 | `app/history.tsx` | Saved Calculations list — fixed deletion (un-nested Pressables) |
 | `app/settings.tsx` | Language / Theme / Madhab settings (no currency) |
 | `app/about.tsx` | **NEW** — Dedicated About screen with Faraid explanation, disclaimer, how-to, madhab status |
@@ -100,6 +103,11 @@ interface WizardState {
 15. ✅ **Feature D — About screen** (`/about`) — Faraid explanation, disclaimer, how-to steps, school status, offline notice
 16. ✅ **History deletion fix** — delete button is a sibling `Pressable`, not nested inside card `Pressable` (fixes web event propagation)
 17. ✅ **Auto-save** — results saved automatically on result screen load (non-classical cases); `findByStateAndMadhab` prevents duplicates; "In History" button (tappable, navigates to /history)
+18. ✅ **Engine interface baseline** — `InheritanceEngine` is defined in `lib/inheritance/types.ts`; `lib/inheritance/index.ts` exports `hanafiEngine`, `inheritanceEngines`, and `getInheritanceEngine()` so Shafi'i / Maliki / Hanbali engines can plug in behind the same contract.
+19. ✅ **Expanded engine tests** — Hanafi test baseline increased from 12 to 24 cases, including spouse-only residue, Radd-to-non-spouse, father/PGF fixed+asabah behavior, sibling blocking, grandson exclusion, consanguine sibling blocking, and estate-total invariants.
+20. ✅ **Four-engine registry baseline** — Hanafi, Shafi'i, Maliki, and Hanbali engines are now registered. Shafi'i/Maliki/Hanbali are still partial and should stay disabled in Settings.
+21. ✅ **First cross-madhab tests** — 11 non-Hanafi tests added: 5 Shafi'i cases plus 3 Maliki and 3 Hanbali PGF/sibling cases. Suite is now 35/35.
+22. ✅ **Guide book expansion** — `/guide` now supports comparison-table chapters and includes Foundations, Four-Madhab Difference Matrix, Famous Cases, and Impediments chapters in EN/UR/AR.
 
 ---
 
@@ -122,11 +130,12 @@ Researched 12 queries across App Store/Play Store reviews, scholarly Faraid refe
 ## Remaining features to build (priority order based on research)
 
 ### Feature A — Shafi'i / Maliki / Hanbali madhab engines *(highest priority — #1 user complaint on all competing apps)*
+- **Status:** Shafi'i, Maliki, and Hanbali are partially implemented for the first tested grandfather/sibling rules. They are registered for internal testing only and still need broader coverage before enabling in Settings.
 - **The key difference**: Grandfather-with-siblings case. Hanafi: grandfather **fully blocks** all siblings. Shafi'i/Maliki/Hanbali: use **muqasamah** — grandfather and siblings share together; grandfather takes whichever is better: equal share with siblings OR 1/3 of total estate.
 - **Akdariyyah case** (unique to Maliki/Shafi'i): a consanguine sister inherits alongside grandfather even though normally grandfather would exclude her. Grandfather takes half, wife gets 1/4, mother gets 1/6, consanguine sister gets remainder via 'asabah with grandfather.
 - **Uterine siblings**: Hanafi excludes them when grandfather present; Shafi'i/Maliki/Hanbali do not.
-- Implementation: add `lib/inheritance/madhabs/shafii.ts`, `maliki.ts`, `hanbali.ts`. Each extends or overrides Hanafi rules for the grandfather dispute. Remove "Coming soon" gates in `app/settings.tsx` once done.
-- Add ≥ 5 cross-madhab unit tests per new engine in `lib/inheritance/__tests__.ts`.
+- Implementation: continue expanding `lib/inheritance/madhabs/shafii.ts`, `maliki.ts`, and `hanbali.ts` behind tests. Maliki/Hanbali currently reuse the first tested Shafi'i PGF/sibling behavior and need their own verified overrides for disputed cases. Remove "Coming soon" gates in `app/settings.tsx` only when a school is sufficiently covered.
+- Add ≥ 5 cross-madhab unit tests per new engine area in `lib/inheritance/__tests__.ts`.
 
 ### Feature B — Al-Haml (Unborn/Posthumous Child)
 - **Rule (all madhabs agree)**: if a widow is pregnant at time of death, the estate cannot be fully distributed until the child is born. Reserve the maximum possible share (assume twin boys — the worst case for other heirs). After birth, recalculate and redistribute.
@@ -204,7 +213,7 @@ Researched 12 queries across App Store/Play Store reviews, scholarly Faraid refe
 ## Conventions — always follow these
 
 - **Typecheck must pass**: `cd artifacts/meeras && pnpm exec tsc --noEmit`
-- **Engine tests must stay 12/12**: `cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts`
+- **Engine tests must stay 35/35**: `cd artifacts/meeras && pnpm dlx tsx lib/inheritance/__tests__.ts`
 - All new i18n strings go in **all three dicts** (EN + UR + AR) in `lib/i18n.ts`
 - New screens registered in `app/_layout.tsx` as `<Stack.Screen>`
 - Use `useColors()` for all colours; `colors.accent` for brand blue; never hardcode theme colours
